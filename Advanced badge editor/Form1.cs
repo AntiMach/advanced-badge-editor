@@ -84,6 +84,8 @@ namespace Advanced_badge_editor
             setNames = new string[100];
             setImgs = new byte[100][];
 
+            selectedBadgeNumer.Minimum = 1;
+            selectSetNumer.Minimum = 1;
             selectedBadgeNumer.Value = 1;
             selectSetNumer.Value = 1;
         }
@@ -353,6 +355,11 @@ namespace Advanced_badge_editor
                     for (int ii = 0; ii < 16; ii++)
                     {
                         data.BaseStream.Position = (badgeIndexs[i] * 0x8A0) + (ii * 0x8A) + 0x35E80;
+                        for (int iii = 0; iii < 0x8A; iii++)
+                        {
+                            data.Write(0x00);
+                        }
+                        data.BaseStream.Position = (badgeIndexs[i] * 0x8A0) + (ii * 0x8A) + 0x35E80;
                         data.Write(Encoding.Unicode.GetBytes(badgeNames[badgeIndexs[i]]));
                     }
                     data.BaseStream.Position = badgeIndexs[i] * 0x2800 + 0x318F80;
@@ -366,6 +373,11 @@ namespace Advanced_badge_editor
                 {
                     for (int ii = 0; ii < 16; ii++)
                     {
+                        data.BaseStream.Position = (setIndexs[i] * 0x8A0) + (ii * 0x8A);
+                        for (int iii = 0; iii < 0x8A; iii++)
+                        {
+                            data.Write(0x00);
+                        }
                         data.BaseStream.Position = (setIndexs[i] * 0x8A0) + (ii * 0x8A);
                         data.Write(Encoding.Unicode.GetBytes(setNames[setIndexs[i]]));
                     }
@@ -381,39 +393,53 @@ namespace Advanced_badge_editor
         //
         private void createBadgeButton_Click(object sender, EventArgs e)
         {
-            uniqueBadges++;
-            totalBadges++;
-            badgeIds[uniqueBadges - 1] = uniqueBadges;
-            badgeSetIds[uniqueBadges - 1] = setIds[sets - 1];
-            badgeSids[uniqueBadges - 1] = 0;
-            badgeQuants[uniqueBadges - 1] = 1;
-            badgeNames[uniqueBadges - 1] = "New badge";
-            badgeIndexs[uniqueBadges - 1] = (ushort)(uniqueBadges - 1);
+            if (uniqueBadges < 1000)
+            {
+                uniqueBadges++;
+                totalBadges++;
+                badgeIds[uniqueBadges - 1] = uniqueBadges;
+                badgeSetIds[uniqueBadges - 1] = setIds[sets - 1];
+                badgeSids[uniqueBadges - 1] = 0;
+                badgeQuants[uniqueBadges - 1] = 1;
+                badgeNames[uniqueBadges - 1] = "New badge";
+                badgeIndexs[uniqueBadges - 1] = (ushort)(uniqueBadges - 1);
 
-            badgeImgs64[uniqueBadges - 1] = new byte[0x2000];
-            badgeShps64[uniqueBadges - 1] = new byte[0x800];
-            badgeImgs32[uniqueBadges - 1] = new byte[0x800];
-            badgeShps32[uniqueBadges - 1] = new byte[0x200];
+                badgeImgs64[uniqueBadges - 1] = new byte[0x2000];
+                badgeShps64[uniqueBadges - 1] = new byte[0x800];
+                badgeImgs32[uniqueBadges - 1] = new byte[0x800];
+                badgeShps32[uniqueBadges - 1] = new byte[0x200];
 
-            selectedBadgeNumer.Maximum++;
-            selectedBadgeNumer.Value = uniqueBadges;
+                selectedBadgeNumer.Maximum++;
+                selectedBadgeNumer.Value = uniqueBadges;
 
-            updateAll();
+                updateAll();
+            }
+            else
+            {
+                MessageBox.Show("You have too many badges to make a new one...", "Limit reached", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
         private void createSetButton_Click(object sender, EventArgs e)
         {
             if (setBadgeIndexs[sets - 1] < uniqueBadges - 1)
             {
-                sets++;
-                setIds[sets - 1] = sets;
-                setNames[sets - 1] = "New set";
-                setBadgeIndexs[sets - 1] = uniqueBadges - 1;
-                setTotalBadges[sets - 1] = 1;
-                setUniqueBadges[sets - 1] = 1;
-                setIndexs[sets - 1] = sets - 1;
-                setImgs[sets - 1] = new byte[0x2000];
-                selectSetNumer.Maximum++;
-                selectSetNumer.Value = sets;
+                if (sets < 100)
+                {
+                    sets++;
+                    setIds[sets - 1] = sets;
+                    setNames[sets - 1] = "New set";
+                    setBadgeIndexs[sets - 1] = uniqueBadges - 1;
+                    setTotalBadges[sets - 1] = 1;
+                    setUniqueBadges[sets - 1] = 1;
+                    setIndexs[sets - 1] = sets - 1;
+                    setImgs[sets - 1] = new byte[0x2000];
+                    selectSetNumer.Maximum++;
+                    selectSetNumer.Value = sets;
+                }
+                else
+                {
+                    MessageBox.Show("You have too many sets to make a new one...", "Limit reached", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
             else
             {
