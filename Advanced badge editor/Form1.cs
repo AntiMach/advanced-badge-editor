@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Advanced_badge_editor
 {
@@ -16,7 +17,63 @@ namespace Advanced_badge_editor
         public Form1()
         {
             InitializeComponent();
+            appName.Text = "Advanced badge editor";
+            appIcon.Image = Properties.Resources.Advanced_badge_editor_icon;
         }
+        #region GUI Interaction
+
+        #region Import necessary DLL's
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+        #endregion
+
+        #region Minimize Button
+        private void minimize_MouseEnter(object sender, EventArgs e)
+        {
+            appMinimize.Image = Properties.Resources.app_minimize_hover;
+        }
+        private void minimize_MouseLeave(object sender, EventArgs e)
+        {
+            appMinimize.Image = Properties.Resources.app_minimize;
+        }
+        private void minimize_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+        }
+        #endregion
+
+        #region Close Button
+        private void close_MouseEnter(object sender, EventArgs e)
+        {
+            appClose.Image = Properties.Resources.app_close_hover;
+        }
+        private void close_MouseLeave(object sender, EventArgs e)
+        {
+            appClose.Image = Properties.Resources.app_close;
+        }
+        private void close_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+        #endregion
+
+        #region Grabbable window
+        private void windowTop_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+        #endregion
+
+        #endregion
+
         //
         // Folder browser
         //
@@ -86,6 +143,8 @@ namespace Advanced_badge_editor
 
             selectedBadgeNumer.Minimum = 1;
             selectSetNumer.Minimum = 1;
+            selectedBadgeNumer.Maximum = 2;
+            selectSetNumer.Maximum = 2;
             selectedBadgeNumer.Value = 1;
             selectSetNumer.Value = 1;
         }
@@ -474,62 +533,77 @@ namespace Advanced_badge_editor
         //
         private void importBadgeImg_Click(object sender, EventArgs e)
         {
-            byte[] imported = bclimImportPrompt(0x2000, bclim64rgb565);
-            if (imported == null)
+            byte[][] imported = bclimImportPrompt(0x2000, bclim64rgb565);
+            if (imported[0] == null)
             {
-                MessageBox.Show("The file you imported doesn't have the right format...", "Error opening files", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (imported[1][0] == 0)
+                {
+                    MessageBox.Show("The file you imported doesn't have the right format...", "Error opening files", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
-                badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = imported;
+                badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = imported[0];
             }
         }
         private void importBadgeShp_Click(object sender, EventArgs e)
         {
-            byte[] imported = bclimImportPrompt(0x800, bclim64a4);
-            if (imported == null)
+            byte[][] imported = bclimImportPrompt(0x800, bclim64a4);
+            if (imported[0] == null)
             {
-                MessageBox.Show("The file you imported doesn't have the right format...", "Error opening files", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (imported[1][0] == 0)
+                {
+                    MessageBox.Show("The file you imported doesn't have the right format...", "Error opening files", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
-                badgeShps64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = imported;
+                badgeShps64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = imported[0];
             }
         }
         private void importBadgeImg32_Click(object sender, EventArgs e)
         {
-            byte[] imported = bclimImportPrompt(0x800, bclim32rgb565);
-            if (imported == null)
+            byte[][] imported = bclimImportPrompt(0x800, bclim32rgb565);
+            if (imported[0] == null)
             {
-                MessageBox.Show("The file you imported doesn't have the right format...", "Error opening files", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (imported[1][0] == 0)
+                {
+                    MessageBox.Show("The file you imported doesn't have the right format...", "Error opening files", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
-                badgeImgs32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = imported;
+                badgeImgs32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = imported[0];
             }
         }
         private void importBadgeShp32_Click(object sender, EventArgs e)
         {
-            byte[] imported = bclimImportPrompt(0x200, bclim32a4);
-            if (imported == null)
+            byte[][] imported = bclimImportPrompt(0x200, bclim32a4);
+            if (imported[0] == null)
             {
-                MessageBox.Show("The file you imported doesn't have the right format...", "Error opening files", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (imported[1][0] == 0)
+                {
+                    MessageBox.Show("The file you imported doesn't have the right format...", "Error opening files", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
-                badgeShps32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = imported;
+                badgeShps32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = imported[0];
             }
         }
         private void importSetImgButton_Click(object sender, EventArgs e)
         {
-            byte[] imported = bclimImportPrompt(0x2000, bclim64rgb565);
-            if (imported == null)
+            byte[][] imported = bclimImportPrompt(0x2000, bclim64rgb565);
+            if (imported[0] == null)
             {
-                MessageBox.Show("The file you imported doesn't have the right format...", "Error opening files", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (imported[1][0] == 0)
+                {
+                    MessageBox.Show("The file you imported doesn't have the right format...", "Error opening files", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
-                setImgs[setIndexs[(int)selectSetNumer.Value - 1]] = imported;
+                setImgs[setIndexs[(int)selectSetNumer.Value - 1]] = imported[0];
             }
         }
         //
@@ -552,24 +626,30 @@ namespace Advanced_badge_editor
                 data.Close();
             }
         }
-        public byte[] bclimImportPrompt(int length, byte[] bclimFooter)
+        public byte[][] bclimImportPrompt(int length, byte[] bclimFooter)
         {
             OpenFileDialog import = new OpenFileDialog();
             import.Filter = "CTR-LIM File (*.bclim)|*.bclim";
             import.DefaultExt = "*.bclim";
             import.AddExtension = true;
-            byte[] toImport = null;
+            byte[][] toImport = new byte[2][];
+            toImport[0] = null;
+            toImport[1] = new byte[1];
+            toImport[1][0] = 0;
             if (import.ShowDialog() == DialogResult.OK)
             {
                 BinaryReader data = new BinaryReader(File.OpenRead(import.FileName));
 
-                data.BaseStream.Position = length;
+                data.BaseStream.Position = -0x28;
                 if (BitConverter.ToString(data.ReadBytes(0x28)) == BitConverter.ToString(bclimFooter))
                 {
                     data.BaseStream.Position = 0;
-                    toImport = data.ReadBytes(length);
+                    toImport[0] = data.ReadBytes(length);
                 }
                 data.Close();
+            } else
+            {
+                toImport[1][0] = 1;
             }
             return toImport;
         }

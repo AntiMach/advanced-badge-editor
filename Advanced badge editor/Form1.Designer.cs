@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,6 +82,14 @@
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.badgeSetIdNumer = new System.Windows.Forms.NumericUpDown();
+            this.appName = new System.Windows.Forms.Label();
+            this.appMinimize = new System.Windows.Forms.PictureBox();
+            this.appClose = new System.Windows.Forms.PictureBox();
+            this.appIcon = new System.Windows.Forms.PictureBox();
+            this.dragBar = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.badgeIdNumer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.badgeSidNumer)).BeginInit();
@@ -90,18 +99,26 @@
             ((System.ComponentModel.ISupportInitialize)(this.setIdNumer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.setStartingNumer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.badgeSetIdNumer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.appMinimize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.appClose)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.appIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dragBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.menuStrip1.BackColor = System.Drawing.Color.White;
+            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem});
             this.menuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Location = new System.Drawing.Point(2, 25);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(710, 24);
-            this.menuStrip1.TabIndex = 0;
+            this.menuStrip1.Size = new System.Drawing.Size(45, 24);
+            this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
@@ -131,7 +148,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 39);
+            this.label1.Location = new System.Drawing.Point(12, 75);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(82, 13);
             this.label1.TabIndex = 1;
@@ -140,7 +157,7 @@
             // uniqueBadgesLabel
             // 
             this.uniqueBadgesLabel.AutoSize = true;
-            this.uniqueBadgesLabel.Location = new System.Drawing.Point(94, 40);
+            this.uniqueBadgesLabel.Location = new System.Drawing.Point(94, 76);
             this.uniqueBadgesLabel.Name = "uniqueBadgesLabel";
             this.uniqueBadgesLabel.Size = new System.Drawing.Size(13, 13);
             this.uniqueBadgesLabel.TabIndex = 2;
@@ -149,7 +166,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 60);
+            this.label2.Location = new System.Drawing.Point(12, 96);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(72, 13);
             this.label2.TabIndex = 3;
@@ -158,7 +175,7 @@
             // totalBadgesLabel
             // 
             this.totalBadgesLabel.AutoSize = true;
-            this.totalBadgesLabel.Location = new System.Drawing.Point(94, 61);
+            this.totalBadgesLabel.Location = new System.Drawing.Point(94, 97);
             this.totalBadgesLabel.Name = "totalBadgesLabel";
             this.totalBadgesLabel.Size = new System.Drawing.Size(13, 13);
             this.totalBadgesLabel.TabIndex = 4;
@@ -167,7 +184,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 81);
+            this.label3.Location = new System.Drawing.Point(12, 117);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(31, 13);
             this.label3.TabIndex = 5;
@@ -176,7 +193,7 @@
             // setsLabel
             // 
             this.setsLabel.AutoSize = true;
-            this.setsLabel.Location = new System.Drawing.Point(94, 82);
+            this.setsLabel.Location = new System.Drawing.Point(94, 118);
             this.setsLabel.Name = "setsLabel";
             this.setsLabel.Size = new System.Drawing.Size(13, 13);
             this.setsLabel.TabIndex = 6;
@@ -185,7 +202,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 102);
+            this.label4.Location = new System.Drawing.Point(12, 138);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(37, 13);
             this.label4.TabIndex = 7;
@@ -194,7 +211,7 @@
             // NNIDLabel
             // 
             this.NNIDLabel.AutoSize = true;
-            this.NNIDLabel.Location = new System.Drawing.Point(94, 103);
+            this.NNIDLabel.Location = new System.Drawing.Point(94, 139);
             this.NNIDLabel.Name = "NNIDLabel";
             this.NNIDLabel.Size = new System.Drawing.Size(13, 13);
             this.NNIDLabel.TabIndex = 8;
@@ -202,30 +219,38 @@
             // 
             // createBadgeButton
             // 
+            this.createBadgeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.createBadgeButton.Enabled = false;
-            this.createBadgeButton.Location = new System.Drawing.Point(15, 126);
+            this.createBadgeButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.createBadgeButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.createBadgeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.createBadgeButton.Location = new System.Drawing.Point(15, 162);
             this.createBadgeButton.Name = "createBadgeButton";
             this.createBadgeButton.Size = new System.Drawing.Size(108, 23);
             this.createBadgeButton.TabIndex = 9;
             this.createBadgeButton.Text = "Create new badge";
-            this.createBadgeButton.UseVisualStyleBackColor = true;
+            this.createBadgeButton.UseVisualStyleBackColor = false;
             this.createBadgeButton.Click += new System.EventHandler(this.createBadgeButton_Click);
             // 
             // createSetButton
             // 
+            this.createSetButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.createSetButton.Enabled = false;
-            this.createSetButton.Location = new System.Drawing.Point(15, 155);
+            this.createSetButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.createSetButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.createSetButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.createSetButton.Location = new System.Drawing.Point(15, 191);
             this.createSetButton.Name = "createSetButton";
             this.createSetButton.Size = new System.Drawing.Size(108, 23);
             this.createSetButton.TabIndex = 10;
             this.createSetButton.Text = "Create new set";
-            this.createSetButton.UseVisualStyleBackColor = true;
+            this.createSetButton.UseVisualStyleBackColor = false;
             this.createSetButton.Click += new System.EventHandler(this.createSetButton_Click);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(262, 39);
+            this.label5.Location = new System.Drawing.Point(262, 75);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(82, 13);
             this.label5.TabIndex = 11;
@@ -234,7 +259,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(176, 91);
+            this.label6.Location = new System.Drawing.Point(176, 127);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(70, 13);
             this.label6.TabIndex = 13;
@@ -243,7 +268,7 @@
             // badgeNameInput
             // 
             this.badgeNameInput.Enabled = false;
-            this.badgeNameInput.Location = new System.Drawing.Point(259, 87);
+            this.badgeNameInput.Location = new System.Drawing.Point(259, 123);
             this.badgeNameInput.MaxLength = 69;
             this.badgeNameInput.Name = "badgeNameInput";
             this.badgeNameInput.Size = new System.Drawing.Size(169, 20);
@@ -254,7 +279,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(176, 114);
+            this.label7.Location = new System.Drawing.Point(176, 150);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(55, 13);
             this.label7.TabIndex = 15;
@@ -269,7 +294,7 @@
             0,
             0,
             0});
-            this.badgeIdNumer.Location = new System.Drawing.Point(259, 110);
+            this.badgeIdNumer.Location = new System.Drawing.Point(259, 146);
             this.badgeIdNumer.Maximum = new decimal(new int[] {
             -1,
             0,
@@ -283,7 +308,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(176, 137);
+            this.label8.Location = new System.Drawing.Point(176, 173);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(77, 13);
             this.label8.TabIndex = 17;
@@ -298,7 +323,7 @@
             0,
             0,
             0});
-            this.badgeSidNumer.Location = new System.Drawing.Point(259, 133);
+            this.badgeSidNumer.Location = new System.Drawing.Point(259, 169);
             this.badgeSidNumer.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -312,7 +337,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(176, 183);
+            this.label9.Location = new System.Drawing.Point(176, 219);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(49, 13);
             this.label9.TabIndex = 19;
@@ -326,7 +351,7 @@
             0,
             0,
             0});
-            this.badgeQuantityNumer.Location = new System.Drawing.Point(259, 179);
+            this.badgeQuantityNumer.Location = new System.Drawing.Point(259, 215);
             this.badgeQuantityNumer.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -339,63 +364,83 @@
             // 
             // importBadgeImg
             // 
+            this.importBadgeImg.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.importBadgeImg.Enabled = false;
-            this.importBadgeImg.Location = new System.Drawing.Point(307, 227);
+            this.importBadgeImg.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.importBadgeImg.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.importBadgeImg.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.importBadgeImg.Location = new System.Drawing.Point(307, 263);
             this.importBadgeImg.Name = "importBadgeImg";
             this.importBadgeImg.Size = new System.Drawing.Size(121, 23);
             this.importBadgeImg.TabIndex = 21;
             this.importBadgeImg.Text = "Import badge image";
-            this.importBadgeImg.UseVisualStyleBackColor = true;
+            this.importBadgeImg.UseVisualStyleBackColor = false;
             this.importBadgeImg.Click += new System.EventHandler(this.importBadgeImg_Click);
             // 
             // exportBadgeImg
             // 
+            this.exportBadgeImg.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.exportBadgeImg.Enabled = false;
-            this.exportBadgeImg.Location = new System.Drawing.Point(179, 227);
+            this.exportBadgeImg.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.exportBadgeImg.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.exportBadgeImg.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.exportBadgeImg.Location = new System.Drawing.Point(179, 263);
             this.exportBadgeImg.Name = "exportBadgeImg";
             this.exportBadgeImg.Size = new System.Drawing.Size(121, 23);
             this.exportBadgeImg.TabIndex = 22;
             this.exportBadgeImg.Text = "Export badge image";
-            this.exportBadgeImg.UseVisualStyleBackColor = true;
+            this.exportBadgeImg.UseVisualStyleBackColor = false;
             this.exportBadgeImg.Click += new System.EventHandler(this.exportBadgeImg_Click);
             // 
             // exportBadgeShp
             // 
+            this.exportBadgeShp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.exportBadgeShp.Enabled = false;
-            this.exportBadgeShp.Location = new System.Drawing.Point(179, 253);
+            this.exportBadgeShp.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.exportBadgeShp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.exportBadgeShp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.exportBadgeShp.Location = new System.Drawing.Point(179, 289);
             this.exportBadgeShp.Name = "exportBadgeShp";
             this.exportBadgeShp.Size = new System.Drawing.Size(121, 23);
             this.exportBadgeShp.TabIndex = 23;
             this.exportBadgeShp.Text = "Export badge shape";
-            this.exportBadgeShp.UseVisualStyleBackColor = true;
+            this.exportBadgeShp.UseVisualStyleBackColor = false;
             this.exportBadgeShp.Click += new System.EventHandler(this.exportBadgeShp_Click);
             // 
             // importBadgeShp
             // 
+            this.importBadgeShp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.importBadgeShp.Enabled = false;
-            this.importBadgeShp.Location = new System.Drawing.Point(307, 253);
+            this.importBadgeShp.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.importBadgeShp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.importBadgeShp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.importBadgeShp.Location = new System.Drawing.Point(307, 289);
             this.importBadgeShp.Name = "importBadgeShp";
             this.importBadgeShp.Size = new System.Drawing.Size(121, 23);
             this.importBadgeShp.TabIndex = 24;
             this.importBadgeShp.Text = "Import badge shape";
-            this.importBadgeShp.UseVisualStyleBackColor = true;
+            this.importBadgeShp.UseVisualStyleBackColor = false;
             this.importBadgeShp.Click += new System.EventHandler(this.importBadgeShp_Click);
             // 
             // fillBadgeShp
             // 
+            this.fillBadgeShp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.fillBadgeShp.Enabled = false;
-            this.fillBadgeShp.Location = new System.Drawing.Point(179, 279);
+            this.fillBadgeShp.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.fillBadgeShp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.fillBadgeShp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.fillBadgeShp.Location = new System.Drawing.Point(179, 315);
             this.fillBadgeShp.Name = "fillBadgeShp";
             this.fillBadgeShp.Size = new System.Drawing.Size(249, 23);
             this.fillBadgeShp.TabIndex = 25;
             this.fillBadgeShp.Text = "Fill badge shape to image size";
-            this.fillBadgeShp.UseVisualStyleBackColor = true;
+            this.fillBadgeShp.UseVisualStyleBackColor = false;
             this.fillBadgeShp.Click += new System.EventHandler(this.fillBadgeShp_Click);
             // 
             // selectedBadgeNumer
             // 
             this.selectedBadgeNumer.Enabled = false;
-            this.selectedBadgeNumer.Location = new System.Drawing.Point(179, 59);
+            this.selectedBadgeNumer.Location = new System.Drawing.Point(179, 95);
             this.selectedBadgeNumer.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -418,19 +463,23 @@
             // 
             // badge255each
             // 
+            this.badge255each.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.badge255each.Enabled = false;
-            this.badge255each.Location = new System.Drawing.Point(15, 184);
+            this.badge255each.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.badge255each.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.badge255each.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.badge255each.Location = new System.Drawing.Point(15, 220);
             this.badge255each.Name = "badge255each";
             this.badge255each.Size = new System.Drawing.Size(108, 23);
             this.badge255each.TabIndex = 28;
             this.badge255each.Text = "255 of each badge";
-            this.badge255each.UseVisualStyleBackColor = true;
+            this.badge255each.UseVisualStyleBackColor = false;
             this.badge255each.Click += new System.EventHandler(this.badge255each_Click);
             // 
             // selectSetNumer
             // 
             this.selectSetNumer.Enabled = false;
-            this.selectSetNumer.Location = new System.Drawing.Point(443, 59);
+            this.selectSetNumer.Location = new System.Drawing.Point(443, 95);
             this.selectSetNumer.Minimum = new decimal(new int[] {
             1,
             0,
@@ -449,7 +498,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(534, 39);
+            this.label11.Location = new System.Drawing.Point(534, 75);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(66, 13);
             this.label11.TabIndex = 31;
@@ -458,7 +507,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(440, 91);
+            this.label12.Location = new System.Drawing.Point(440, 127);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(55, 13);
             this.label12.TabIndex = 32;
@@ -467,7 +516,7 @@
             // setNameInput
             // 
             this.setNameInput.Enabled = false;
-            this.setNameInput.Location = new System.Drawing.Point(523, 87);
+            this.setNameInput.Location = new System.Drawing.Point(523, 123);
             this.setNameInput.Name = "setNameInput";
             this.setNameInput.Size = new System.Drawing.Size(169, 20);
             this.setNameInput.TabIndex = 33;
@@ -477,7 +526,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(440, 114);
+            this.label13.Location = new System.Drawing.Point(440, 150);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(40, 13);
             this.label13.TabIndex = 34;
@@ -492,7 +541,7 @@
             0,
             0,
             0});
-            this.setIdNumer.Location = new System.Drawing.Point(523, 110);
+            this.setIdNumer.Location = new System.Drawing.Point(523, 146);
             this.setIdNumer.Maximum = new decimal(new int[] {
             -1,
             0,
@@ -506,7 +555,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(440, 137);
+            this.label14.Location = new System.Drawing.Point(440, 173);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(79, 13);
             this.label14.TabIndex = 36;
@@ -515,7 +564,7 @@
             // setStartingNumer
             // 
             this.setStartingNumer.Enabled = false;
-            this.setStartingNumer.Location = new System.Drawing.Point(523, 133);
+            this.setStartingNumer.Location = new System.Drawing.Point(523, 169);
             this.setStartingNumer.Maximum = new decimal(new int[] {
             0,
             1,
@@ -539,7 +588,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(440, 160);
+            this.label10.Location = new System.Drawing.Point(440, 196);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(82, 13);
             this.label10.TabIndex = 38;
@@ -548,7 +597,7 @@
             // setUniqueBadgesLabel
             // 
             this.setUniqueBadgesLabel.AutoSize = true;
-            this.setUniqueBadgesLabel.Location = new System.Drawing.Point(523, 161);
+            this.setUniqueBadgesLabel.Location = new System.Drawing.Point(523, 197);
             this.setUniqueBadgesLabel.Name = "setUniqueBadgesLabel";
             this.setUniqueBadgesLabel.Size = new System.Drawing.Size(13, 13);
             this.setUniqueBadgesLabel.TabIndex = 39;
@@ -557,7 +606,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(440, 183);
+            this.label15.Location = new System.Drawing.Point(440, 219);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(72, 13);
             this.label15.TabIndex = 40;
@@ -566,7 +615,7 @@
             // setTotalBadgesLabel
             // 
             this.setTotalBadgesLabel.AutoSize = true;
-            this.setTotalBadgesLabel.Location = new System.Drawing.Point(523, 184);
+            this.setTotalBadgesLabel.Location = new System.Drawing.Point(523, 220);
             this.setTotalBadgesLabel.Name = "setTotalBadgesLabel";
             this.setTotalBadgesLabel.Size = new System.Drawing.Size(13, 13);
             this.setTotalBadgesLabel.TabIndex = 41;
@@ -574,85 +623,113 @@
             // 
             // exportSetImgButton
             // 
+            this.exportSetImgButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.exportSetImgButton.Enabled = false;
-            this.exportSetImgButton.Location = new System.Drawing.Point(443, 204);
+            this.exportSetImgButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.exportSetImgButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.exportSetImgButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.exportSetImgButton.Location = new System.Drawing.Point(443, 240);
             this.exportSetImgButton.Name = "exportSetImgButton";
             this.exportSetImgButton.Size = new System.Drawing.Size(121, 23);
             this.exportSetImgButton.TabIndex = 42;
             this.exportSetImgButton.Text = "Export set image";
-            this.exportSetImgButton.UseVisualStyleBackColor = true;
+            this.exportSetImgButton.UseVisualStyleBackColor = false;
             this.exportSetImgButton.Click += new System.EventHandler(this.exportSetImgButton_Click);
             // 
             // importSetImgButton
             // 
+            this.importSetImgButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.importSetImgButton.Enabled = false;
-            this.importSetImgButton.Location = new System.Drawing.Point(571, 204);
+            this.importSetImgButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.importSetImgButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.importSetImgButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.importSetImgButton.Location = new System.Drawing.Point(571, 240);
             this.importSetImgButton.Name = "importSetImgButton";
             this.importSetImgButton.Size = new System.Drawing.Size(121, 23);
             this.importSetImgButton.TabIndex = 43;
             this.importSetImgButton.Text = "Import set image";
-            this.importSetImgButton.UseVisualStyleBackColor = true;
+            this.importSetImgButton.UseVisualStyleBackColor = false;
             this.importSetImgButton.Click += new System.EventHandler(this.importSetImgButton_Click);
             // 
             // exportBadgeImg32
             // 
+            this.exportBadgeImg32.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.exportBadgeImg32.Enabled = false;
-            this.exportBadgeImg32.Location = new System.Drawing.Point(179, 330);
+            this.exportBadgeImg32.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.exportBadgeImg32.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.exportBadgeImg32.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.exportBadgeImg32.Location = new System.Drawing.Point(179, 366);
             this.exportBadgeImg32.Name = "exportBadgeImg32";
             this.exportBadgeImg32.Size = new System.Drawing.Size(121, 23);
             this.exportBadgeImg32.TabIndex = 22;
             this.exportBadgeImg32.Text = "Export badge image";
-            this.exportBadgeImg32.UseVisualStyleBackColor = true;
+            this.exportBadgeImg32.UseVisualStyleBackColor = false;
             this.exportBadgeImg32.Click += new System.EventHandler(this.exportBadgeImg32_Click);
             // 
             // importBadgeImg32
             // 
+            this.importBadgeImg32.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.importBadgeImg32.Enabled = false;
-            this.importBadgeImg32.Location = new System.Drawing.Point(307, 330);
+            this.importBadgeImg32.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.importBadgeImg32.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.importBadgeImg32.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.importBadgeImg32.Location = new System.Drawing.Point(307, 366);
             this.importBadgeImg32.Name = "importBadgeImg32";
             this.importBadgeImg32.Size = new System.Drawing.Size(121, 23);
             this.importBadgeImg32.TabIndex = 21;
             this.importBadgeImg32.Text = "Import badge image";
-            this.importBadgeImg32.UseVisualStyleBackColor = true;
+            this.importBadgeImg32.UseVisualStyleBackColor = false;
             this.importBadgeImg32.Click += new System.EventHandler(this.importBadgeImg32_Click);
             // 
             // importBadgeShp32
             // 
+            this.importBadgeShp32.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.importBadgeShp32.Enabled = false;
-            this.importBadgeShp32.Location = new System.Drawing.Point(307, 356);
+            this.importBadgeShp32.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.importBadgeShp32.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.importBadgeShp32.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.importBadgeShp32.Location = new System.Drawing.Point(307, 392);
             this.importBadgeShp32.Name = "importBadgeShp32";
             this.importBadgeShp32.Size = new System.Drawing.Size(121, 23);
             this.importBadgeShp32.TabIndex = 24;
             this.importBadgeShp32.Text = "Import badge shape";
-            this.importBadgeShp32.UseVisualStyleBackColor = true;
+            this.importBadgeShp32.UseVisualStyleBackColor = false;
             this.importBadgeShp32.Click += new System.EventHandler(this.importBadgeShp32_Click);
             // 
             // exportBadgeShp32
             // 
+            this.exportBadgeShp32.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.exportBadgeShp32.Enabled = false;
-            this.exportBadgeShp32.Location = new System.Drawing.Point(179, 356);
+            this.exportBadgeShp32.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.exportBadgeShp32.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.exportBadgeShp32.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.exportBadgeShp32.Location = new System.Drawing.Point(179, 392);
             this.exportBadgeShp32.Name = "exportBadgeShp32";
             this.exportBadgeShp32.Size = new System.Drawing.Size(121, 23);
             this.exportBadgeShp32.TabIndex = 23;
             this.exportBadgeShp32.Text = "Export badge shape";
-            this.exportBadgeShp32.UseVisualStyleBackColor = true;
+            this.exportBadgeShp32.UseVisualStyleBackColor = false;
             this.exportBadgeShp32.Click += new System.EventHandler(this.exportBadgeShp32_Click);
             // 
             // fillBadgeShp32
             // 
+            this.fillBadgeShp32.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.fillBadgeShp32.Enabled = false;
-            this.fillBadgeShp32.Location = new System.Drawing.Point(179, 382);
+            this.fillBadgeShp32.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.fillBadgeShp32.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.fillBadgeShp32.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.fillBadgeShp32.Location = new System.Drawing.Point(179, 418);
             this.fillBadgeShp32.Name = "fillBadgeShp32";
             this.fillBadgeShp32.Size = new System.Drawing.Size(249, 23);
             this.fillBadgeShp32.TabIndex = 25;
             this.fillBadgeShp32.Text = "Fill badge shape to image size";
-            this.fillBadgeShp32.UseVisualStyleBackColor = true;
+            this.fillBadgeShp32.UseVisualStyleBackColor = false;
             this.fillBadgeShp32.Click += new System.EventHandler(this.fillBadgeShp32_Click);
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(254, 206);
+            this.label16.Location = new System.Drawing.Point(254, 242);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(99, 13);
             this.label16.TabIndex = 44;
@@ -661,7 +738,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(254, 309);
+            this.label17.Location = new System.Drawing.Point(254, 345);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(99, 13);
             this.label17.TabIndex = 44;
@@ -670,7 +747,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(176, 160);
+            this.label18.Location = new System.Drawing.Point(176, 196);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(74, 13);
             this.label18.TabIndex = 45;
@@ -685,7 +762,7 @@
             0,
             0,
             0});
-            this.badgeSetIdNumer.Location = new System.Drawing.Point(259, 156);
+            this.badgeSetIdNumer.Location = new System.Drawing.Point(259, 192);
             this.badgeSetIdNumer.Maximum = new decimal(new int[] {
             -1,
             0,
@@ -696,11 +773,101 @@
             this.badgeSetIdNumer.TabIndex = 46;
             this.badgeSetIdNumer.ValueChanged += new System.EventHandler(this.badgeSetIdNumer_ValueChanged);
             // 
+            // appName
+            // 
+            this.appName.AutoSize = true;
+            this.appName.BackColor = System.Drawing.Color.White;
+            this.appName.Location = new System.Drawing.Point(23, 7);
+            this.appName.Name = "appName";
+            this.appName.Size = new System.Drawing.Size(88, 13);
+            this.appName.TabIndex = 51;
+            this.appName.Text = "Application name";
+            // 
+            // appMinimize
+            // 
+            this.appMinimize.BackColor = System.Drawing.Color.White;
+            this.appMinimize.Image = global::Advanced_badge_editor.Properties.Resources.app_minimize;
+            this.appMinimize.Location = new System.Drawing.Point(664, 3);
+            this.appMinimize.Name = "appMinimize";
+            this.appMinimize.Size = new System.Drawing.Size(20, 20);
+            this.appMinimize.TabIndex = 54;
+            this.appMinimize.TabStop = false;
+            this.appMinimize.Click += new System.EventHandler(this.minimize_Click);
+            this.appMinimize.MouseEnter += new System.EventHandler(this.minimize_MouseEnter);
+            this.appMinimize.MouseLeave += new System.EventHandler(this.minimize_MouseLeave);
+            // 
+            // appClose
+            // 
+            this.appClose.BackColor = System.Drawing.Color.White;
+            this.appClose.Image = global::Advanced_badge_editor.Properties.Resources.app_close;
+            this.appClose.Location = new System.Drawing.Point(685, 3);
+            this.appClose.Name = "appClose";
+            this.appClose.Size = new System.Drawing.Size(20, 20);
+            this.appClose.TabIndex = 53;
+            this.appClose.TabStop = false;
+            this.appClose.Click += new System.EventHandler(this.close_Click);
+            this.appClose.MouseEnter += new System.EventHandler(this.close_MouseEnter);
+            this.appClose.MouseLeave += new System.EventHandler(this.close_MouseLeave);
+            // 
+            // appIcon
+            // 
+            this.appIcon.BackColor = System.Drawing.Color.White;
+            this.appIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.appIcon.Cursor = System.Windows.Forms.Cursors.Default;
+            this.appIcon.Location = new System.Drawing.Point(5, 5);
+            this.appIcon.Name = "appIcon";
+            this.appIcon.Size = new System.Drawing.Size(16, 16);
+            this.appIcon.TabIndex = 52;
+            this.appIcon.TabStop = false;
+            // 
+            // dragBar
+            // 
+            this.dragBar.BackColor = System.Drawing.Color.White;
+            this.dragBar.Location = new System.Drawing.Point(1, 1);
+            this.dragBar.Name = "dragBar";
+            this.dragBar.Size = new System.Drawing.Size(706, 24);
+            this.dragBar.TabIndex = 47;
+            this.dragBar.TabStop = false;
+            this.dragBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.windowTop_MouseDown);
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.BackColor = System.Drawing.Color.White;
+            this.pictureBox4.Location = new System.Drawing.Point(1, 24);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(706, 26);
+            this.pictureBox4.TabIndex = 50;
+            this.pictureBox4.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.pictureBox2.Location = new System.Drawing.Point(1, 1);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(706, 465);
+            this.pictureBox2.TabIndex = 48;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BackColor = System.Drawing.Color.Silver;
+            this.pictureBox3.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(708, 467);
+            this.pictureBox3.TabIndex = 49;
+            this.pictureBox3.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(710, 435);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.ClientSize = new System.Drawing.Size(708, 467);
+            this.Controls.Add(this.appMinimize);
+            this.Controls.Add(this.appClose);
+            this.Controls.Add(this.appIcon);
+            this.Controls.Add(this.appName);
+            this.Controls.Add(this.dragBar);
             this.Controls.Add(this.badgeSetIdNumer);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.label17);
@@ -751,7 +918,11 @@
             this.Controls.Add(this.uniqueBadgesLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Controls.Add(this.pictureBox4);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.pictureBox3);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Advanced badge editor";
             this.menuStrip1.ResumeLayout(false);
@@ -764,6 +935,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.setIdNumer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.setStartingNumer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.badgeSetIdNumer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.appMinimize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.appClose)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.appIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dragBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -824,6 +1002,14 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.NumericUpDown badgeSetIdNumer;
+        private System.Windows.Forms.PictureBox dragBar;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.Label appName;
+        private System.Windows.Forms.PictureBox appIcon;
+        private System.Windows.Forms.PictureBox appClose;
+        private System.Windows.Forms.PictureBox appMinimize;
     }
 }
 
