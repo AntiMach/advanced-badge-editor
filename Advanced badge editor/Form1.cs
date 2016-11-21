@@ -640,7 +640,7 @@ namespace Advanced_badge_editor
             {
                 BinaryReader data = new BinaryReader(File.OpenRead(import.FileName));
 
-                data.BaseStream.Position = -0x28;
+                data.BaseStream.Seek(-0x28, SeekOrigin.End);
                 if (BitConverter.ToString(data.ReadBytes(0x28)) == BitConverter.ToString(bclimFooter))
                 {
                     data.BaseStream.Position = 0;
