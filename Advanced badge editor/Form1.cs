@@ -409,15 +409,15 @@ namespace Advanced_badge_editor
 
                 data = new BinaryWriter(badgeData.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None));
 
+                data.BaseStream.Position = 0x35E80;
+                for (int i = 0; i < 0x8A0 * uniqueBadges; i++)
+                {
+                    data.Write(0x00);
+                }
                 for (int i = 0; i < uniqueBadges; i++)
                 {
                     for (int ii = 0; ii < 16; ii++)
                     {
-                        data.BaseStream.Position = (badgeIndexs[i] * 0x8A0) + (ii * 0x8A) + 0x35E80;
-                        for (int iii = 0; iii < 0x8A; iii++)
-                        {
-                            data.Write(0x00);
-                        }
                         data.BaseStream.Position = (badgeIndexs[i] * 0x8A0) + (ii * 0x8A) + 0x35E80;
                         data.Write(Encoding.Unicode.GetBytes(badgeNames[badgeIndexs[i]]));
                     }
@@ -428,15 +428,16 @@ namespace Advanced_badge_editor
                     data.Write(badgeImgs32[badgeIndexs[i]]);
                     data.Write(badgeShps32[badgeIndexs[i]]);
                 }
+
+                data.BaseStream.Position = 0;
+                for (int i = 0; i < 0x8A0 * sets; i++)
+                {
+                    data.Write(0x00);
+                }
                 for (int i = 0; i < sets; i++)
                 {
                     for (int ii = 0; ii < 16; ii++)
                     {
-                        data.BaseStream.Position = (setIndexs[i] * 0x8A0) + (ii * 0x8A);
-                        for (int iii = 0; iii < 0x8A; iii++)
-                        {
-                            data.Write(0x00);
-                        }
                         data.BaseStream.Position = (setIndexs[i] * 0x8A0) + (ii * 0x8A);
                         data.Write(Encoding.Unicode.GetBytes(setNames[setIndexs[i]]));
                     }
