@@ -1109,7 +1109,7 @@ namespace CTR
             Output.Image64 = BCLIM.newFromArray(BCLIM.IMGToBCLIM(StretchImage(new Bitmap(img)), '5'));
             Output.Shape64 = BCLIM.newFromArray(BCLIM.IMGToBCLIM(img, 'd'));
 
-            Bitmap Image32 = StretchImage(downscaleImg(new Bitmap(img), 2, true));
+            Bitmap Image32 = downscaleImg(StretchImage(new Bitmap(img)), 2, true);
             Bitmap Shape32 = downscaleImg(img, 2, false);
 
             Output.Image32 = BCLIM.newFromArray(BCLIM.IMGToBCLIM(Image32, '5'));
