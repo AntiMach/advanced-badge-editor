@@ -119,5 +119,15 @@ namespace Advanced_badge_editor.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ETC1Lib {
+            get {
+                object obj = ResourceManager.GetObject("ETC1Lib", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

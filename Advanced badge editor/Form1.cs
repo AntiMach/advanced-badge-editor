@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.InteropServices;
+using CTR;
 
 namespace Advanced_badge_editor
 {
@@ -285,6 +286,8 @@ namespace Advanced_badge_editor
             importBadgeShp32.Enabled = enable;
             fillBadgeShp.Enabled = enable;
             fillBadgeShp32.Enabled = enable;
+            exportBadgeImage.Enabled = enable;
+            importBadgeImage.Enabled = enable;
         }
         public void setOptions(bool enable)
         {
@@ -293,6 +296,8 @@ namespace Advanced_badge_editor
             setStartingNumer.Enabled = enable;
             exportSetImgButton.Enabled = enable;
             importSetImgButton.Enabled = enable;
+            exportSetImage.Enabled = enable;
+            importSetImage.Enabled = enable;
         }
         //
         // Update the information about the currently selected badge or the currently selected set
@@ -304,6 +309,14 @@ namespace Advanced_badge_editor
             badgeSidNumer.Value = badgeSids[(int)selectedBadgeNumer.Value - 1];
             badgeQuantityNumer.Value = badgeQuants[(int)selectedBadgeNumer.Value - 1];
             badgeSetIdNumer.Value = badgeSetIds[(int)selectedBadgeNumer.Value - 1];
+
+            Badge.BADGE_IMG current;
+            current.Image64 = BCLIM.newFromArray(addFooter(badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], bclim64rgb565));
+            current.Shape64 = BCLIM.newFromArray(addFooter(badgeShps64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], bclim64a4));
+            current.Image32 = BCLIM.newFromArray(addFooter(badgeImgs32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], bclim32rgb565));
+            current.Shape32 = BCLIM.newFromArray(addFooter(badgeShps32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], bclim32a4));
+            prevBadgeImg64.Image = Badge.BADGEtoBMP(current)[0];
+            prevBadgeImg32.Image = Badge.BADGEtoBMP(current)[1];
         }
         public void updateSetInfo()
         {
@@ -325,6 +338,19 @@ namespace Advanced_badge_editor
             setStartingNumer.Value = setBadgeIndexs[(int)selectSetNumer.Value - 1] + 1;
             setUniqueBadgesLabel.Text = setUniqueBadges[(int)selectSetNumer.Value - 1].ToString();
             setTotalBadgesLabel.Text = setTotalBadges[(int)selectSetNumer.Value - 1].ToString();
+
+            BCLIM.CLIM curset;
+
+            curset = BCLIM.newFromArray(addFooter(setImgs[setIndexs[(int)selectSetNumer.Value - 1]], bclim64rgb565));
+            prevSetImg.Image = Badge.cropImage(BCLIM.getIMG(curset), new Rectangle(0, 0, 48, 48));
+        }
+        
+        public byte[] addFooter(byte[] bclim, byte[] footer)
+        {
+            byte[] output = new byte[bclim.Length + footer.Length];
+            bclim.CopyTo(output, 0);
+            footer.CopyTo(output, bclim.Length);
+            return output;
         }
         //
         // Every time the badge number is changed, it updates the form with the newly selected badge's data;
@@ -725,6 +751,119 @@ namespace Advanced_badge_editor
                     stream.Close();
             }
             return false;
+        }
+
+        private void importBadgeImage_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Filter = "PNG File (*.png)|*.png",
+                DefaultExt = "*.png",
+                AddExtension = true,
+            };
+            if(ofd.ShowDialog() == DialogResult.OK)
+            {
+                Bitmap Check = new Bitmap(ofd.FileName);
+                if (Check.Width == 64 && Check.Height == 64)
+                {
+                    Badge.BADGE_IMG img = Badge.BMPtoBADGE(Check);
+                    BinaryReader br = new BinaryReader(new MemoryStream(img.Image64.Data));
+
+                    byte[] badgeImage64 = br.ReadBytes((int)img.Image64.dataLength);
+                    br.Close();
+
+                    br = new BinaryReader(new MemoryStream(img.Shape64.Data));
+                    byte[] badgeShape64 = br.ReadBytes((int)img.Shape64.dataLength);
+                    br.Close();
+
+                    br = new BinaryReader(new MemoryStream(img.Image32.Data));
+                    byte[] badgeImage32 = br.ReadBytes((int)img.Image32.dataLength);
+                    br.Close();
+
+                    br = new BinaryReader(new MemoryStream(img.Shape32.Data));
+                    byte[] badgeShape32 = br.ReadBytes((int)img.Shape32.dataLength);
+                    br.Close();
+
+                    badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = badgeImage64;
+                    badgeShps64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = badgeShape64;
+                    badgeImgs32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = badgeImage32;
+                    badgeShps32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = badgeShape32;
+
+                    updateBadgeInfo();
+                }
+                else
+                {
+                    MessageBox.Show("The image you imported doesn't have a size of 64px * 64px.", "Wrong size...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void exportBadgeImage_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "PNG File (*.png)|*.png",
+                DefaultExt = "*.png",
+                AddExtension = true,
+            };
+
+            if(sfd.ShowDialog() == DialogResult.OK)
+            {
+                Badge.BADGE_IMG current;
+                current.Image64 = BCLIM.newFromArray(addFooter(badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], bclim64rgb565));
+                current.Shape64 = BCLIM.newFromArray(addFooter(badgeShps64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], bclim64a4));
+                current.Image32 = BCLIM.newFromArray(addFooter(badgeImgs32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], bclim32rgb565));
+                current.Shape32 = BCLIM.newFromArray(addFooter(badgeShps32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], bclim32a4));
+                
+                Badge.BADGEtoBMP(current)[0].Save(sfd.FileName);
+            }
+        }
+
+        private void importSetImage_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Filter = "PNG File (*.png)|*.png",
+                DefaultExt = "*.png",
+                AddExtension = true,
+            };
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                Bitmap Check = new Bitmap(ofd.FileName);
+                if (Check.Width == 48 && Check.Height == 48)
+                {
+                    BCLIM.CLIM set = Badge.adjustForSet(Check);
+
+                    BinaryReader br = new BinaryReader(new MemoryStream(set.Data));
+                    byte[] setImage = br.ReadBytes((int)set.dataLength);
+                    br.Close();
+
+                    setImgs[setIndexs[(int)selectSetNumer.Value - 1]] = setImage;
+
+                    updateSetInfo();
+                }
+                else
+                {
+                    MessageBox.Show("The image you imported doesn't have a size of 48px * 48px.", "Wrong size...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void exportSetImage_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "PNG File (*.png)|*.png",
+                DefaultExt = "*.png",
+                AddExtension = true,
+            };
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                BCLIM.CLIM set = BCLIM.newFromArray(addFooter(setImgs[setIndexs[(int)selectSetNumer.Value - 1]], bclim64rgb565));
+
+                Badge.cropImage(BCLIM.getIMG(set), new Rectangle(0, 0, 48, 48)).Save(sfd.FileName);
+            }
         }
     }
 }
