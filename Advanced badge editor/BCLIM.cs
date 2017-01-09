@@ -1106,10 +1106,11 @@ namespace CTR
         public static BADGE_IMG BMPtoBADGE(Bitmap img)
         {
             BADGE_IMG Output;
-            Output.Image64 = BCLIM.newFromArray(BCLIM.IMGToBCLIM(StretchImage(new Bitmap(img)), '5'));
+            Bitmap Stretched = StretchImage(new Bitmap(img));
+            Output.Image64 = BCLIM.newFromArray(BCLIM.IMGToBCLIM(Stretched, '5'));
             Output.Shape64 = BCLIM.newFromArray(BCLIM.IMGToBCLIM(img, 'd'));
 
-            Bitmap Image32 = downscaleImg(StretchImage(new Bitmap(img)), 2, true);
+            Bitmap Image32 = downscaleImg(Stretched, 2, true);
             Bitmap Shape32 = downscaleImg(img, 2, false);
 
             Output.Image32 = BCLIM.newFromArray(BCLIM.IMGToBCLIM(Image32, '5'));
@@ -1123,16 +1124,24 @@ namespace CTR
             float height = img.Height / dscale;
 
             Bitmap bmp = new Bitmap((int)width, (int)height);
+            bmp.SetResolution(img.HorizontalResolution, img.VerticalResolution);
+
             Graphics graph = Graphics.FromImage(bmp);
 
             if (hq)
-            { 
-                graph.SmoothingMode = SmoothingMode.AntiAlias;
+            {
+                graph.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                graph.SmoothingMode = SmoothingMode.HighQuality;
                 graph.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graph.CompositingQuality = CompositingQuality.AssumeLinear;
+                graph.CompositingMode = CompositingMode.SourceCopy;
+                graph.CompositingQuality = CompositingQuality.HighQuality;
             }
-
-            graph.DrawImage(img, new Rectangle(0, 0, (int)width, (int)height));
+            using (ImageAttributes wrapMode = new ImageAttributes())
+            {
+                wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                graph.DrawImage(img, new Rectangle(0, 0, (int)width, (int)height), 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, wrapMode);
+            }
+                
             return bmp;
         }
 
