@@ -114,15 +114,20 @@ namespace Advanced_badge_editor
         //
         //
         //
-        byte[] bclim32rgb565 = { 0x43, 0x4C, 0x49, 0x4D, 0xFF, 0xFE, 0x14, 0x00, 0x00, 0x00, 0x02, 0x02, 0x28, 0x08, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x69, 0x6D, 0x61, 0x67, 0x10, 0x00, 0x00, 0x00, 0x20, 0x00, 0x20, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00 };
-        byte[] bclim64rgb565 = { 0x43, 0x4C, 0x49, 0x4D, 0xFF, 0xFE, 0x14, 0x00, 0x00, 0x00, 0x02, 0x02, 0x28, 0x20, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x69, 0x6D, 0x61, 0x67, 0x10, 0x00, 0x00, 0x00, 0x40, 0x00, 0x40, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00, 0x00 };
-        byte[] bclim32a4 = { 0x43, 0x4C, 0x49, 0x4D, 0xFF, 0xFE, 0x14, 0x00, 0x00, 0x00, 0x02, 0x02, 0x28, 0x02, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x69, 0x6D, 0x61, 0x67, 0x10, 0x00, 0x00, 0x00, 0x20, 0x00, 0x20, 0x00, 0x0D, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00 };
-        byte[] bclim64a4 = { 0x43, 0x4C, 0x49, 0x4D, 0xFF, 0xFE, 0x14, 0x00, 0x00, 0x00, 0x02, 0x02, 0x28, 0x08, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x69, 0x6D, 0x61, 0x67, 0x10, 0x00, 0x00, 0x00, 0x40, 0x00, 0x40, 0x00, 0x0D, 0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00 };
+        static byte[] bclim32rgb565 = { 0x43, 0x4C, 0x49, 0x4D, 0xFF, 0xFE, 0x14, 0x00, 0x00, 0x00, 0x02, 0x02, 0x28, 0x08, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x69, 0x6D, 0x61, 0x67, 0x10, 0x00, 0x00, 0x00, 0x20, 0x00, 0x20, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00 };
+        static byte[] bclim64rgb565 = { 0x43, 0x4C, 0x49, 0x4D, 0xFF, 0xFE, 0x14, 0x00, 0x00, 0x00, 0x02, 0x02, 0x28, 0x20, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x69, 0x6D, 0x61, 0x67, 0x10, 0x00, 0x00, 0x00, 0x40, 0x00, 0x40, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00, 0x00 };
+        static byte[] bclim32a4 = { 0x43, 0x4C, 0x49, 0x4D, 0xFF, 0xFE, 0x14, 0x00, 0x00, 0x00, 0x02, 0x02, 0x28, 0x02, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x69, 0x6D, 0x61, 0x67, 0x10, 0x00, 0x00, 0x00, 0x20, 0x00, 0x20, 0x00, 0x0D, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00 };
+        static byte[] bclim64a4 = { 0x43, 0x4C, 0x49, 0x4D, 0xFF, 0xFE, 0x14, 0x00, 0x00, 0x00, 0x02, 0x02, 0x28, 0x08, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x69, 0x6D, 0x61, 0x67, 0x10, 0x00, 0x00, 0x00, 0x40, 0x00, 0x40, 0x00, 0x0D, 0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00 };
         //
         //
         //
         public void resetInfo()
         {
+            uniqueBadges = 0;
+            totalBadges = 0;
+            sets = 0;
+            NNID = 0;
+
             badgeIds = new uint[1000];
             badgeSetIds = new uint[1000];
             badgeSids = new ushort[1000];
@@ -144,10 +149,27 @@ namespace Advanced_badge_editor
 
             selectedBadgeNumer.Minimum = 1;
             selectSetNumer.Minimum = 1;
-            selectedBadgeNumer.Maximum = 2;
-            selectSetNumer.Maximum = 2;
+            selectedBadgeNumer.Maximum = 1000;
+            selectSetNumer.Maximum = 100;
             selectedBadgeNumer.Value = 1;
             selectSetNumer.Value = 1;
+
+            setStartingNumer.Minimum = 1;
+            setStartingNumer.Maximum = 4294967296;
+
+            badgeNameInput.Text = "None";
+            setNameInput.Text = "None";
+            badgeIdNumer.Value = 0;
+            setIdNumer.Value = 0;
+            badgeSidNumer.Value = 0;
+            setStartingNumer.Value = 1;
+            badgeSetIdNumer.Value = 0;
+            setUniqueBadgesLabel.Text = "0";
+            badgeQuantityNumer.Value = 0;
+            setTotalBadgesLabel.Text = "0";
+            prevBadgeImg64.Image = null;
+            prevBadgeImg32.Image = null;
+            prevSetImg.Image = null;
         }
         //
         // Open data prompt:
@@ -221,22 +243,21 @@ namespace Advanced_badge_editor
 
                     data.Close();
                     // -----
-                    
+
 
 
                     // Update the interface
-                    badgeOptions(true);
-                    setOptions(true);
 
-                    selectedBadgeNumer.Enabled = true;
-                    selectedBadgeNumer.Maximum = uniqueBadges;
+                    if (uniqueBadges > 0)
+                        selectedBadgeNumer.Maximum = uniqueBadges;
+                    if (sets > 0)
+                        selectSetNumer.Maximum = sets;
 
-                    selectSetNumer.Enabled = true;
-                    selectSetNumer.Maximum = sets;
+                    badgeOptions(uniqueBadges > 0);
+                    setOptions(sets > 0);
 
                     createBadgeButton.Enabled = true;
                     createSetButton.Enabled = true;
-                    badge255each.Enabled = true;
 
                     updateAll();
                     setStartingNumer.Maximum = setBadgeIndexs[1];
@@ -263,14 +284,17 @@ namespace Advanced_badge_editor
             uniqueBadgesLabel.Text = uniqueBadges.ToString();
             NNIDLabel.Text = NNID.ToString();
 
-            updateBadgeInfo();
-            updateSetInfo();
+            if (uniqueBadges > 0)
+                updateBadgeInfo();
+            if (sets > 0)
+                updateSetInfo();
         }
         //
         // Enable/disable badge editing options
         //
         public void badgeOptions(bool enable)
         {
+            selectedBadgeNumer.Enabled = enable;
             badgeNameInput.Enabled = enable;
             badgeIdNumer.Enabled = enable;
             badgeSidNumer.Enabled = enable;
@@ -288,9 +312,11 @@ namespace Advanced_badge_editor
             fillBadgeShp32.Enabled = enable;
             exportBadgeImage.Enabled = enable;
             importBadgeImage.Enabled = enable;
+            badge255each.Enabled = enable;
         }
         public void setOptions(bool enable)
         {
+            selectSetNumer.Enabled = enable;
             setNameInput.Enabled = enable;
             setIdNumer.Enabled = enable;
             setStartingNumer.Enabled = enable;
@@ -320,6 +346,9 @@ namespace Advanced_badge_editor
         }
         public void updateSetInfo()
         {
+            setStartingNumer.Minimum = 0;
+            setStartingNumer.Maximum = 4294967296;
+
             setTotalBadges = new uint[100];
             setUniqueBadges = new uint[100];
             for (int i = 0; i < sets; i++)
@@ -357,13 +386,16 @@ namespace Advanced_badge_editor
         //
         private void selectedBadgeNumer_ValueChanged(object sender, EventArgs e)
         {
-            updateBadgeInfo();
+            if (uniqueBadges > 0)
+                updateBadgeInfo();
         }
         private void selectSetNumer_ValueChanged(object sender, EventArgs e)
         {
             setStartingNumer.Minimum = 1;
             setStartingNumer.Maximum = 4294967296;
-            updateSetInfo();
+
+            updateAll();
+
             if (selectSetNumer.Value > 1)
             {
                 setStartingNumer.Minimum = setBadgeIndexs[(int)selectSetNumer.Value - 2] + 2;
@@ -481,10 +513,16 @@ namespace Advanced_badge_editor
         {
             if (uniqueBadges < 1000)
             {
+                if (uniqueBadges == 0)
+                    badgeOptions(true);
+
                 uniqueBadges++;
                 totalBadges++;
                 badgeIds[uniqueBadges - 1] = uniqueBadges;
-                badgeSetIds[uniqueBadges - 1] = setIds[sets - 1];
+                if (uniqueBadges < 0)
+                    badgeSetIds[uniqueBadges - 1] = setIds[sets - 1];
+                else
+                    badgeSetIds[uniqueBadges - 1] = 0;
                 badgeSids[uniqueBadges - 1] = 0;
                 badgeQuants[uniqueBadges - 1] = 1;
                 badgeNames[uniqueBadges - 1] = "New badge";
@@ -495,7 +533,7 @@ namespace Advanced_badge_editor
                 badgeImgs32[uniqueBadges - 1] = new byte[0x800];
                 badgeShps32[uniqueBadges - 1] = new byte[0x200];
 
-                selectedBadgeNumer.Maximum++;
+                selectedBadgeNumer.Maximum = uniqueBadges;
                 selectedBadgeNumer.Value = uniqueBadges;
 
                 updateAll();
@@ -507,9 +545,12 @@ namespace Advanced_badge_editor
         }
         private void createSetButton_Click(object sender, EventArgs e)
         {
-            if (setBadgeIndexs[sets - 1] < uniqueBadges - 1)
+            if (uniqueBadges == 0)
             {
-                if (sets < 100)
+                MessageBox.Show("You have no badges to make a set for...", "Uhhh, how?", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            } else
+            {
+                if (sets == 0)
                 {
                     sets++;
                     setIds[sets - 1] = sets;
@@ -519,17 +560,38 @@ namespace Advanced_badge_editor
                     setUniqueBadges[sets - 1] = 1;
                     setIndexs[sets - 1] = sets - 1;
                     setImgs[sets - 1] = new byte[0x2000];
-                    selectSetNumer.Maximum++;
+                    selectSetNumer.Maximum = sets;
                     selectSetNumer.Value = sets;
+                    updateAll();
+                    setOptions(true);
                 }
                 else
                 {
-                    MessageBox.Show("You have too many sets to make a new one...", "Limit reached", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    if (setBadgeIndexs[sets - 1] < uniqueBadges - 1)
+                    {
+                        if (sets < 100)
+                        {
+                            sets++;
+                            setIds[sets - 1] = sets;
+                            setNames[sets - 1] = "New set";
+                            setBadgeIndexs[sets - 1] = uniqueBadges - 1;
+                            setTotalBadges[sets - 1] = 1;
+                            setUniqueBadges[sets - 1] = 1;
+                            setIndexs[sets - 1] = sets - 1;
+                            setImgs[sets - 1] = new byte[0x2000];
+                            selectSetNumer.Maximum++;
+                            selectSetNumer.Value = sets;
+                        }
+                        else
+                        {
+                            MessageBox.Show("You have too many sets to make a new one...", "Limit reached", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Not enough unique badges for a new set!", "Not enough badges", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
-            }
-            else
-            {
-                MessageBox.Show("Not enough unique badges for a new set!", "Not enough badges", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         //
@@ -716,7 +778,7 @@ namespace Advanced_badge_editor
         private void setStartingNumer_ValueChanged(object sender, EventArgs e)
         {
             setBadgeIndexs[(int)selectSetNumer.Value - 1] = (uint)setStartingNumer.Value - 1;
-            updateSetInfo();
+            updateAll();
         }
 
         private void fillBadgeShp_Click(object sender, EventArgs e)
@@ -766,7 +828,7 @@ namespace Advanced_badge_editor
                 Bitmap Check = new Bitmap(ofd.FileName);
                 if (Check.Width == 64 && Check.Height == 64)
                 {
-                    Badge.BADGE_IMG img = Badge.BMPtoBADGE(Check);
+                    Badge.BADGE_IMG img = Badge.BMPtoBADGE(Check, pixelBadgeMode.Checked);
                     BinaryReader br = new BinaryReader(new MemoryStream(img.Image64.Data));
 
                     byte[] badgeImage64 = br.ReadBytes((int)img.Image64.dataLength);
@@ -789,7 +851,8 @@ namespace Advanced_badge_editor
                     badgeImgs32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = badgeImage32;
                     badgeShps32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = badgeShape32;
 
-                    updateBadgeInfo();
+                    if (uniqueBadges > 0)
+                        updateBadgeInfo();
                 }
                 else
                 {
@@ -840,7 +903,8 @@ namespace Advanced_badge_editor
 
                     setImgs[setIndexs[(int)selectSetNumer.Value - 1]] = setImage;
 
-                    updateSetInfo();
+                    if (sets > 0)
+                        updateSetInfo();
                 }
                 else
                 {

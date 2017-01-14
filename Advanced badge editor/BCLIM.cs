@@ -1103,14 +1103,14 @@ namespace CTR
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        public static BADGE_IMG BMPtoBADGE(Bitmap img)
+        public static BADGE_IMG BMPtoBADGE(Bitmap img, bool PixelBadge)
         {
             BADGE_IMG Output;
             Bitmap Stretched = StretchImage(new Bitmap(img));
             Output.Image64 = BCLIM.newFromArray(BCLIM.IMGToBCLIM(Stretched, '5'));
             Output.Shape64 = BCLIM.newFromArray(BCLIM.IMGToBCLIM(img, 'd'));
 
-            Bitmap Image32 = downscaleImg(Stretched, 2, true);
+            Bitmap Image32 = downscaleImg(Stretched, 2, !PixelBadge);
             Bitmap Shape32 = downscaleImg(img, 2, false);
 
             Output.Image32 = BCLIM.newFromArray(BCLIM.IMGToBCLIM(Image32, '5'));

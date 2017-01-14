@@ -102,8 +102,9 @@
             this.label20 = new System.Windows.Forms.Label();
             this.exportSetImage = new System.Windows.Forms.Button();
             this.importSetImage = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.pixelBadgeMode = new System.Windows.Forms.CheckBox();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.badgeIdNumer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.badgeSidNumer)).BeginInit();
@@ -126,6 +127,7 @@
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.prevSetImg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -647,7 +649,7 @@
             this.exportSetImgButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.exportSetImgButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
             this.exportSetImgButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.exportSetImgButton.Location = new System.Drawing.Point(443, 397);
+            this.exportSetImgButton.Location = new System.Drawing.Point(5, 7);
             this.exportSetImgButton.Name = "exportSetImgButton";
             this.exportSetImgButton.Size = new System.Drawing.Size(121, 23);
             this.exportSetImgButton.TabIndex = 42;
@@ -662,7 +664,7 @@
             this.importSetImgButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.importSetImgButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
             this.importSetImgButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.importSetImgButton.Location = new System.Drawing.Point(571, 397);
+            this.importSetImgButton.Location = new System.Drawing.Point(133, 7);
             this.importSetImgButton.Name = "importSetImgButton";
             this.importSetImgButton.Size = new System.Drawing.Size(121, 23);
             this.importSetImgButton.TabIndex = 43;
@@ -905,7 +907,7 @@
             // prevBadgeLabel
             // 
             this.prevBadgeLabel.AutoSize = true;
-            this.prevBadgeLabel.Location = new System.Drawing.Point(279, 242);
+            this.prevBadgeLabel.Location = new System.Drawing.Point(215, 242);
             this.prevBadgeLabel.Name = "prevBadgeLabel";
             this.prevBadgeLabel.Size = new System.Drawing.Size(48, 13);
             this.prevBadgeLabel.TabIndex = 59;
@@ -1030,13 +1032,6 @@
             this.importSetImage.UseVisualStyleBackColor = true;
             this.importSetImage.Click += new System.EventHandler(this.importSetImage_Click);
             // 
-            // panel2
-            // 
-            this.panel2.Location = new System.Drawing.Point(438, 390);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(259, 37);
-            this.panel2.TabIndex = 69;
-            // 
             // pictureBox5
             // 
             this.pictureBox5.BackColor = System.Drawing.Color.White;
@@ -1046,15 +1041,32 @@
             this.pictureBox5.TabIndex = 70;
             this.pictureBox5.TabStop = false;
             // 
+            // pixelBadgeMode
+            // 
+            this.pixelBadgeMode.AutoSize = true;
+            this.pixelBadgeMode.Location = new System.Drawing.Point(284, 241);
+            this.pixelBadgeMode.Name = "pixelBadgeMode";
+            this.pixelBadgeMode.Size = new System.Drawing.Size(144, 17);
+            this.pixelBadgeMode.TabIndex = 71;
+            this.pixelBadgeMode.Text = "Pixel Badge Import Mode";
+            this.pixelBadgeMode.UseVisualStyleBackColor = true;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.exportSetImgButton);
+            this.panel2.Controls.Add(this.importSetImgButton);
+            this.panel2.Location = new System.Drawing.Point(438, 390);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(259, 37);
+            this.panel2.TabIndex = 69;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.ClientSize = new System.Drawing.Size(708, 647);
-            this.Controls.Add(this.importSetImgButton);
-            this.Controls.Add(this.exportSetImgButton);
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.pixelBadgeMode);
             this.Controls.Add(this.importSetImage);
             this.Controls.Add(this.exportSetImage);
             this.Controls.Add(this.label20);
@@ -1112,6 +1124,7 @@
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.pictureBox5);
+            this.Controls.Add(this.panel2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
@@ -1140,6 +1153,7 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.prevSetImg)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1220,8 +1234,9 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Button exportSetImage;
         private System.Windows.Forms.Button importSetImage;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.CheckBox pixelBadgeMode;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 
