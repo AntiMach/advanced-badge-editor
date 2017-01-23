@@ -40,7 +40,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.setsLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.NNIDLabel = new System.Windows.Forms.Label();
             this.createBadgeButton = new System.Windows.Forms.Button();
             this.createSetButton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -97,6 +96,8 @@
             this.prevBadgeImg32 = new System.Windows.Forms.PictureBox();
             this.exportBadgeImage = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.titleIDnumer = new System.Windows.Forms.NumericUpDown();
+            this.label22 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.prevSetImg = new System.Windows.Forms.PictureBox();
             this.label20 = new System.Windows.Forms.Label();
@@ -105,6 +106,11 @@
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pixelBadgeMode = new System.Windows.Forms.CheckBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label21 = new System.Windows.Forms.Label();
+            this.titleIDdropdown = new System.Windows.Forms.ComboBox();
+            this.regionDropdown = new System.Windows.Forms.ComboBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.NNIDnumer = new System.Windows.Forms.NumericUpDown();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.badgeIdNumer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.badgeSidNumer)).BeginInit();
@@ -125,9 +131,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.prevBadgeImg64)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.prevBadgeImg32)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.titleIDnumer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.prevSetImg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NNIDnumer)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -229,15 +237,6 @@
             this.label4.TabIndex = 7;
             this.label4.Text = "NNID:";
             // 
-            // NNIDLabel
-            // 
-            this.NNIDLabel.AutoSize = true;
-            this.NNIDLabel.Location = new System.Drawing.Point(94, 139);
-            this.NNIDLabel.Name = "NNIDLabel";
-            this.NNIDLabel.Size = new System.Drawing.Size(13, 13);
-            this.NNIDLabel.TabIndex = 8;
-            this.NNIDLabel.Text = "0";
-            // 
             // createBadgeButton
             // 
             this.createBadgeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
@@ -247,7 +246,7 @@
             this.createBadgeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.createBadgeButton.Location = new System.Drawing.Point(15, 162);
             this.createBadgeButton.Name = "createBadgeButton";
-            this.createBadgeButton.Size = new System.Drawing.Size(108, 23);
+            this.createBadgeButton.Size = new System.Drawing.Size(142, 23);
             this.createBadgeButton.TabIndex = 9;
             this.createBadgeButton.Text = "Create new badge";
             this.createBadgeButton.UseVisualStyleBackColor = false;
@@ -262,7 +261,7 @@
             this.createSetButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.createSetButton.Location = new System.Drawing.Point(15, 191);
             this.createSetButton.Name = "createSetButton";
-            this.createSetButton.Size = new System.Drawing.Size(108, 23);
+            this.createSetButton.Size = new System.Drawing.Size(142, 23);
             this.createSetButton.TabIndex = 10;
             this.createSetButton.Text = "Create new set";
             this.createSetButton.UseVisualStyleBackColor = false;
@@ -491,7 +490,7 @@
             this.badge255each.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.badge255each.Location = new System.Drawing.Point(15, 220);
             this.badge255each.Name = "badge255each";
-            this.badge255each.Size = new System.Drawing.Size(108, 23);
+            this.badge255each.Size = new System.Drawing.Size(142, 23);
             this.badge255each.TabIndex = 28;
             this.badge255each.Text = "255 of each badge";
             this.badge255each.UseVisualStyleBackColor = false;
@@ -858,7 +857,7 @@
             this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Left;
             this.pictureBox3.Location = new System.Drawing.Point(0, 0);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(1, 646);
+            this.pictureBox3.Size = new System.Drawing.Size(1, 680);
             this.pictureBox3.TabIndex = 49;
             this.pictureBox3.TabStop = false;
             // 
@@ -878,7 +877,7 @@
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Right;
             this.pictureBox2.Location = new System.Drawing.Point(707, 0);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(1, 646);
+            this.pictureBox2.Size = new System.Drawing.Size(1, 680);
             this.pictureBox2.TabIndex = 56;
             this.pictureBox2.TabStop = false;
             // 
@@ -886,7 +885,7 @@
             // 
             this.pictureBox4.BackColor = System.Drawing.Color.Silver;
             this.pictureBox4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pictureBox4.Location = new System.Drawing.Point(0, 646);
+            this.pictureBox4.Location = new System.Drawing.Point(0, 680);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(708, 1);
             this.pictureBox4.TabIndex = 57;
@@ -896,7 +895,7 @@
             // 
             this.prevBadgeImg64.BackColor = System.Drawing.Color.Gainsboro;
             this.prevBadgeImg64.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.prevBadgeImg64.Location = new System.Drawing.Point(205, 266);
+            this.prevBadgeImg64.Location = new System.Drawing.Point(205, 302);
             this.prevBadgeImg64.Margin = new System.Windows.Forms.Padding(0);
             this.prevBadgeImg64.Name = "prevBadgeImg64";
             this.prevBadgeImg64.Size = new System.Drawing.Size(68, 68);
@@ -907,7 +906,7 @@
             // prevBadgeLabel
             // 
             this.prevBadgeLabel.AutoSize = true;
-            this.prevBadgeLabel.Location = new System.Drawing.Point(215, 242);
+            this.prevBadgeLabel.Location = new System.Drawing.Point(215, 278);
             this.prevBadgeLabel.Name = "prevBadgeLabel";
             this.prevBadgeLabel.Size = new System.Drawing.Size(48, 13);
             this.prevBadgeLabel.TabIndex = 59;
@@ -919,7 +918,7 @@
             this.importBadgeImage.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.importBadgeImage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
             this.importBadgeImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.importBadgeImage.Location = new System.Drawing.Point(307, 340);
+            this.importBadgeImage.Location = new System.Drawing.Point(307, 376);
             this.importBadgeImage.Name = "importBadgeImage";
             this.importBadgeImage.Size = new System.Drawing.Size(121, 23);
             this.importBadgeImage.TabIndex = 60;
@@ -931,7 +930,7 @@
             // 
             this.prevBadgeImg32.BackColor = System.Drawing.Color.Gainsboro;
             this.prevBadgeImg32.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.prevBadgeImg32.Location = new System.Drawing.Point(333, 266);
+            this.prevBadgeImg32.Location = new System.Drawing.Point(333, 302);
             this.prevBadgeImg32.Margin = new System.Windows.Forms.Padding(0);
             this.prevBadgeImg32.Name = "prevBadgeImg32";
             this.prevBadgeImg32.Size = new System.Drawing.Size(68, 68);
@@ -945,7 +944,7 @@
             this.exportBadgeImage.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.exportBadgeImage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
             this.exportBadgeImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.exportBadgeImage.Location = new System.Drawing.Point(179, 340);
+            this.exportBadgeImage.Location = new System.Drawing.Point(179, 376);
             this.exportBadgeImage.Name = "exportBadgeImage";
             this.exportBadgeImage.Size = new System.Drawing.Size(121, 23);
             this.exportBadgeImage.TabIndex = 62;
@@ -955,6 +954,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.titleIDnumer);
+            this.panel1.Controls.Add(this.label22);
             this.panel1.Controls.Add(this.label16);
             this.panel1.Controls.Add(this.importBadgeImg);
             this.panel1.Controls.Add(this.importBadgeImg32);
@@ -968,16 +969,45 @@
             this.panel1.Controls.Add(this.fillBadgeShp32);
             this.panel1.Controls.Add(this.label17);
             this.panel1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.panel1.Location = new System.Drawing.Point(174, 390);
+            this.panel1.Location = new System.Drawing.Point(174, 426);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(259, 220);
+            this.panel1.Size = new System.Drawing.Size(259, 239);
             this.panel1.TabIndex = 63;
+            // 
+            // titleIDnumer
+            // 
+            this.titleIDnumer.Enabled = false;
+            this.titleIDnumer.Hexadecimal = true;
+            this.titleIDnumer.Increment = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.titleIDnumer.Location = new System.Drawing.Point(85, 212);
+            this.titleIDnumer.Maximum = new decimal(new int[] {
+            -1,
+            0,
+            0,
+            0});
+            this.titleIDnumer.Name = "titleIDnumer";
+            this.titleIDnumer.Size = new System.Drawing.Size(169, 20);
+            this.titleIDnumer.TabIndex = 73;
+            this.titleIDnumer.ValueChanged += new System.EventHandler(this.titleIDnumer_ValueChanged);
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(2, 216);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(73, 13);
+            this.label22.TabIndex = 73;
+            this.label22.Text = "Title Shortcut:";
             // 
             // label19
             // 
             this.label19.AutoSize = true;
             this.label19.BackColor = System.Drawing.Color.White;
-            this.label19.Location = new System.Drawing.Point(389, 370);
+            this.label19.Location = new System.Drawing.Point(389, 406);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(93, 13);
             this.label19.TabIndex = 64;
@@ -987,7 +1017,7 @@
             // 
             this.prevSetImg.BackColor = System.Drawing.Color.Gainsboro;
             this.prevSetImg.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.prevSetImg.Location = new System.Drawing.Point(533, 266);
+            this.prevSetImg.Location = new System.Drawing.Point(533, 302);
             this.prevSetImg.Margin = new System.Windows.Forms.Padding(0);
             this.prevSetImg.Name = "prevSetImg";
             this.prevSetImg.Size = new System.Drawing.Size(68, 68);
@@ -998,7 +1028,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(543, 242);
+            this.label20.Location = new System.Drawing.Point(543, 278);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(48, 13);
             this.label20.TabIndex = 66;
@@ -1010,7 +1040,7 @@
             this.exportSetImage.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.exportSetImage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
             this.exportSetImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.exportSetImage.Location = new System.Drawing.Point(443, 340);
+            this.exportSetImage.Location = new System.Drawing.Point(443, 376);
             this.exportSetImage.Name = "exportSetImage";
             this.exportSetImage.Size = new System.Drawing.Size(121, 23);
             this.exportSetImage.TabIndex = 67;
@@ -1024,7 +1054,7 @@
             this.importSetImage.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.importSetImage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
             this.importSetImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.importSetImage.Location = new System.Drawing.Point(571, 340);
+            this.importSetImage.Location = new System.Drawing.Point(571, 376);
             this.importSetImage.Name = "importSetImage";
             this.importSetImage.Size = new System.Drawing.Size(121, 23);
             this.importSetImage.TabIndex = 68;
@@ -1035,7 +1065,7 @@
             // pictureBox5
             // 
             this.pictureBox5.BackColor = System.Drawing.Color.White;
-            this.pictureBox5.Location = new System.Drawing.Point(174, 367);
+            this.pictureBox5.Location = new System.Drawing.Point(174, 403);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(523, 19);
             this.pictureBox5.TabIndex = 70;
@@ -1044,7 +1074,7 @@
             // pixelBadgeMode
             // 
             this.pixelBadgeMode.AutoSize = true;
-            this.pixelBadgeMode.Location = new System.Drawing.Point(284, 241);
+            this.pixelBadgeMode.Location = new System.Drawing.Point(284, 277);
             this.pixelBadgeMode.Name = "pixelBadgeMode";
             this.pixelBadgeMode.Size = new System.Drawing.Size(144, 17);
             this.pixelBadgeMode.TabIndex = 71;
@@ -1055,17 +1085,108 @@
             // 
             this.panel2.Controls.Add(this.exportSetImgButton);
             this.panel2.Controls.Add(this.importSetImgButton);
-            this.panel2.Location = new System.Drawing.Point(438, 390);
+            this.panel2.Location = new System.Drawing.Point(438, 426);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(259, 37);
             this.panel2.TabIndex = 69;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(176, 242);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(73, 13);
+            this.label21.TabIndex = 72;
+            this.label21.Text = "Title Shortcut:";
+            // 
+            // titleIDdropdown
+            // 
+            this.titleIDdropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.titleIDdropdown.Enabled = false;
+            this.titleIDdropdown.FormattingEnabled = true;
+            this.titleIDdropdown.Items.AddRange(new object[] {
+            "None / Unknown",
+            "System Settings",
+            "Download Play",
+            "Activity Log",
+            "Health and Safety Information",
+            "Health and Safety Information [NEW 3DS]",
+            "Nintendo 3DS Camera",
+            "Nintendo 3DS Sound",
+            "Mii Maker",
+            "StreetPass Mii Plaza",
+            "eShop",
+            "System Transfer",
+            "Nintendo Zone",
+            "Face Raiders",
+            "Face Raiders [NEW 3DS]",
+            "AR Games"});
+            this.titleIDdropdown.Location = new System.Drawing.Point(259, 238);
+            this.titleIDdropdown.Name = "titleIDdropdown";
+            this.titleIDdropdown.Size = new System.Drawing.Size(433, 21);
+            this.titleIDdropdown.TabIndex = 73;
+            this.titleIDdropdown.SelectedIndexChanged += new System.EventHandler(this.titleIDdropdown_SelectedIndexChanged);
+            // 
+            // regionDropdown
+            // 
+            this.regionDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.regionDropdown.Enabled = false;
+            this.regionDropdown.FormattingEnabled = true;
+            this.regionDropdown.Items.AddRange(new object[] {
+            "???",
+            "JPN",
+            "USA",
+            "EUR",
+            "CHN",
+            "KOR",
+            "TWN"});
+            this.regionDropdown.Location = new System.Drawing.Point(62, 250);
+            this.regionDropdown.Name = "regionDropdown";
+            this.regionDropdown.Size = new System.Drawing.Size(94, 21);
+            this.regionDropdown.TabIndex = 74;
+            this.regionDropdown.DropDown += new System.EventHandler(this.regionDropdown_DropDown);
+            this.regionDropdown.SelectedIndexChanged += new System.EventHandler(this.regionDropdown_SelectedIndexChanged);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(12, 253);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(44, 13);
+            this.label23.TabIndex = 75;
+            this.label23.Text = "Region:";
+            // 
+            // NNIDnumer
+            // 
+            this.NNIDnumer.Enabled = false;
+            this.NNIDnumer.Hexadecimal = true;
+            this.NNIDnumer.Increment = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.NNIDnumer.Location = new System.Drawing.Point(56, 136);
+            this.NNIDnumer.Maximum = new decimal(new int[] {
+            -1,
+            0,
+            0,
+            0});
+            this.NNIDnumer.Name = "NNIDnumer";
+            this.NNIDnumer.Size = new System.Drawing.Size(101, 20);
+            this.NNIDnumer.TabIndex = 76;
+            this.NNIDnumer.ValueChanged += new System.EventHandler(this.NNIDnumer_ValueChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.ClientSize = new System.Drawing.Size(708, 647);
+            this.ClientSize = new System.Drawing.Size(708, 681);
+            this.Controls.Add(this.NNIDnumer);
+            this.Controls.Add(this.label23);
+            this.Controls.Add(this.regionDropdown);
+            this.Controls.Add(this.titleIDdropdown);
+            this.Controls.Add(this.label21);
             this.Controls.Add(this.pixelBadgeMode);
             this.Controls.Add(this.importSetImage);
             this.Controls.Add(this.exportSetImage);
@@ -1109,7 +1230,6 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.createSetButton);
             this.Controls.Add(this.createBadgeButton);
-            this.Controls.Add(this.NNIDLabel);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.setsLabel);
             this.Controls.Add(this.label3);
@@ -1151,9 +1271,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.prevBadgeImg32)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.titleIDnumer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.prevSetImg)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NNIDnumer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1172,7 +1294,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label setsLabel;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label NNIDLabel;
         private System.Windows.Forms.Button createBadgeButton;
         private System.Windows.Forms.Button createSetButton;
         private System.Windows.Forms.Label label5;
@@ -1237,6 +1358,13 @@
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.CheckBox pixelBadgeMode;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.NumericUpDown titleIDnumer;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.ComboBox titleIDdropdown;
+        private System.Windows.Forms.ComboBox regionDropdown;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.NumericUpDown NNIDnumer;
     }
 }
 

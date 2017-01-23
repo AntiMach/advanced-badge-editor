@@ -20,6 +20,8 @@ namespace Advanced_badge_editor
             InitializeComponent();
             appName.Text = "Advanced badge editor";
             appIcon.Image = Properties.Resources.Advanced_badge_editor_icon;
+            titleIDdropdown.Text = "None / Unknown";
+            regionDropdown.Text = "???";
         }
         #region GUI Interaction
 
@@ -88,6 +90,7 @@ namespace Advanced_badge_editor
         uint totalBadges = 0;
         uint sets = 0;
         uint NNID = 0;
+        string region = "???";
         //
         //
         //
@@ -96,6 +99,7 @@ namespace Advanced_badge_editor
         ushort[] badgeSids = new ushort[1000];
         ushort[] badgeQuants = new ushort[1000];
         string[] badgeNames = new string[1000];
+        uint[] badgeTitleIds = new uint[1000];
         ushort[] badgeIndexs = new ushort[1000];
         byte[][] badgeImgs32 = new byte[1000][];
         byte[][] badgeShps32 = new byte[1000][];
@@ -127,12 +131,14 @@ namespace Advanced_badge_editor
             totalBadges = 0;
             sets = 0;
             NNID = 0;
+            region = "???";
 
             badgeIds = new uint[1000];
             badgeSetIds = new uint[1000];
             badgeSids = new ushort[1000];
             badgeQuants = new ushort[1000];
             badgeNames = new string[1000];
+            badgeTitleIds = new uint[1000];
             badgeIndexs = new ushort[1000];
             badgeImgs32 = new byte[1000][];
             badgeShps32 = new byte[1000][];
@@ -170,6 +176,17 @@ namespace Advanced_badge_editor
             prevBadgeImg64.Image = null;
             prevBadgeImg32.Image = null;
             prevSetImg.Image = null;
+            titleIDdropdown.Text = "None / Unknown";
+            titleIDnumer.Value = 0;
+            if (!regionDropdown.Items.Contains("???"))
+                regionDropdown.Items.Add("???");
+            regionDropdown.Text = "???";
+            regionDropdown.Items.Remove("???");
+        }
+        private void regionDropdown_DropDown(object sender, EventArgs e)
+        {
+            if (regionDropdown.Items.Contains("???"))
+                regionDropdown.Items.Remove("???");
         }
         //
         // Open data prompt:
@@ -206,6 +223,34 @@ namespace Advanced_badge_editor
                         badgeSids[i] = BitConverter.ToUInt16(data.ReadBytes(0x2), 0);
                         data.BaseStream.Position += 0x2;
                         badgeQuants[i] = BitConverter.ToUInt16(data.ReadBytes(0x2), 0);
+                        data.BaseStream.Position += 0x4;
+                        badgeTitleIds[i] = BitConverter.ToUInt32(data.ReadBytes(0x4), 0);
+                        data.BaseStream.Position -= 0x3;
+                        string _region = BitConverter.ToUInt16(data.ReadBytes(0x2), 0).ToString("X4").Substring(1, 2);
+
+                        switch (_region){
+                            case "20":
+                            case "23":
+                                region = "JPN";
+                                break;
+                            case "21":
+                            case "24":
+                                region = "USA";
+                                break;
+                            case "22":
+                            case "25":
+                                region = "EUR";
+                                break;
+                            case "26":
+                                region = "CHN";
+                                break;
+                            case "27":
+                                region = "KOR";
+                                break;
+                            case "28":
+                                region = "TWN";
+                                break;
+                        }
                     }
 
                     for (int i = 0; i < sets; i++)
@@ -258,8 +303,13 @@ namespace Advanced_badge_editor
 
                     createBadgeButton.Enabled = true;
                     createSetButton.Enabled = true;
+                    regionDropdown.Enabled = true;
+                    NNIDnumer.Enabled = true;
+
+                    NNIDnumer.Value = NNID;
 
                     updateAll();
+                    regionDropdown.Text = region;
                     setStartingNumer.Maximum = setBadgeIndexs[1];
                     saveDataToolStripMenuItem.Enabled = true;
                 }
@@ -282,7 +332,6 @@ namespace Advanced_badge_editor
             setsLabel.Text = sets.ToString();
             totalBadgesLabel.Text = totalBadges.ToString();
             uniqueBadgesLabel.Text = uniqueBadges.ToString();
-            NNIDLabel.Text = NNID.ToString();
 
             if (uniqueBadges > 0)
                 updateBadgeInfo();
@@ -313,6 +362,9 @@ namespace Advanced_badge_editor
             exportBadgeImage.Enabled = enable;
             importBadgeImage.Enabled = enable;
             badge255each.Enabled = enable;
+            titleIDdropdown.Enabled = enable;
+            titleIDnumer.Enabled = enable;
+            
         }
         public void setOptions(bool enable)
         {
@@ -335,6 +387,9 @@ namespace Advanced_badge_editor
             badgeSidNumer.Value = badgeSids[(int)selectedBadgeNumer.Value - 1];
             badgeQuantityNumer.Value = badgeQuants[(int)selectedBadgeNumer.Value - 1];
             badgeSetIdNumer.Value = badgeSetIds[(int)selectedBadgeNumer.Value - 1];
+            titleIDnumer.Value = badgeTitleIds[(int)selectedBadgeNumer.Value - 1];
+
+            updateTitleID();
 
             Badge.BADGE_IMG current;
             current.Image64 = BCLIM.newFromArray(addFooter(badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], bclim64rgb565));
@@ -374,6 +429,103 @@ namespace Advanced_badge_editor
             prevSetImg.Image = Badge.cropImage(BCLIM.getIMG(curset), new Rectangle(0, 0, 48, 48));
         }
         
+        public void updateTitleID()
+        {
+            string tidstrmain = badgeTitleIds[(int)selectedBadgeNumer.Value - 1].ToString("X8");
+            string tidstr = "None / Unknown";
+
+            switch (tidstrmain.Substring(0, 1))
+            {
+                case "0":
+                    switch (tidstrmain.Substring(5, 1))
+                    {
+                        // System Settings
+                        case "0":
+                            tidstr = "System Settings";
+                            break;
+
+                        // Download Play
+                        case "1":
+                            tidstr = "Download Play";
+                            break;
+
+                        // Activity Log
+                        case "2":
+                            tidstr = "Activity Log";
+                            break;
+
+                        // Health and Safety Information
+                        case "3":
+                            tidstr = "Health and Safety Information";
+                            break;
+
+                        // Nintendo 3DS Camera
+                        case "4":
+                            tidstr = "Nintendo 3DS Camera";
+                            break;
+
+                        // Nintendo 3DS Sound
+                        case "5":
+                            tidstr = "Nintendo 3DS Sound";
+                            break;
+
+                        // Mii Maker
+                        case "7":
+                            tidstr = "Mii Maker";
+                            break;
+
+                        // StreetPass Mii Plaza
+                        case "8":
+                            tidstr = "StreetPass Mii Plaza";
+                            break;
+
+                        // eShop
+                        case "9":
+                            tidstr = "eShop";
+                            break;
+
+                        // System Transfer
+                        case "A":
+                            tidstr = "System Transfer";
+                            break;
+
+                        // Nintendo Zone
+                        case "B":
+                            tidstr = "Nintendo Zone";
+                            break;
+
+                        // Face Raiders
+                        case "D":
+                            tidstr = "Face Raiders";
+                            break;
+
+                        // AR Games
+                        case "E":
+                            tidstr = "AR Games";
+                            break;
+                    }
+
+                    break;
+
+                // New 3DS apps only
+                case "2":
+                    switch (tidstrmain.Substring(5, 1))
+                    {
+                        // Health and Safety Information [NEW 3DS]
+                        case "3":
+                            tidstr = "Health and Safety Information [NEW 3DS]";
+                            break;
+
+                        // Face Raiders [NEW 3DS]
+                        case "D":
+                            tidstr = "Face Raiders [NEW 3DS]";
+                            break;
+                    }
+
+                    break;
+            }
+            titleIDdropdown.Text = tidstr;
+        }
         public byte[] addFooter(byte[] bclim, byte[] footer)
         {
             byte[] output = new byte[bclim.Length + footer.Length];
@@ -441,6 +593,7 @@ namespace Advanced_badge_editor
                 data.Write(uniqueBadges);
                 data.BaseStream.Position = 0x18;
                 data.Write(totalBadges);
+                data.Write(NNID);
 
                 for (int i = 0; i < uniqueBadges; i++)
                 {
@@ -451,6 +604,10 @@ namespace Advanced_badge_editor
                     data.Write(badgeSids[i]);
                     data.BaseStream.Position += 0x2;
                     data.Write(badgeQuants[i]);
+                    data.BaseStream.Position += 0x4;
+                    data.Write(badgeTitleIds[i]);
+                    data.BaseStream.Position += 0x4;
+                    data.Write(badgeTitleIds[i]);
                 }
                 for (int i = 0; i < sets; i++)
                 {
@@ -860,7 +1017,6 @@ namespace Advanced_badge_editor
                 }
             }
         }
-
         private void exportBadgeImage_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog
@@ -881,7 +1037,6 @@ namespace Advanced_badge_editor
                 Badge.BADGEtoBMP(current)[0].Save(sfd.FileName);
             }
         }
-
         private void importSetImage_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog
@@ -912,7 +1067,6 @@ namespace Advanced_badge_editor
                 }
             }
         }
-
         private void exportSetImage_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog
@@ -928,6 +1082,211 @@ namespace Advanced_badge_editor
 
                 Badge.cropImage(BCLIM.getIMG(set), new Rectangle(0, 0, 48, 48)).Save(sfd.FileName);
             }
+        }
+
+        private void titleIDnumer_ValueChanged(object sender, EventArgs e)
+        {
+            updateTitleID();
+        }
+
+        public uint getTitleID(int index)
+        {
+            string rgn = "F";
+            string titleIDstr = "FFFFFFFF";
+            switch (region)
+            {
+                case "JPN":
+                    rgn = "0";
+                    break;
+                case "USA":
+                    rgn = "1";
+                    break;
+                case "EUR":
+                    rgn = "2";
+                    break;
+                case "CHN":
+                    rgn = "6";
+                    break;
+                case "KOR":
+                    rgn = "7";
+                    break;
+                case "TWN":
+                    rgn = "8";
+                    break;
+            }
+            if (rgn != "F")
+            {
+                switch (index)
+                {
+                    // 0 1 2 3
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                        titleIDstr = "0002" + rgn + (index - 1).ToString("X") + "00";
+                        break;
+                    // 3
+                    case 5:
+                        if (rgn != "6" || rgn != "8")
+                            titleIDstr = "2002" + rgn + "300";
+                        break;
+                    // 4 5
+                    case 6:
+                    case 7:
+                        titleIDstr = "0002" + rgn + (index - 2).ToString("X") + "00";
+                        break;
+                    // 7 8
+                    case 8:
+                    case 9:
+                        titleIDstr = "0002" + rgn + (index - 1).ToString("X") + "00";
+                        break;
+                    // 9 A
+                    case 10:
+                    case 11:
+                        if (rgn != "6")
+                            titleIDstr = "0002" + rgn + (index - 1).ToString("X") + "00";
+                        break;
+                    // B
+                    case 12:
+                        if (rgn != "6" || rgn != "7" || rgn != "8")
+                            titleIDstr = "0002" + rgn + (index - 1).ToString("X") + "00";
+                        break;
+                    // D
+                    case 13:
+                        titleIDstr = "0002" + rgn + "D00";
+                        break;
+                    // D
+                    case 14:
+                        if (rgn != "6" || rgn != "8")
+                            titleIDstr = "2002" + rgn + "D00";
+                        break;
+                    // E
+                    case 15:
+                        titleIDstr = "0002" + rgn + "E00";
+                        break;
+                }
+            }
+            return Convert.ToUInt32(titleIDstr, 16);
+        }
+        public int getTitleIndex(string title)
+        {
+            string tidstrmain = title;
+            int tidstr = 0;
+
+            switch (tidstrmain.Substring(0, 1))
+            {
+                case "0":
+                    switch (tidstrmain.Substring(5, 1))
+                    {
+                        // System Settings
+                        case "0":
+                            tidstr = 1;
+                            break;
+
+                        // Download Play
+                        case "1":
+                            tidstr = 2;
+                            break;
+
+                        // Activity Log
+                        case "2":
+                            tidstr = 3;
+                            break;
+
+                        // Health and Safety Information
+                        case "3":
+                            tidstr = 4;
+                            break;
+
+                        // Nintendo 3DS Camera
+                        case "4":
+                            tidstr = 6;
+                            break;
+
+                        // Nintendo 3DS Sound
+                        case "5":
+                            tidstr = 7;
+                            break;
+
+                        // Mii Maker
+                        case "7":
+                            tidstr = 8;
+                            break;
+
+                        // StreetPass Mii Plaza
+                        case "8":
+                            tidstr = 9;
+                            break;
+
+                        // eShop
+                        case "9":
+                            tidstr = 10;
+                            break;
+
+                        // System Transfer
+                        case "A":
+                            tidstr = 11;
+                            break;
+
+                        // Nintendo Zone
+                        case "B":
+                            tidstr = 12;
+                            break;
+
+                        // Face Raiders
+                        case "D":
+                            tidstr = 13;
+                            break;
+
+                        // AR Games
+                        case "E":
+                            tidstr = 15;
+                            break;
+                    }
+
+                    break;
+
+                // New 3DS apps only
+                case "2":
+                    switch (tidstrmain.Substring(5, 1))
+                    {
+                        // Health and Safety Information [NEW 3DS]
+                        case "3":
+                            tidstr = 5;
+                            break;
+
+                        // Face Raiders [NEW 3DS]
+                        case "D":
+                            tidstr = 14;
+                            break;
+                    }
+
+                    break;
+            }
+            return tidstr;
+        }
+
+        private void titleIDdropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            badgeTitleIds[(int)selectedBadgeNumer.Value - 1] = getTitleID(titleIDdropdown.SelectedIndex);
+            updateAll();
+        }
+
+        private void regionDropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            region = regionDropdown.Text;
+            for (int i = 0; i < uniqueBadges; i++)
+            {
+                if (badgeTitleIds[i] != 0xFFFFFFFF)
+                    badgeTitleIds[i] = getTitleID(getTitleIndex(badgeTitleIds[i].ToString("X8")));
+            }
+
+            updateAll();
+        }
+
+        private void NNIDnumer_ValueChanged(object sender, EventArgs e)
+        {
+            NNID = (uint)NNIDnumer.Value;
         }
     }
 }
