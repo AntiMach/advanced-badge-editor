@@ -91,6 +91,100 @@ namespace Advanced_badge_editor
         uint sets = 0;
         uint NNID = 0;
         string region = "???";
+
+        bool dropdownUpdate = true;
+
+        #region systemApps
+        string[] systemApps = new string[] {
+            //JPN
+            "00020000",
+            "00020100",
+            "00020200",
+            "00020300",
+            "20020300",
+            "00020400",
+            "00020500",
+            "00020700",
+            "00020800",
+            "00020900",
+            "00020A00",
+            "00020B00",
+            "00020D00",
+            "20020D00",
+            "00020E00",
+            //USA
+            "00021000",
+            "00021100",
+            "00021200",
+            "00021300",
+            "20021300",
+            "00021400",
+            "00021500",
+            "00021700",
+            "00021800",
+            "00021900",
+            "00021A00",
+            "00021B00",
+            "00021D00",
+            "20021D00",
+            "00021E00",
+            //EUR
+            "00022000",
+            "00022100",
+            "00022200",
+            "00022300",
+            "20022300",
+            "00022400",
+            "00022500",
+            "00022700",
+            "00022800",
+            "00022900",
+            "00022A00",
+            "00022B00",
+            "00022D00",
+            "20022D00",
+            "00022E00",
+            //CHN
+            "00026000",
+            "00026100",
+            "00026200",
+            "00026300",
+            "00026400",
+            "00026500",
+            "00026700",
+            "00026800",
+            "00026D00",
+            "00026E00",
+            //KOR
+            "00027000",
+            "00027100",
+            "00027200",
+            "00027300",
+            "20027300",
+            "00027400",
+            "00027500",
+            "00027700",
+            "00027800",
+            "00027900",
+            "00027A00",
+            "00027D00",
+            "20027D00",
+            "00027E00",
+            // TWN
+            "00028000",
+            "00028100",
+            "00028200",
+            "00028300",
+            "00028400",
+            "00028500",
+            "00028700",
+            "00028800",
+            "00028900",
+            "00028A00",
+            "00028D00",
+            "00028E00",
+            };
+        #endregion
         //
         //
         //
@@ -100,6 +194,7 @@ namespace Advanced_badge_editor
         ushort[] badgeQuants = new ushort[1000];
         string[] badgeNames = new string[1000];
         uint[] badgeTitleIds = new uint[1000];
+        uint[] badgeHighIds = new uint[1000];
         ushort[] badgeIndexs = new ushort[1000];
         byte[][] badgeImgs32 = new byte[1000][];
         byte[][] badgeShps32 = new byte[1000][];
@@ -225,31 +320,33 @@ namespace Advanced_badge_editor
                         badgeQuants[i] = BitConverter.ToUInt16(data.ReadBytes(0x2), 0);
                         data.BaseStream.Position += 0x4;
                         badgeTitleIds[i] = BitConverter.ToUInt32(data.ReadBytes(0x4), 0);
-                        data.BaseStream.Position -= 0x3;
-                        string _region = BitConverter.ToUInt16(data.ReadBytes(0x2), 0).ToString("X4").Substring(1, 2);
+                        badgeHighIds[i] = BitConverter.ToUInt32(data.ReadBytes(0x4), 0);
+                        data.BaseStream.Position -= 0x8;
+                        string _region = badgeTitleIds[i].ToString("X8").Substring(3, 1);
 
-                        switch (_region){
-                            case "20":
-                            case "23":
-                                region = "JPN";
-                                break;
-                            case "21":
-                            case "24":
-                                region = "USA";
-                                break;
-                            case "22":
-                            case "25":
-                                region = "EUR";
-                                break;
-                            case "26":
-                                region = "CHN";
-                                break;
-                            case "27":
-                                region = "KOR";
-                                break;
-                            case "28":
-                                region = "TWN";
-                                break;
+                        if (systemApps.Contains(badgeTitleIds[i].ToString("X8")) && badgeHighIds[i] == 0x00040010)
+                        {
+                            switch (_region)
+                            {
+                                case "0":
+                                    region = "JPN";
+                                    break;
+                                case "1":
+                                    region = "USA";
+                                    break;
+                                case "2":
+                                    region = "EUR";
+                                    break;
+                                case "6":
+                                    region = "CHN";
+                                    break;
+                                case "7":
+                                    region = "KOR";
+                                    break;
+                                case "8":
+                                    region = "TWN";
+                                    break;
+                            }
                         }
                     }
 
@@ -364,7 +461,7 @@ namespace Advanced_badge_editor
             badge255each.Enabled = enable;
             titleIDdropdown.Enabled = enable;
             titleIDnumer.Enabled = enable;
-            
+            titleHighNumer.Enabled = enable;
         }
         public void setOptions(bool enable)
         {
@@ -388,6 +485,7 @@ namespace Advanced_badge_editor
             badgeQuantityNumer.Value = badgeQuants[(int)selectedBadgeNumer.Value - 1];
             badgeSetIdNumer.Value = badgeSetIds[(int)selectedBadgeNumer.Value - 1];
             titleIDnumer.Value = badgeTitleIds[(int)selectedBadgeNumer.Value - 1];
+            titleHighNumer.Value = badgeHighIds[(int)selectedBadgeNumer.Value - 1];
 
             updateTitleID();
 
@@ -434,97 +532,102 @@ namespace Advanced_badge_editor
             string tidstrmain = badgeTitleIds[(int)selectedBadgeNumer.Value - 1].ToString("X8");
             string tidstr = "None / Unknown";
 
-            switch (tidstrmain.Substring(0, 1))
+            if (systemApps.Contains(tidstrmain) && badgeHighIds[(int)selectedBadgeNumer.Value - 1] == 0x00040010)
             {
-                case "0":
-                    switch (tidstrmain.Substring(5, 1))
-                    {
-                        // System Settings
-                        case "0":
-                            tidstr = "System Settings";
-                            break;
+                switch (tidstrmain.Substring(0, 1))
+                {
+                    case "0":
+                        switch (tidstrmain.Substring(5, 1))
+                        {
+                            // System Settings
+                            case "0":
+                                tidstr = "System Settings";
+                                break;
 
-                        // Download Play
-                        case "1":
-                            tidstr = "Download Play";
-                            break;
+                            // Download Play
+                            case "1":
+                                tidstr = "Download Play";
+                                break;
 
-                        // Activity Log
-                        case "2":
-                            tidstr = "Activity Log";
-                            break;
+                            // Activity Log
+                            case "2":
+                                tidstr = "Activity Log";
+                                break;
 
-                        // Health and Safety Information
-                        case "3":
-                            tidstr = "Health and Safety Information";
-                            break;
+                            // Health and Safety Information
+                            case "3":
+                                tidstr = "Health and Safety Information";
+                                break;
 
-                        // Nintendo 3DS Camera
-                        case "4":
-                            tidstr = "Nintendo 3DS Camera";
-                            break;
+                            // Nintendo 3DS Camera
+                            case "4":
+                                tidstr = "Nintendo 3DS Camera";
+                                break;
 
-                        // Nintendo 3DS Sound
-                        case "5":
-                            tidstr = "Nintendo 3DS Sound";
-                            break;
+                            // Nintendo 3DS Sound
+                            case "5":
+                                tidstr = "Nintendo 3DS Sound";
+                                break;
 
-                        // Mii Maker
-                        case "7":
-                            tidstr = "Mii Maker";
-                            break;
+                            // Mii Maker
+                            case "7":
+                                tidstr = "Mii Maker";
+                                break;
 
-                        // StreetPass Mii Plaza
-                        case "8":
-                            tidstr = "StreetPass Mii Plaza";
-                            break;
+                            // StreetPass Mii Plaza
+                            case "8":
+                                tidstr = "StreetPass Mii Plaza";
+                                break;
 
-                        // eShop
-                        case "9":
-                            tidstr = "eShop";
-                            break;
+                            // eShop
+                            case "9":
+                                tidstr = "eShop";
+                                break;
 
-                        // System Transfer
-                        case "A":
-                            tidstr = "System Transfer";
-                            break;
+                            // System Transfer
+                            case "A":
+                                tidstr = "System Transfer";
+                                break;
 
-                        // Nintendo Zone
-                        case "B":
-                            tidstr = "Nintendo Zone";
-                            break;
+                            // Nintendo Zone
+                            case "B":
+                                tidstr = "Nintendo Zone";
+                                break;
 
-                        // Face Raiders
-                        case "D":
-                            tidstr = "Face Raiders";
-                            break;
+                            // Face Raiders
+                            case "D":
+                                tidstr = "Face Raiders";
+                                break;
 
-                        // AR Games
-                        case "E":
-                            tidstr = "AR Games";
-                            break;
-                    }
+                            // AR Games
+                            case "E":
+                                tidstr = "AR Games";
+                                break;
+                        }
 
-                    break;
+                        break;
 
-                // New 3DS apps only
-                case "2":
-                    switch (tidstrmain.Substring(5, 1))
-                    {
-                        // Health and Safety Information [NEW 3DS]
-                        case "3":
-                            tidstr = "Health and Safety Information [NEW 3DS]";
-                            break;
+                    // New 3DS apps only
+                    case "2":
+                        switch (tidstrmain.Substring(5, 1))
+                        {
+                            // Health and Safety Information [NEW 3DS]
+                            case "3":
+                                tidstr = "Health and Safety Information [NEW 3DS]";
+                                break;
 
-                        // Face Raiders [NEW 3DS]
-                        case "D":
-                            tidstr = "Face Raiders [NEW 3DS]";
-                            break;
-                    }
+                            // Face Raiders [NEW 3DS]
+                            case "D":
+                                tidstr = "Face Raiders [NEW 3DS]";
+                                break;
+                        }
 
-                    break;
+                        break;
+                }
             }
+            dropdownUpdate = false;
             titleIDdropdown.Text = tidstr;
+            dropdownUpdate = true;
         }
         public byte[] addFooter(byte[] bclim, byte[] footer)
         {
@@ -606,8 +709,9 @@ namespace Advanced_badge_editor
                     data.Write(badgeQuants[i]);
                     data.BaseStream.Position += 0x4;
                     data.Write(badgeTitleIds[i]);
-                    data.BaseStream.Position += 0x4;
+                    data.Write(badgeHighIds[i]);
                     data.Write(badgeTitleIds[i]);
+                    data.Write(badgeHighIds[i]);
                 }
                 for (int i = 0; i < sets; i++)
                 {
@@ -684,6 +788,8 @@ namespace Advanced_badge_editor
                 badgeQuants[uniqueBadges - 1] = 1;
                 badgeNames[uniqueBadges - 1] = "New badge";
                 badgeIndexs[uniqueBadges - 1] = (ushort)(uniqueBadges - 1);
+                badgeTitleIds[uniqueBadges - 1] = 0xFFFFFFFF;
+                badgeHighIds[uniqueBadges - 1] = 0xFFFFFFFF;
 
                 badgeImgs64[uniqueBadges - 1] = new byte[0x2000];
                 badgeShps64[uniqueBadges - 1] = new byte[0x800];
@@ -971,7 +1077,9 @@ namespace Advanced_badge_editor
             }
             return false;
         }
-
+        //
+        // Other stuff
+        //
         private void importBadgeImage_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog
@@ -1084,8 +1192,45 @@ namespace Advanced_badge_editor
             }
         }
 
+        private void NNIDnumer_ValueChanged(object sender, EventArgs e)
+        {
+            NNID = (uint)NNIDnumer.Value;
+        }
+
+        
+        private void titleIDdropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (dropdownUpdate)
+            {
+                badgeTitleIds[(int)selectedBadgeNumer.Value - 1] = getTitleID(titleIDdropdown.SelectedIndex);
+                if (titleIDdropdown.SelectedIndex != 0)
+                    badgeHighIds[(int)selectedBadgeNumer.Value - 1] = 0x00040010;
+                else
+                    badgeHighIds[(int)selectedBadgeNumer.Value - 1] = 0xFFFFFFFF;
+            }
+                
+            updateAll();
+        }
+        private void regionDropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            region = regionDropdown.Text;
+            for (int i = 0; i < uniqueBadges; i++)
+            {
+                if (systemApps.Contains(badgeTitleIds[i].ToString("X8")))
+                    badgeTitleIds[i] = getTitleID(getTitleIndex(badgeTitleIds[i].ToString("X8")));
+            }
+
+            updateAll();
+        }
+
         private void titleIDnumer_ValueChanged(object sender, EventArgs e)
         {
+            badgeTitleIds[(int)selectedBadgeNumer.Value - 1] = (uint)titleIDnumer.Value;
+            updateTitleID();
+        }
+        private void titleHighNumer_ValueChanged(object sender, EventArgs e)
+        {
+            badgeHighIds[(int)selectedBadgeNumer.Value - 1] = (uint)titleHighNumer.Value;
             updateTitleID();
         }
 
@@ -1264,29 +1409,6 @@ namespace Advanced_badge_editor
                     break;
             }
             return tidstr;
-        }
-
-        private void titleIDdropdown_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            badgeTitleIds[(int)selectedBadgeNumer.Value - 1] = getTitleID(titleIDdropdown.SelectedIndex);
-            updateAll();
-        }
-
-        private void regionDropdown_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            region = regionDropdown.Text;
-            for (int i = 0; i < uniqueBadges; i++)
-            {
-                if (badgeTitleIds[i] != 0xFFFFFFFF)
-                    badgeTitleIds[i] = getTitleID(getTitleIndex(badgeTitleIds[i].ToString("X8")));
-            }
-
-            updateAll();
-        }
-
-        private void NNIDnumer_ValueChanged(object sender, EventArgs e)
-        {
-            NNID = (uint)NNIDnumer.Value;
         }
     }
 }

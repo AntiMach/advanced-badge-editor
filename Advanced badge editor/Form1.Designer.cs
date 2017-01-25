@@ -111,6 +111,8 @@
             this.regionDropdown = new System.Windows.Forms.ComboBox();
             this.label23 = new System.Windows.Forms.Label();
             this.NNIDnumer = new System.Windows.Forms.NumericUpDown();
+            this.titleHighNumer = new System.Windows.Forms.NumericUpDown();
+            this.label24 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.badgeIdNumer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.badgeSidNumer)).BeginInit();
@@ -136,6 +138,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NNIDnumer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.titleHighNumer)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -857,7 +860,7 @@
             this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Left;
             this.pictureBox3.Location = new System.Drawing.Point(0, 0);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(1, 680);
+            this.pictureBox3.Size = new System.Drawing.Size(1, 703);
             this.pictureBox3.TabIndex = 49;
             this.pictureBox3.TabStop = false;
             // 
@@ -877,7 +880,7 @@
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Right;
             this.pictureBox2.Location = new System.Drawing.Point(707, 0);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(1, 680);
+            this.pictureBox2.Size = new System.Drawing.Size(1, 703);
             this.pictureBox2.TabIndex = 56;
             this.pictureBox2.TabStop = false;
             // 
@@ -885,7 +888,7 @@
             // 
             this.pictureBox4.BackColor = System.Drawing.Color.Silver;
             this.pictureBox4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pictureBox4.Location = new System.Drawing.Point(0, 680);
+            this.pictureBox4.Location = new System.Drawing.Point(0, 703);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(708, 1);
             this.pictureBox4.TabIndex = 57;
@@ -954,6 +957,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.titleHighNumer);
+            this.panel1.Controls.Add(this.label24);
             this.panel1.Controls.Add(this.titleIDnumer);
             this.panel1.Controls.Add(this.label22);
             this.panel1.Controls.Add(this.label16);
@@ -971,7 +976,7 @@
             this.panel1.Cursor = System.Windows.Forms.Cursors.Default;
             this.panel1.Location = new System.Drawing.Point(174, 426);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(259, 239);
+            this.panel1.Size = new System.Drawing.Size(259, 262);
             this.panel1.TabIndex = 63;
             // 
             // titleIDnumer
@@ -983,14 +988,14 @@
             0,
             0,
             0});
-            this.titleIDnumer.Location = new System.Drawing.Point(85, 212);
+            this.titleIDnumer.Location = new System.Drawing.Point(133, 212);
             this.titleIDnumer.Maximum = new decimal(new int[] {
             -1,
             0,
             0,
             0});
             this.titleIDnumer.Name = "titleIDnumer";
-            this.titleIDnumer.Size = new System.Drawing.Size(169, 20);
+            this.titleIDnumer.Size = new System.Drawing.Size(121, 20);
             this.titleIDnumer.TabIndex = 73;
             this.titleIDnumer.ValueChanged += new System.EventHandler(this.titleIDnumer_ValueChanged);
             // 
@@ -999,9 +1004,9 @@
             this.label22.AutoSize = true;
             this.label22.Location = new System.Drawing.Point(2, 216);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(73, 13);
+            this.label22.Size = new System.Drawing.Size(116, 13);
             this.label22.TabIndex = 73;
-            this.label22.Text = "Title Shortcut:";
+            this.label22.Text = "Title Shortcut (Low ID):";
             // 
             // label19
             // 
@@ -1176,12 +1181,41 @@
             this.NNIDnumer.TabIndex = 76;
             this.NNIDnumer.ValueChanged += new System.EventHandler(this.NNIDnumer_ValueChanged);
             // 
+            // titleHighNumer
+            // 
+            this.titleHighNumer.Enabled = false;
+            this.titleHighNumer.Hexadecimal = true;
+            this.titleHighNumer.Increment = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.titleHighNumer.Location = new System.Drawing.Point(133, 235);
+            this.titleHighNumer.Maximum = new decimal(new int[] {
+            -1,
+            0,
+            0,
+            0});
+            this.titleHighNumer.Name = "titleHighNumer";
+            this.titleHighNumer.Size = new System.Drawing.Size(121, 20);
+            this.titleHighNumer.TabIndex = 74;
+            this.titleHighNumer.ValueChanged += new System.EventHandler(this.titleHighNumer_ValueChanged);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(2, 239);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(118, 13);
+            this.label24.TabIndex = 75;
+            this.label24.Text = "Title Shortcut (High ID):";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.ClientSize = new System.Drawing.Size(708, 681);
+            this.ClientSize = new System.Drawing.Size(708, 704);
             this.Controls.Add(this.NNIDnumer);
             this.Controls.Add(this.label23);
             this.Controls.Add(this.regionDropdown);
@@ -1276,6 +1310,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NNIDnumer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.titleHighNumer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1365,6 +1400,8 @@
         private System.Windows.Forms.ComboBox regionDropdown;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.NumericUpDown NNIDnumer;
+        private System.Windows.Forms.NumericUpDown titleHighNumer;
+        private System.Windows.Forms.Label label24;
     }
 }
 
