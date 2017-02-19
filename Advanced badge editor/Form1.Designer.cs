@@ -96,6 +96,8 @@
             this.prevBadgeImg32 = new System.Windows.Forms.PictureBox();
             this.exportBadgeImage = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.titleHighNumer = new System.Windows.Forms.NumericUpDown();
+            this.label24 = new System.Windows.Forms.Label();
             this.titleIDnumer = new System.Windows.Forms.NumericUpDown();
             this.label22 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -111,8 +113,9 @@
             this.regionDropdown = new System.Windows.Forms.ComboBox();
             this.label23 = new System.Windows.Forms.Label();
             this.NNIDnumer = new System.Windows.Forms.NumericUpDown();
-            this.titleHighNumer = new System.Windows.Forms.NumericUpDown();
-            this.label24 = new System.Windows.Forms.Label();
+            this.delBadge = new System.Windows.Forms.Button();
+            this.delSet = new System.Windows.Forms.Button();
+            this.delAll = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.badgeIdNumer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.badgeSidNumer)).BeginInit();
@@ -133,12 +136,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.prevBadgeImg64)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.prevBadgeImg32)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.titleHighNumer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.titleIDnumer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.prevSetImg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NNIDnumer)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.titleHighNumer)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -979,6 +982,35 @@
             this.panel1.Size = new System.Drawing.Size(259, 262);
             this.panel1.TabIndex = 63;
             // 
+            // titleHighNumer
+            // 
+            this.titleHighNumer.Enabled = false;
+            this.titleHighNumer.Hexadecimal = true;
+            this.titleHighNumer.Increment = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.titleHighNumer.Location = new System.Drawing.Point(133, 235);
+            this.titleHighNumer.Maximum = new decimal(new int[] {
+            -1,
+            0,
+            0,
+            0});
+            this.titleHighNumer.Name = "titleHighNumer";
+            this.titleHighNumer.Size = new System.Drawing.Size(121, 20);
+            this.titleHighNumer.TabIndex = 74;
+            this.titleHighNumer.ValueChanged += new System.EventHandler(this.titleHighNumer_ValueChanged);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(2, 239);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(118, 13);
+            this.label24.TabIndex = 75;
+            this.label24.Text = "Title Shortcut (High ID):";
+            // 
             // titleIDnumer
             // 
             this.titleIDnumer.Enabled = false;
@@ -1181,34 +1213,50 @@
             this.NNIDnumer.TabIndex = 76;
             this.NNIDnumer.ValueChanged += new System.EventHandler(this.NNIDnumer_ValueChanged);
             // 
-            // titleHighNumer
+            // delBadge
             // 
-            this.titleHighNumer.Enabled = false;
-            this.titleHighNumer.Hexadecimal = true;
-            this.titleHighNumer.Increment = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.titleHighNumer.Location = new System.Drawing.Point(133, 235);
-            this.titleHighNumer.Maximum = new decimal(new int[] {
-            -1,
-            0,
-            0,
-            0});
-            this.titleHighNumer.Name = "titleHighNumer";
-            this.titleHighNumer.Size = new System.Drawing.Size(121, 20);
-            this.titleHighNumer.TabIndex = 74;
-            this.titleHighNumer.ValueChanged += new System.EventHandler(this.titleHighNumer_ValueChanged);
+            this.delBadge.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.delBadge.Enabled = false;
+            this.delBadge.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.delBadge.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.delBadge.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.delBadge.Location = new System.Drawing.Point(15, 278);
+            this.delBadge.Name = "delBadge";
+            this.delBadge.Size = new System.Drawing.Size(142, 23);
+            this.delBadge.TabIndex = 77;
+            this.delBadge.Text = "Delete current badge";
+            this.delBadge.UseVisualStyleBackColor = false;
+            this.delBadge.Click += new System.EventHandler(this.delBadge_Click);
             // 
-            // label24
+            // delSet
             // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(2, 239);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(118, 13);
-            this.label24.TabIndex = 75;
-            this.label24.Text = "Title Shortcut (High ID):";
+            this.delSet.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.delSet.Enabled = false;
+            this.delSet.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.delSet.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.delSet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.delSet.Location = new System.Drawing.Point(15, 307);
+            this.delSet.Name = "delSet";
+            this.delSet.Size = new System.Drawing.Size(142, 23);
+            this.delSet.TabIndex = 78;
+            this.delSet.Text = "Delete current set";
+            this.delSet.UseVisualStyleBackColor = false;
+            this.delSet.Click += new System.EventHandler(this.delSet_Click);
+            // 
+            // delAll
+            // 
+            this.delAll.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.delAll.Enabled = false;
+            this.delAll.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.delAll.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.delAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.delAll.Location = new System.Drawing.Point(15, 336);
+            this.delAll.Name = "delAll";
+            this.delAll.Size = new System.Drawing.Size(142, 23);
+            this.delAll.TabIndex = 79;
+            this.delAll.Text = "Delete everything";
+            this.delAll.UseVisualStyleBackColor = false;
+            this.delAll.Click += new System.EventHandler(this.delAll_Click);
             // 
             // Form1
             // 
@@ -1216,6 +1264,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.ClientSize = new System.Drawing.Size(708, 704);
+            this.Controls.Add(this.delAll);
+            this.Controls.Add(this.delSet);
+            this.Controls.Add(this.delBadge);
             this.Controls.Add(this.NNIDnumer);
             this.Controls.Add(this.label23);
             this.Controls.Add(this.regionDropdown);
@@ -1305,12 +1356,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.prevBadgeImg32)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.titleHighNumer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.titleIDnumer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.prevSetImg)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NNIDnumer)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.titleHighNumer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1402,6 +1453,9 @@
         private System.Windows.Forms.NumericUpDown NNIDnumer;
         private System.Windows.Forms.NumericUpDown titleHighNumer;
         private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Button delBadge;
+        private System.Windows.Forms.Button delSet;
+        private System.Windows.Forms.Button delAll;
     }
 }
 

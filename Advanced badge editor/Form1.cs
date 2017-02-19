@@ -362,7 +362,7 @@ namespace Advanced_badge_editor
                     }
 
                     data = new BinaryReader(badgeData.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None));
-                    
+
                     for (int i = 0; i < uniqueBadges; i++)
                     {
                         data.BaseStream.Position = i * 0x8A0 + 0x35E80;
@@ -402,6 +402,7 @@ namespace Advanced_badge_editor
                     createSetButton.Enabled = true;
                     regionDropdown.Enabled = true;
                     NNIDnumer.Enabled = true;
+                    delAll.Enabled = true;
 
                     NNIDnumer.Value = NNID;
 
@@ -426,14 +427,31 @@ namespace Advanced_badge_editor
             {
                 totalBadges += i;
             }
+            if (uniqueBadges > 0) selectedBadgeNumer.Maximum = uniqueBadges;
+            if (sets > 0) selectSetNumer.Maximum = sets;
             setsLabel.Text = sets.ToString();
             totalBadgesLabel.Text = totalBadges.ToString();
             uniqueBadgesLabel.Text = uniqueBadges.ToString();
 
             if (uniqueBadges > 0)
+            {
+                badgeOptions(true);
                 updateBadgeInfo();
+            }
+            else
+            {
+                badgeOptions(false);
+            }
+
             if (sets > 0)
+            {
+                setOptions(true);
                 updateSetInfo();
+            }
+            else
+            {
+                setOptions(false);
+            }
         }
         //
         // Enable/disable badge editing options
@@ -462,6 +480,7 @@ namespace Advanced_badge_editor
             titleIDdropdown.Enabled = enable;
             titleIDnumer.Enabled = enable;
             titleHighNumer.Enabled = enable;
+            delBadge.Enabled = enable;
         }
         public void setOptions(bool enable)
         {
@@ -473,6 +492,7 @@ namespace Advanced_badge_editor
             importSetImgButton.Enabled = enable;
             exportSetImage.Enabled = enable;
             importSetImage.Enabled = enable;
+            delSet.Enabled = enable;
         }
         //
         // Update the information about the currently selected badge or the currently selected set
@@ -526,7 +546,165 @@ namespace Advanced_badge_editor
             curset = BCLIM.newFromArray(addFooter(setImgs[setIndexs[(int)selectSetNumer.Value - 1]], bclim64rgb565));
             prevSetImg.Image = Badge.cropImage(BCLIM.getIMG(curset), new Rectangle(0, 0, 48, 48));
         }
-        
+
+        public void deleteBadge() {
+            int badgeSet = (int)sets - 1;
+            if (badgeSet < 0) { badgeSet = 0; }
+            for (int i = 0; i < sets; i++)
+            {
+                if (badgeIndexs[(int)selectedBadgeNumer.Value - 1] >= setBadgeIndexs[i] && badgeIndexs[(int)selectedBadgeNumer.Value - 1] < setBadgeIndexs[i + 1])
+                {
+                    badgeSet = i;
+                }
+            }
+            int badgeIndex = badgeIndexs[(int)selectedBadgeNumer.Value - 1];
+
+            badgeIds = removeIndex(badgeIds, (int)selectedBadgeNumer.Value - 1);
+            badgeSetIds = removeIndex(badgeSetIds, (int)selectedBadgeNumer.Value - 1);
+            badgeSids = removeIndex(badgeSids, (int)selectedBadgeNumer.Value - 1);
+            badgeQuants = removeIndex(badgeQuants, (int)selectedBadgeNumer.Value - 1);
+            badgeNames = removeIndex(badgeNames, badgeIndexs[(int)selectedBadgeNumer.Value - 1]);
+            badgeTitleIds = removeIndex(badgeTitleIds, (int)selectedBadgeNumer.Value - 1);
+            badgeHighIds = removeIndex(badgeHighIds, (int)selectedBadgeNumer.Value - 1);
+            badgeImgs32 = removeIndex(badgeImgs32, badgeIndexs[(int)selectedBadgeNumer.Value - 1]);
+            badgeShps32 = removeIndex(badgeShps32, badgeIndexs[(int)selectedBadgeNumer.Value - 1]);
+            badgeImgs64 = removeIndex(badgeImgs64, badgeIndexs[(int)selectedBadgeNumer.Value - 1]);
+            badgeShps64 = removeIndex(badgeShps64, badgeIndexs[(int)selectedBadgeNumer.Value - 1]);
+            badgeIndexs = removeIndex(badgeIndexs, (int)selectedBadgeNumer.Value - 1);
+            uniqueBadges--;
+            for (int i = 0; i < uniqueBadges; i++) {
+                if (badgeIndexs[i] > badgeIndex) badgeIndexs[i]--;
+            }
+            for (int i = badgeSet + 1; i < sets; i++)
+            {
+                setBadgeIndexs[i]--;
+            }
+            
+            if ((setBadgeIndexs[badgeSet] > (int)uniqueBadges - 1 && sets > 0) || (setBadgeIndexs[badgeSet] - setBadgeIndexs[badgeSet + 1] == 0 && sets > 1))
+            {
+                deleteSetFromBadges(badgeSet);
+            }
+            if (selectedBadgeNumer.Value == uniqueBadges + 1 && uniqueBadges > 0) selectedBadgeNumer.Value--;
+            updateAll();
+        }
+        public void deleteSetFromBadges(int index)
+        {
+            int setIndex = (int)setIndexs[index];
+
+            setIds = removeIndex(setIds, index);
+            setUniqueBadges = removeIndex(setUniqueBadges, index);
+            setTotalBadges = removeIndex(setTotalBadges, index);
+            setBadgeIndexs = removeIndex(setBadgeIndexs, index);
+            setNames = removeIndex(setNames, (int)setIndexs[index]);
+            setImgs = removeIndex(setImgs, (int)setIndexs[index]);
+            setIndexs = removeIndex(setIndexs, index);
+            sets--;
+
+            for (int i = 0; i < sets; i++)
+            {
+                if (setIndexs[i] > setIndex) setIndexs[i]--;
+            }
+            if (selectSetNumer.Value == sets + 1 && sets > 0) selectSetNumer.Value--;
+        }
+        public void deleteSet()
+        {
+            int uniqueBadgesSet = (int)setBadgeIndexs[(int)selectSetNumer.Value] - (int)setBadgeIndexs[(int)selectSetNumer.Value - 1];
+            if ((int)selectSetNumer.Value == sets) uniqueBadgesSet = (int)uniqueBadges - (int)setBadgeIndexs[(int)selectSetNumer.Value - 1];
+
+            int subtract = (int)uniqueBadges - (int)selectedBadgeNumer.Value;
+            if (subtract > uniqueBadgesSet) { subtract = uniqueBadgesSet; }
+
+            if (selectedBadgeNumer.Value == uniqueBadges)  selectedBadgeNumer.Value -= uniqueBadgesSet - subtract;
+
+            int deleteBadgesFrom = (int)setBadgeIndexs[(int)selectSetNumer.Value - 1];
+            for (int i = 0; i < uniqueBadgesSet; i++)
+            {
+                deleteBadgeFromSet(deleteBadgesFrom);
+            }
+            int setIndex = (int)setIndexs[(int)selectSetNumer.Value - 1];
+
+            setIds = removeIndex(setIds, (int)selectSetNumer.Value - 1);
+            setUniqueBadges = removeIndex(setUniqueBadges, (int)selectSetNumer.Value - 1);
+            setTotalBadges = removeIndex(setTotalBadges, (int)selectSetNumer.Value - 1);
+            setBadgeIndexs = removeIndex(setBadgeIndexs, (int)selectSetNumer.Value - 1);
+            setNames = removeIndex(setNames, (int)setIndexs[(int)selectSetNumer.Value - 1]);
+            setImgs = removeIndex(setImgs, (int)setIndexs[(int)selectSetNumer.Value - 1]);
+            setIndexs = removeIndex(setIndexs, (int)selectSetNumer.Value - 1);
+            sets--;
+
+            for (int i = (int)selectSetNumer.Value - 1; i < sets; i++)
+            {
+                setBadgeIndexs[i] -= (uint)uniqueBadgesSet;
+            }
+
+            for (int i = 0; i < sets; i++)
+            {
+                if (setIndexs[i] > setIndex) setIndexs[i]--;
+            }
+
+            if (selectSetNumer.Value == sets + 1 && sets > 0) selectSetNumer.Value--;
+            updateAll();
+        }
+        public void deleteBadgeFromSet(int index)
+        {
+            int badgeIndex = badgeIndexs[index];
+
+            badgeIds = removeIndex(badgeIds, index);
+            badgeSetIds = removeIndex(badgeSetIds, index);
+            badgeSids = removeIndex(badgeSids, index);
+            badgeQuants = removeIndex(badgeQuants, index);
+            badgeNames = removeIndex(badgeNames, badgeIndexs[index]);
+            badgeTitleIds = removeIndex(badgeTitleIds, index);
+            badgeHighIds = removeIndex(badgeHighIds, index);
+            badgeImgs32 = removeIndex(badgeImgs32, badgeIndexs[index]);
+            badgeShps32 = removeIndex(badgeShps32, badgeIndexs[index]);
+            badgeImgs64 = removeIndex(badgeImgs64, badgeIndexs[index]);
+            badgeShps64 = removeIndex(badgeShps64, badgeIndexs[index]);
+            badgeIndexs = removeIndex(badgeIndexs, index);
+            uniqueBadges--;
+            for (int i = 0; i < uniqueBadges; i++)
+            {
+                if (badgeIndexs[i] > badgeIndex)badgeIndexs[i]--;
+            }
+        }
+
+        public ulong[] removeIndex(ulong[] tochange, int index)
+        {
+            List<ulong> list = new List<ulong>(tochange);
+            list.RemoveAt(index);
+            list.Add(0);
+            return list.ToArray();
+        }
+        public uint[] removeIndex(uint[] tochange, int index){
+            List<uint> list = new List<uint>(tochange);
+            list.RemoveAt(index);
+            list.Add(0);
+            return list.ToArray();
+        }
+        public ushort[] removeIndex(ushort[] tochange, int index)
+        {
+            List<ushort> list = new List<ushort>(tochange);
+            list.RemoveAt(index);
+            list.Add(0);
+            return list.ToArray();
+        }
+        public string[] removeIndex(string[] tochange, int index)
+        {
+            List<string> list = new List<string>(tochange);
+            list.RemoveAt(index);
+            list.Add("");
+            return list.ToArray();
+        }
+        public byte[][] removeIndex(byte[][] tochange, int index)
+        {
+            int newArrayLenght = tochange[index].Length;
+            List<byte[]> list = new List<byte[]>(tochange);
+            list.RemoveAt(index);
+            list.Add(new byte[newArrayLenght]);
+            return list.ToArray();
+        }
+
+
         public void updateTitleID()
         {
             string tidstrmain = badgeTitleIds[(int)selectedBadgeNumer.Value - 1].ToString("X8");
@@ -1409,6 +1587,43 @@ namespace Advanced_badge_editor
                     break;
             }
             return tidstr;
+        }
+
+        private void delBadge_Click(object sender, EventArgs e)
+        {
+            deleteBadge();
+        }
+
+        private void delSet_Click(object sender, EventArgs e)
+        {
+            deleteSet();
+        }
+
+        private void delAll_Click(object sender, EventArgs e)
+        {
+            uniqueBadges = 0;
+            sets = 0;
+
+            badgeIds = new uint[1000];
+            badgeSetIds = new uint[1000];
+            badgeSids = new ushort[1000];
+            badgeQuants = new ushort[1000];
+            badgeNames = new string[1000];
+            badgeTitleIds = new uint[1000];
+            badgeIndexs = new ushort[1000];
+            badgeImgs32 = new byte[1000][];
+            badgeShps32 = new byte[1000][];
+            badgeImgs64 = new byte[1000][];
+            badgeShps64 = new byte[1000][];
+
+            setIds = new uint[100];
+            setUniqueBadges = new uint[100];
+            setTotalBadges = new uint[100];
+            setBadgeIndexs = new uint[100];
+            setIndexs = new uint[100];
+            setNames = new string[100];
+            setImgs = new byte[100][];
+            updateAll();
         }
     }
 }
