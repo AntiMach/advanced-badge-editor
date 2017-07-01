@@ -12,5 +12,5 @@ Creating a set is identical to creating a badge, but it only requires one image.
 
 ## Credits
   - TheMachinumps (me)
-  - Kaphotics
+  - redunka (GBAtemp user)
   - Uhhh... I don't think there's anyone else to credit...
