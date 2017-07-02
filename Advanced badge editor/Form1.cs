@@ -409,7 +409,7 @@ namespace Advanced_badge_editor
 
                     updateAll();
                     regionDropdown.Text = region;
-                    setStartingNumer.Maximum = setBadgeIndexs[1];
+                    setStartingNumer.Maximum = setBadgeIndexs[0] + 1;
                     saveDataToolStripMenuItem.Enabled = true;
                     badgeFileprbToolStripMenuItem.Enabled = true;
                     setFilecabToolStripMenuItem.Enabled = true;
@@ -497,6 +497,7 @@ namespace Advanced_badge_editor
             exportSetImage.Enabled = enable;
             importSetImage.Enabled = enable;
             delSet.Enabled = enable;
+            fixBadgeSetIds.Enabled = enable;
         }
         //
         // Update the information about the currently selected badge or the currently selected set
@@ -607,8 +608,12 @@ namespace Advanced_badge_editor
             int subtract = (int)uniqueBadges - (int)selectedBadgeNumer.Value;
             if (subtract > uniqueBadgesSet) { subtract = uniqueBadgesSet; }
 
-            if (selectedBadgeNumer.Value == uniqueBadges)
+            if (sets > 1)
+            {
+                if (selectedBadgeNumer.Value == uniqueBadges)
                     selectedBadgeNumer.Value -= uniqueBadgesSet - subtract;
+            }
+            
 
             int deleteBadgesFrom = (int)setBadgeIndexs[(int)selectSetNumer.Value - 1];
             for (int i = 0; i < uniqueBadgesSet; i++)
@@ -983,37 +988,38 @@ namespace Advanced_badge_editor
             if (uniqueBadges == 0)
             {
                 MessageBox.Show("You have no badges to make a set with...", "Uhhh, how?", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
             }
-            else
-            {
-                if (sets >= 100)
-                {
-                    MessageBox.Show("You have too many sets to make a new one...", "Limit reached", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    return;
-                }
 
-                if (setBadgeIndexs[sets - 1] + 1 == uniqueBadges)
+            if (sets >= 100)
+            {
+                MessageBox.Show("You have too many sets to make a new one...", "Limit reached", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            if (sets > 0)
+            {
+                if (setBadgeIndexs[sets - 1] >= uniqueBadges - 1)
                 {
                     MessageBox.Show("Not enough unique badges for a new set!", "Not enough badges", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
-
-                if (sets == 0)
-                    setOptions(true);
-
-                sets++;
-                setIds[sets - 1] = sets;
-                setNames[sets - 1] = "New set";
-                setBadgeIndexs[sets - 1] = uniqueBadges - 1;
-                setTotalBadges[sets - 1] = 1;
-                setUniqueBadges[sets - 1] = 1;
-                setIndexs[sets - 1] = sets - 1;
-                setImgs[sets - 1] = new byte[0x2000];
-                selectSetNumer.Maximum = sets;
-                selectSetNumer.Value = sets;
-                selectSetNumer_ValueChanged(null, null);
-                updateAll();
             }
+
+            if (sets == 0)
+                setOptions(true);
+
+            sets++;
+            setIds[sets - 1] = sets;
+            setNames[sets - 1] = "New set";
+            setBadgeIndexs[sets - 1] = uniqueBadges - 1;
+            setTotalBadges[sets - 1] = 1;
+            setUniqueBadges[sets - 1] = 1;
+            setIndexs[sets - 1] = sets - 1;
+            setImgs[sets - 1] = new byte[0x2000];
+            selectSetNumer.Maximum = sets;
+            selectSetNumer.Value = sets;
+            selectSetNumer_ValueChanged(null, null);
         }
         //
         // Allows the user to export badge and set images
@@ -1324,7 +1330,6 @@ namespace Advanced_badge_editor
             NNID = (uint)NNIDnumer.Value;
         }
 
-        
         private void titleIDdropdown_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (dropdownUpdate)
@@ -1542,12 +1547,10 @@ namespace Advanced_badge_editor
         {
             deleteBadge();
         }
-
         private void delSet_Click(object sender, EventArgs e)
         {
             deleteSet();
         }
-
         private void delAll_Click(object sender, EventArgs e)
         {
             uniqueBadges = 0;
@@ -1668,8 +1671,6 @@ namespace Advanced_badge_editor
 
                         selectedBadgeNumer.Maximum = uniqueBadges;
                         selectedBadgeNumer.Value = uniqueBadges;
-
-                        updateAll();
                     }
                     else
                     {
@@ -1679,9 +1680,9 @@ namespace Advanced_badge_editor
                     }
                     br.Close();
                 }
+                updateAll();
             }
         }
-
         private void setFilecabToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog()
@@ -1690,60 +1691,76 @@ namespace Advanced_badge_editor
                 DefaultExt = "*.cab",
                 AddExtension = true,
             };
+
             if (uniqueBadges == 0)
             {
                 MessageBox.Show("Not enough unique badges for a new set!.", "Not enough badges", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
             }
-            else
+
+            if (sets >= 100)
             {
-                if (sets >= 100)
+                MessageBox.Show("You have too many sets to import a new one...", "Limit reached", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            if (sets > 0)
+            {
+                if (setBadgeIndexs[sets - 1] >= uniqueBadges - 1)
                 {
-                    MessageBox.Show("You have too many sets to import a new one...", "Limit reached", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Not enough unique badges for a new set!", "Not enough badges", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
+            }
 
-                if (sets > 0)
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                BinaryReader br = new BinaryReader(File.OpenRead(ofd.FileName));
+
+                br.BaseStream.Seek(0, 0);
+                if (br.ReadUInt32() != 0x53424143)
                 {
-                    if (setBadgeIndexs[sets - 1] + 1 == uniqueBadges)
-                    {
-                        MessageBox.Show("Not enough unique badges for a new set!", "Not enough badges", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
+                    MessageBox.Show("The file you are trying to import is not valid", "Invalid file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    br.Close();
+                    return;
                 }
 
                 if (sets == 0)
                     setOptions(true);
 
-                if (ofd.ShowDialog() == DialogResult.OK)
+                sets++;
+                br.BaseStream.Seek(0x24, 0);
+                setIds[sets - 1] = br.ReadUInt32();
+                br.BaseStream.Seek(0x68, 0);
+                setNames[sets - 1] = Encoding.Unicode.GetString(br.ReadBytes(0x8A));
+                setBadgeIndexs[sets - 1] = uniqueBadges - 1;
+                setTotalBadges[sets - 1] = 1;
+                setUniqueBadges[sets - 1] = 1;
+                setIndexs[sets - 1] = sets - 1;
+                br.BaseStream.Seek(0x2080, 0);
+                setImgs[sets - 1] = br.ReadBytes(0x2000);
+                selectSetNumer.Maximum = sets;
+                selectSetNumer.Value = sets;
+                selectSetNumer_ValueChanged(null, null);
+                br.Close();
+            }
+        }
+
+        private void fixBadgeSetIds_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < sets - 1; i++)
+            {
+                for (int badge = (int)setBadgeIndexs[setIndexs[i]]; badge < setBadgeIndexs[setIndexs[i + 1]]; badge++)
                 {
-                    BinaryReader br = new BinaryReader(File.OpenRead(ofd.FileName));
-
-                    br.BaseStream.Seek(0, 0);
-                    if (br.ReadUInt32() != 0x53424143)
-                    {
-                        MessageBox.Show("The file you are trying to import is not valid", "Invalid file", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        br.Close();
-                        return;
-                    }
-
-                    sets++;
-                    br.BaseStream.Seek(0x24, 0);
-                    setIds[sets - 1] = br.ReadUInt32();
-                    br.BaseStream.Seek(0x68, 0);
-                    setNames[sets - 1] = Encoding.Unicode.GetString(br.ReadBytes(0x8A));
-                    setBadgeIndexs[sets - 1] = uniqueBadges - 1;
-                    setTotalBadges[sets - 1] = 1;
-                    setUniqueBadges[sets - 1] = 1;
-                    setIndexs[sets - 1] = sets - 1;
-                    br.BaseStream.Seek(0x2080, 0);
-                    setImgs[sets - 1] = br.ReadBytes(0x2000);
-                    selectSetNumer.Maximum = sets;
-                    selectSetNumer.Value = sets;
-                    selectSetNumer_ValueChanged(null, null);
-                    updateAll();
-                    br.Close();
+                    badgeSetIds[badgeIndexs[badge]] = setIds[setIndexs[i]];
                 }
             }
+
+            for (int badge = (int)setBadgeIndexs[setIndexs[sets - 1]]; badge < uniqueBadges; badge++)
+            {
+                badgeSetIds[badgeIndexs[badge]] = setIds[setIndexs[sets - 1]];
+            }
+            updateAll();
         }
     }
 }

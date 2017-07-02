@@ -33,6 +33,9 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.badgeFileprbToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setFilecabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.uniqueBadgesLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -116,9 +119,7 @@
             this.delBadge = new System.Windows.Forms.Button();
             this.delSet = new System.Windows.Forms.Button();
             this.delAll = new System.Windows.Forms.Button();
-            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.badgeFileprbToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.setFilecabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fixBadgeSetIds = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.badgeIdNumer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.badgeSidNumer)).BeginInit();
@@ -172,7 +173,7 @@
             // openDataToolStripMenuItem
             // 
             this.openDataToolStripMenuItem.Name = "openDataToolStripMenuItem";
-            this.openDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openDataToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.openDataToolStripMenuItem.Text = "Open data";
             this.openDataToolStripMenuItem.Click += new System.EventHandler(this.openDataToolStripMenuItem_Click);
             // 
@@ -180,9 +181,34 @@
             // 
             this.saveDataToolStripMenuItem.Enabled = false;
             this.saveDataToolStripMenuItem.Name = "saveDataToolStripMenuItem";
-            this.saveDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveDataToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.saveDataToolStripMenuItem.Text = "Save data";
             this.saveDataToolStripMenuItem.Click += new System.EventHandler(this.saveDataToolStripMenuItem_Click);
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.badgeFileprbToolStripMenuItem,
+            this.setFilecabToolStripMenuItem});
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
+            this.importToolStripMenuItem.Text = "Import";
+            // 
+            // badgeFileprbToolStripMenuItem
+            // 
+            this.badgeFileprbToolStripMenuItem.Enabled = false;
+            this.badgeFileprbToolStripMenuItem.Name = "badgeFileprbToolStripMenuItem";
+            this.badgeFileprbToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.badgeFileprbToolStripMenuItem.Text = "Badge file(s) (*.prb)";
+            this.badgeFileprbToolStripMenuItem.Click += new System.EventHandler(this.badgeFileprbToolStripMenuItem_Click);
+            // 
+            // setFilecabToolStripMenuItem
+            // 
+            this.setFilecabToolStripMenuItem.Enabled = false;
+            this.setFilecabToolStripMenuItem.Name = "setFilecabToolStripMenuItem";
+            this.setFilecabToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.setFilecabToolStripMenuItem.Text = "Set file (*.cab)";
+            this.setFilecabToolStripMenuItem.Click += new System.EventHandler(this.setFilecabToolStripMenuItem_Click);
             // 
             // label1
             // 
@@ -1262,30 +1288,20 @@
             this.delAll.UseVisualStyleBackColor = false;
             this.delAll.Click += new System.EventHandler(this.delAll_Click);
             // 
-            // importToolStripMenuItem
+            // fixBadgeSetIds
             // 
-            this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.badgeFileprbToolStripMenuItem,
-            this.setFilecabToolStripMenuItem});
-            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
-            this.importToolStripMenuItem.Text = "Import";
-            // 
-            // badgeFileprbToolStripMenuItem
-            // 
-            this.badgeFileprbToolStripMenuItem.Enabled = false;
-            this.badgeFileprbToolStripMenuItem.Name = "badgeFileprbToolStripMenuItem";
-            this.badgeFileprbToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.badgeFileprbToolStripMenuItem.Text = "Badge file(s) (*.prb)";
-            this.badgeFileprbToolStripMenuItem.Click += new System.EventHandler(this.badgeFileprbToolStripMenuItem_Click);
-            // 
-            // setFilecabToolStripMenuItem
-            // 
-            this.setFilecabToolStripMenuItem.Enabled = false;
-            this.setFilecabToolStripMenuItem.Name = "setFilecabToolStripMenuItem";
-            this.setFilecabToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.setFilecabToolStripMenuItem.Text = "Set file (*.cab)";
-            this.setFilecabToolStripMenuItem.Click += new System.EventHandler(this.setFilecabToolStripMenuItem_Click);
+            this.fixBadgeSetIds.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.fixBadgeSetIds.Enabled = false;
+            this.fixBadgeSetIds.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.fixBadgeSetIds.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.fixBadgeSetIds.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.fixBadgeSetIds.Location = new System.Drawing.Point(15, 394);
+            this.fixBadgeSetIds.Name = "fixBadgeSetIds";
+            this.fixBadgeSetIds.Size = new System.Drawing.Size(142, 23);
+            this.fixBadgeSetIds.TabIndex = 81;
+            this.fixBadgeSetIds.Text = "Fix Badge Set IDs";
+            this.fixBadgeSetIds.UseVisualStyleBackColor = false;
+            this.fixBadgeSetIds.Click += new System.EventHandler(this.fixBadgeSetIds_Click);
             // 
             // Form1
             // 
@@ -1293,6 +1309,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.ClientSize = new System.Drawing.Size(708, 704);
+            this.Controls.Add(this.fixBadgeSetIds);
             this.Controls.Add(this.delAll);
             this.Controls.Add(this.delSet);
             this.Controls.Add(this.delBadge);
@@ -1488,6 +1505,7 @@
         private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem badgeFileprbToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setFilecabToolStripMenuItem;
+        private System.Windows.Forms.Button fixBadgeSetIds;
     }
 }
 
