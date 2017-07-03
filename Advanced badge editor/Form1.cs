@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.InteropServices;
 using RTTools;
+using System.Media;
 
 namespace Advanced_badge_editor
 {
@@ -197,10 +198,8 @@ namespace Advanced_badge_editor
         uint[] badgeTitleIds = new uint[1000];
         uint[] badgeHighIds = new uint[1000];
         ushort[] badgeIndexs = new ushort[1000];
-        byte[][] badgeImgs32 = new byte[1000][];
-        byte[][] badgeShps32 = new byte[1000][];
-        byte[][] badgeImgs64 = new byte[1000][];
-        byte[][] badgeShps64 = new byte[1000][];
+        Bitmap[] badgeImgs64 = new Bitmap[1000];
+        Bitmap[] badgeImgs32 = new Bitmap[1000];
         //
         //
         //
@@ -210,14 +209,7 @@ namespace Advanced_badge_editor
         uint[] setBadgeIndexs = new uint[100];
         uint[] setIndexs = new uint[100];
         string[] setNames = new string[100];
-        byte[][] setImgs = new byte[100][];
-        //
-        //
-        //
-        static byte[] bclim32rgb565 = { 0x43, 0x4C, 0x49, 0x4D, 0xFF, 0xFE, 0x14, 0x00, 0x00, 0x00, 0x02, 0x02, 0x28, 0x08, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x69, 0x6D, 0x61, 0x67, 0x10, 0x00, 0x00, 0x00, 0x20, 0x00, 0x20, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00 };
-        static byte[] bclim64rgb565 = { 0x43, 0x4C, 0x49, 0x4D, 0xFF, 0xFE, 0x14, 0x00, 0x00, 0x00, 0x02, 0x02, 0x28, 0x20, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x69, 0x6D, 0x61, 0x67, 0x10, 0x00, 0x00, 0x00, 0x40, 0x00, 0x40, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00, 0x00 };
-        static byte[] bclim32a4 = { 0x43, 0x4C, 0x49, 0x4D, 0xFF, 0xFE, 0x14, 0x00, 0x00, 0x00, 0x02, 0x02, 0x28, 0x02, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x69, 0x6D, 0x61, 0x67, 0x10, 0x00, 0x00, 0x00, 0x20, 0x00, 0x20, 0x00, 0x0D, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00 };
-        static byte[] bclim64a4 = { 0x43, 0x4C, 0x49, 0x4D, 0xFF, 0xFE, 0x14, 0x00, 0x00, 0x00, 0x02, 0x02, 0x28, 0x08, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x69, 0x6D, 0x61, 0x67, 0x10, 0x00, 0x00, 0x00, 0x40, 0x00, 0x40, 0x00, 0x0D, 0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00 };
+        Bitmap[] setImgs = new Bitmap[1000];
         //
         //
         //
@@ -236,10 +228,8 @@ namespace Advanced_badge_editor
             badgeNames = new string[1000];
             badgeTitleIds = new uint[1000];
             badgeIndexs = new ushort[1000];
-            badgeImgs32 = new byte[1000][];
-            badgeShps32 = new byte[1000][];
-            badgeImgs64 = new byte[1000][];
-            badgeShps64 = new byte[1000][];
+            badgeImgs32 = new Bitmap[1000];
+            badgeImgs64 = new Bitmap[1000];
 
             setIds = new uint[100];
             setUniqueBadges = new uint[100];
@@ -247,7 +237,7 @@ namespace Advanced_badge_editor
             setBadgeIndexs = new uint[100];
             setIndexs = new uint[100];
             setNames = new string[100];
-            setImgs = new byte[100][];
+            setImgs = new Bitmap[100];
 
             selectedBadgeNumer.Minimum = 1;
             selectSetNumer.Minimum = 1;
@@ -301,6 +291,8 @@ namespace Advanced_badge_editor
                     // Using BinaryReader to read the Hex data of each file
                     BinaryReader data = new BinaryReader(badgeMng.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None));
 
+                    
+
                     data.BaseStream.Position = 0x4;
                     sets = BitConverter.ToUInt32(data.ReadBytes(0x4), 0);
                     data.BaseStream.Position = 0x8;
@@ -309,6 +301,9 @@ namespace Advanced_badge_editor
                     totalBadges = BitConverter.ToUInt32(data.ReadBytes(0x4), 0);
                     data.BaseStream.Position = 0x1C;
                     NNID = BitConverter.ToUInt32(data.ReadBytes(0x4), 0);
+
+                    loading.Maximum = (int)(sets * 2 + uniqueBadges * 2);
+                    loading.Value = 0;
 
                     for (int i = 0; i < uniqueBadges; i++)
                     {
@@ -349,6 +344,8 @@ namespace Advanced_badge_editor
                                     break;
                             }
                         }
+
+                        loading.PerformStep();
                     }
 
                     for (int i = 0; i < sets; i++)
@@ -360,7 +357,10 @@ namespace Advanced_badge_editor
                         setUniqueBadges[i] = BitConverter.ToUInt32(data.ReadBytes(0x4), 0);
                         setTotalBadges[i] = BitConverter.ToUInt32(data.ReadBytes(0x4), 0);
                         setBadgeIndexs[i] = BitConverter.ToUInt32(data.ReadBytes(0x4), 0);
+                        loading.PerformStep();
                     }
+
+                    data.Close();
 
                     data = new BinaryReader(badgeData.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None));
 
@@ -369,11 +369,10 @@ namespace Advanced_badge_editor
                         data.BaseStream.Position = i * 0x8A0 + 0x35E80;
                         badgeNames[i] = Encoding.Unicode.GetString(data.ReadBytes(0x8A));
                         data.BaseStream.Position = i * 0x2800 + 0x318F80;
-                        badgeImgs64[i] = data.ReadBytes(0x2000);
-                        badgeShps64[i] = data.ReadBytes(0x800);
+                        badgeImgs64[i] = RT.RGB565andA4toPNG(data.ReadBytes(0x2800), 64);
                         data.BaseStream.Position = i * 0xA00 + 0xCDCF80;
-                        badgeImgs32[i] = data.ReadBytes(0x800);
-                        badgeShps32[i] = data.ReadBytes(0x200);
+                        badgeImgs32[i] = RT.RGB565andA4toPNG(data.ReadBytes(0xA00), 32);
+                        loading.PerformStep();
                     }
 
                     for (int i = 0; i < sets; i++)
@@ -381,7 +380,8 @@ namespace Advanced_badge_editor
                         data.BaseStream.Position = i * 0x8A0;
                         setNames[i] = Encoding.Unicode.GetString(data.ReadBytes(0x8A));
                         data.BaseStream.Position = i * 0x2000 + 0x250F80;
-                        setImgs[i] = data.ReadBytes(0x2000);
+                        setImgs[i] = RT.getSetImage(data.ReadBytes(0x2000));
+                        loading.PerformStep();
                     }
 
                     data.Close();
@@ -413,6 +413,9 @@ namespace Advanced_badge_editor
                     saveDataToolStripMenuItem.Enabled = true;
                     badgeFileprbToolStripMenuItem.Enabled = true;
                     setFilecabToolStripMenuItem.Enabled = true;
+                    importEntireSetData.Enabled = true;
+
+                    SystemSounds.Asterisk.Play();
                 }
                 else
                 {
@@ -467,16 +470,6 @@ namespace Advanced_badge_editor
             badgeSidNumer.Enabled = enable;
             badgeQuantityNumer.Enabled = enable;
             badgeSetIdNumer.Enabled = enable;
-            exportBadgeImg.Enabled = enable;
-            importBadgeImg.Enabled = enable;
-            exportBadgeShp.Enabled = enable;
-            importBadgeShp.Enabled = enable;
-            exportBadgeImg32.Enabled = enable;
-            importBadgeImg32.Enabled = enable;
-            exportBadgeShp32.Enabled = enable;
-            importBadgeShp32.Enabled = enable;
-            fillBadgeShp.Enabled = enable;
-            fillBadgeShp32.Enabled = enable;
             exportBadgeImage.Enabled = enable;
             importBadgeImage.Enabled = enable;
             badge255each.Enabled = enable;
@@ -492,8 +485,6 @@ namespace Advanced_badge_editor
             setNameInput.Enabled = enable;
             setIdNumer.Enabled = enable;
             setStartingNumer.Enabled = enable;
-            exportSetImgButton.Enabled = enable;
-            importSetImgButton.Enabled = enable;
             exportSetImage.Enabled = enable;
             importSetImage.Enabled = enable;
             delSet.Enabled = enable;
@@ -514,8 +505,8 @@ namespace Advanced_badge_editor
 
             updateTitleID();
 
-            prevBadgeImg64.Image = RT.RGB565andA4toPNG(DataShift.combine2Arrays(badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], badgeShps64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]]), 64);
-            prevBadgeImg32.Image = RT.RGB565andA4toPNG(DataShift.combine2Arrays(badgeImgs32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], badgeShps32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]]), 32);
+            prevBadgeImg64.Image = badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]];
+            prevBadgeImg32.Image = badgeImgs32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]];
         }
         public void updateSetInfo()
         {
@@ -538,7 +529,7 @@ namespace Advanced_badge_editor
             setUniqueBadgesLabel.Text = setUniqueBadges[(int)selectSetNumer.Value - 1].ToString();
             setTotalBadgesLabel.Text = setTotalBadges[(int)selectSetNumer.Value - 1].ToString();
 
-            prevSetImg.Image = RT.getSetImage(setImgs[setIndexs[(int)selectSetNumer.Value - 1]]);
+            prevSetImg.Image = setImgs[setIndexs[(int)selectSetNumer.Value - 1]];
         }
 
         public void deleteBadge() {
@@ -561,9 +552,7 @@ namespace Advanced_badge_editor
             badgeTitleIds = removeIndex(badgeTitleIds, (int)selectedBadgeNumer.Value - 1);
             badgeHighIds = removeIndex(badgeHighIds, (int)selectedBadgeNumer.Value - 1);
             badgeImgs32 = removeIndex(badgeImgs32, badgeIndexs[(int)selectedBadgeNumer.Value - 1]);
-            badgeShps32 = removeIndex(badgeShps32, badgeIndexs[(int)selectedBadgeNumer.Value - 1]);
             badgeImgs64 = removeIndex(badgeImgs64, badgeIndexs[(int)selectedBadgeNumer.Value - 1]);
-            badgeShps64 = removeIndex(badgeShps64, badgeIndexs[(int)selectedBadgeNumer.Value - 1]);
             badgeIndexs = removeIndex(badgeIndexs, (int)selectedBadgeNumer.Value - 1);
             uniqueBadges--;
             for (int i = 0; i < uniqueBadges; i++) {
@@ -656,9 +645,7 @@ namespace Advanced_badge_editor
             badgeTitleIds = removeIndex(badgeTitleIds, index);
             badgeHighIds = removeIndex(badgeHighIds, index);
             badgeImgs32 = removeIndex(badgeImgs32, badgeIndexs[index]);
-            badgeShps32 = removeIndex(badgeShps32, badgeIndexs[index]);
             badgeImgs64 = removeIndex(badgeImgs64, badgeIndexs[index]);
-            badgeShps64 = removeIndex(badgeShps64, badgeIndexs[index]);
             badgeIndexs = removeIndex(badgeIndexs, index);
             uniqueBadges--;
             for (int i = 0; i < uniqueBadges; i++)
@@ -667,6 +654,13 @@ namespace Advanced_badge_editor
             }
         }
 
+        public Bitmap[] removeIndex(Bitmap[] tochange, int index)
+        {
+            List<Bitmap> list = new List<Bitmap>(tochange);
+            list.RemoveAt(index);
+            list.Add(null);
+            return list.ToArray();
+        }
         public ulong[] removeIndex(ulong[] tochange, int index)
         {
             List<ulong> list = new List<ulong>(tochange);
@@ -702,7 +696,6 @@ namespace Advanced_badge_editor
             list.Add(new byte[newArrayLenght]);
             return list.ToArray();
         }
-
 
         public void updateTitleID()
         {
@@ -859,13 +852,11 @@ namespace Advanced_badge_editor
         //
         // Save the data
         //
-        private async void saveDataToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
             if (MessageBox.Show("Are you sure you want to overwrite the old data?", "Overwrite?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                while (IsFileLocked(badgeMng))
-                    await Task.Delay(25);
                 BinaryWriter data = new BinaryWriter(badgeMng.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None));
 
                 data.BaseStream.Position = 0x04;
@@ -874,6 +865,9 @@ namespace Advanced_badge_editor
                 data.BaseStream.Position = 0x18;
                 data.Write(totalBadges);
                 data.Write(NNID);
+
+                loading.Maximum = (int)(sets * 2 + uniqueBadges * 2);
+                loading.Value = 0;
 
                 for (int i = 0; i < uniqueBadges; i++)
                 {
@@ -889,6 +883,7 @@ namespace Advanced_badge_editor
                     data.Write(badgeHighIds[i]);
                     data.Write(badgeTitleIds[i]);
                     data.Write(badgeHighIds[i]);
+                    loading.PerformStep();
                 }
                 for (int i = 0; i < sets; i++)
                 {
@@ -899,6 +894,7 @@ namespace Advanced_badge_editor
                     data.Write(setUniqueBadges[i]);
                     data.Write(setTotalBadges[i]);
                     data.Write(setBadgeIndexs[i]);
+                    loading.PerformStep();
                 }
 
                 data.Close();
@@ -918,11 +914,15 @@ namespace Advanced_badge_editor
                         data.Write(Encoding.Unicode.GetBytes(badgeNames[badgeIndexs[i]]));
                     }
                     data.BaseStream.Position = badgeIndexs[i] * 0x2800 + 0x318F80;
-                    data.Write(badgeImgs64[badgeIndexs[i]]);
-                    data.Write(badgeShps64[badgeIndexs[i]]);
+                    byte[] rgb565_64, a4_64, rgb565_32, a4_32;
+                    RT.PNGtoRGB565andA4(badgeImgs64[badgeIndexs[i]], out rgb565_64, out a4_64);
+                    RT.PNGtoRGB565andA4(badgeImgs32[badgeIndexs[i]], out rgb565_32, out a4_32);
+                    data.Write(rgb565_64);
+                    data.Write(a4_64);
                     data.BaseStream.Position = badgeIndexs[i] * 0xA00 + 0xCDCF80;
-                    data.Write(badgeImgs32[badgeIndexs[i]]);
-                    data.Write(badgeShps32[badgeIndexs[i]]);
+                    data.Write(rgb565_32);
+                    data.Write(a4_32);
+                    loading.PerformStep();
                 }
 
                 data.BaseStream.Position = 0;
@@ -938,10 +938,13 @@ namespace Advanced_badge_editor
                         data.Write(Encoding.Unicode.GetBytes(setNames[setIndexs[i]]));
                     }
                     data.BaseStream.Position = setIndexs[i] * 0x2000 + 0x250F80;
-                    data.Write(setImgs[setIndexs[i]]);
+                    data.Write(RT.adjustForSet(setImgs[setIndexs[i]]));
+                    loading.PerformStep();
                 }
 
                 data.Close();
+
+                SystemSounds.Asterisk.Play();
             }
         }
         //
@@ -968,10 +971,8 @@ namespace Advanced_badge_editor
                 badgeTitleIds[uniqueBadges - 1] = 0xFFFFFFFF;
                 badgeHighIds[uniqueBadges - 1] = 0xFFFFFFFF;
 
-                badgeImgs64[uniqueBadges - 1] = new byte[0x2000];
-                badgeShps64[uniqueBadges - 1] = new byte[0x800];
-                badgeImgs32[uniqueBadges - 1] = new byte[0x800];
-                badgeShps32[uniqueBadges - 1] = new byte[0x200];
+                badgeImgs64[uniqueBadges - 1] = new Bitmap(64, 64);
+                badgeImgs32[uniqueBadges - 1] = new Bitmap(64, 64);
 
                 selectedBadgeNumer.Maximum = uniqueBadges;
                 selectedBadgeNumer.Value = uniqueBadges;
@@ -1016,158 +1017,10 @@ namespace Advanced_badge_editor
             setTotalBadges[sets - 1] = 1;
             setUniqueBadges[sets - 1] = 1;
             setIndexs[sets - 1] = sets - 1;
-            setImgs[sets - 1] = new byte[0x2000];
+            setImgs[sets - 1] = new Bitmap(48, 48, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             selectSetNumer.Maximum = sets;
             selectSetNumer.Value = sets;
             selectSetNumer_ValueChanged(null, null);
-        }
-        //
-        // Allows the user to export badge and set images
-        //
-        private void exportBadgeImg_Click(object sender, EventArgs e)
-        {
-            bclimExportPrompt(badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], bclim64rgb565);
-        }
-        private void exportBadgeShp_Click(object sender, EventArgs e)
-        {
-            bclimExportPrompt(badgeShps64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], bclim64a4);
-        }
-        private void exportBadgeImg32_Click(object sender, EventArgs e)
-        {
-            bclimExportPrompt(badgeImgs32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], bclim32rgb565);
-        }
-        private void exportBadgeShp32_Click(object sender, EventArgs e)
-        {
-            bclimExportPrompt(badgeShps32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], bclim32a4);
-        }
-        private void exportSetImgButton_Click(object sender, EventArgs e)
-        {
-            bclimExportPrompt(setImgs[setIndexs[(int)selectSetNumer.Value - 1]], bclim64rgb565);
-        }
-        //
-        // Allows the user to import badge and set images
-        //
-        private void importBadgeImg_Click(object sender, EventArgs e)
-        {
-            byte[][] imported = bclimImportPrompt(0x2000, bclim64rgb565);
-            if (imported[0] == null)
-            {
-                if (imported[1][0] == 0)
-                {
-                    MessageBox.Show("The file you imported doesn't have the right format...", "Error opening files", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = imported[0];
-            }
-        }
-        private void importBadgeShp_Click(object sender, EventArgs e)
-        {
-            byte[][] imported = bclimImportPrompt(0x800, bclim64a4);
-            if (imported[0] == null)
-            {
-                if (imported[1][0] == 0)
-                {
-                    MessageBox.Show("The file you imported doesn't have the right format...", "Error opening files", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                badgeShps64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = imported[0];
-            }
-        }
-        private void importBadgeImg32_Click(object sender, EventArgs e)
-        {
-            byte[][] imported = bclimImportPrompt(0x800, bclim32rgb565);
-            if (imported[0] == null)
-            {
-                if (imported[1][0] == 0)
-                {
-                    MessageBox.Show("The file you imported doesn't have the right format...", "Error opening files", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                badgeImgs32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = imported[0];
-            }
-        }
-        private void importBadgeShp32_Click(object sender, EventArgs e)
-        {
-            byte[][] imported = bclimImportPrompt(0x200, bclim32a4);
-            if (imported[0] == null)
-            {
-                if (imported[1][0] == 0)
-                {
-                    MessageBox.Show("The file you imported doesn't have the right format...", "Error opening files", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                badgeShps32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = imported[0];
-            }
-        }
-        private void importSetImgButton_Click(object sender, EventArgs e)
-        {
-            byte[][] imported = bclimImportPrompt(0x2000, bclim64rgb565);
-            if (imported[0] == null)
-            {
-                if (imported[1][0] == 0)
-                {
-                    MessageBox.Show("The file you imported doesn't have the right format...", "Error opening files", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                setImgs[setIndexs[(int)selectSetNumer.Value - 1]] = imported[0];
-            }
-        }
-        //
-        // A file prompt for exporting a bclim file type
-        //
-        public void bclimExportPrompt(byte[] dataArray, byte[] bclimFooter)
-        {
-            SaveFileDialog export = new SaveFileDialog();
-            export.Filter = "CTR-LIM File (*.bclim)|*.bclim";
-            export.DefaultExt = "*.bclim";
-            export.AddExtension = true;
-            if (export.ShowDialog() == DialogResult.OK)
-            {
-                if (File.Exists(export.FileName)) { File.Delete(export.FileName); }
-                BinaryWriter data = new BinaryWriter(File.OpenWrite(export.FileName));
-
-                data.Write(dataArray);
-                data.Write(bclimFooter);
-
-                data.Close();
-            }
-        }
-        public byte[][] bclimImportPrompt(int length, byte[] bclimFooter)
-        {
-            OpenFileDialog import = new OpenFileDialog();
-            import.Filter = "CTR-LIM File (*.bclim)|*.bclim";
-            import.DefaultExt = "*.bclim";
-            import.AddExtension = true;
-            byte[][] toImport = new byte[2][];
-            toImport[0] = null;
-            toImport[1] = new byte[1];
-            toImport[1][0] = 0;
-            if (import.ShowDialog() == DialogResult.OK)
-            {
-                BinaryReader data = new BinaryReader(File.OpenRead(import.FileName));
-
-                data.BaseStream.Seek(-0x28, SeekOrigin.End);
-                if (BitConverter.ToString(data.ReadBytes(0x28)) == BitConverter.ToString(bclimFooter))
-                {
-                    data.BaseStream.Position = 0;
-                    toImport[0] = data.ReadBytes(length);
-                }
-                data.Close();
-            } else
-            {
-                toImport[1][0] = 1;
-            }
-            return toImport;
         }
         //
         // Save values to arrays
@@ -1207,40 +1060,6 @@ namespace Advanced_badge_editor
             setBadgeIndexs[(int)selectSetNumer.Value - 1] = (uint)setStartingNumer.Value - 1;
             updateAll();
         }
-
-        private void fillBadgeShp_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < 0x800; i++)
-            {
-                badgeShps64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]][i] = 0XFF;
-            }
-        }
-        private void fillBadgeShp32_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < 0x200; i++)
-            {
-                badgeShps32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]][i] = 0XFF;
-            }
-        }
-
-        protected virtual bool IsFileLocked(FileInfo file)
-        {
-            FileStream stream = null;
-            try
-            {
-                stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None);
-            }
-            catch (IOException)
-            {
-                return true;
-            }
-            finally
-            {
-                if (stream != null)
-                    stream.Close();
-            }
-            return false;
-        }
         //
         // Other stuff
         //
@@ -1260,8 +1079,8 @@ namespace Advanced_badge_editor
                 if (normal.Width == 64 && normal.Height == 64)
                 {
 
-                    RT.PNGtoRGB565andA4(normal, out badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], out badgeShps64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]]);
-                    RT.PNGtoRGB565andA4(downscaled, out badgeImgs32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], out badgeShps32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]]);
+                    badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = normal;
+                    badgeImgs32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = downscaled;
                     
                     if (uniqueBadges > 0)
                         updateBadgeInfo();
@@ -1283,7 +1102,7 @@ namespace Advanced_badge_editor
 
             if(sfd.ShowDialog() == DialogResult.OK)
             {
-                RT.RGB565andA4toPNG(DataShift.combine2Arrays(badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]], badgeShps64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]]) , 64).Save(sfd.FileName);
+                badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]].Save(sfd.FileName);
             }
         }
         private void importSetImage_Click(object sender, EventArgs e)
@@ -1299,7 +1118,7 @@ namespace Advanced_badge_editor
                 Bitmap img = new Bitmap(ofd.FileName);
                 if (img.Width == 48 && img.Height == 48)
                 {
-                    setImgs[setIndexs[(int)selectSetNumer.Value - 1]] = RT.adjustForSet(img);
+                    setImgs[setIndexs[(int)selectSetNumer.Value - 1]] = img;
 
                     if (sets > 0)
                         updateSetInfo();
@@ -1321,7 +1140,7 @@ namespace Advanced_badge_editor
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                RT.getSetImage(setImgs[setIndexs[(int)selectSetNumer.Value - 1]]).Save(sfd.FileName);
+                setImgs[setIndexs[(int)selectSetNumer.Value - 1]].Save(sfd.FileName);
             }
         }
 
@@ -1563,10 +1382,8 @@ namespace Advanced_badge_editor
             badgeNames = new string[1000];
             badgeTitleIds = new uint[1000];
             badgeIndexs = new ushort[1000];
-            badgeImgs32 = new byte[1000][];
-            badgeShps32 = new byte[1000][];
-            badgeImgs64 = new byte[1000][];
-            badgeShps64 = new byte[1000][];
+            badgeImgs32 = new Bitmap[1000];
+            badgeImgs64 = new Bitmap[1000];
 
             setIds = new uint[100];
             setUniqueBadges = new uint[100];
@@ -1574,7 +1391,7 @@ namespace Advanced_badge_editor
             setBadgeIndexs = new uint[100];
             setIndexs = new uint[100];
             setNames = new string[100];
-            setImgs = new byte[100][];
+            setImgs = new Bitmap[100];
             updateAll();
         }
 
@@ -1590,19 +1407,36 @@ namespace Advanced_badge_editor
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
+                loading.Maximum = ofd.FileNames.Length * 2;
+                loading.Value = 0;
+                uint totalbadges = 0;
+                foreach (string file in ofd.FileNames)
+                {
+                    BinaryReader br = new BinaryReader(File.OpenRead(file));
+                    br.BaseStream.Seek(0, 0);
+                    if (br.ReadUInt32() != 0x53425250)
+                    {
+                        MessageBox.Show("One of the files you were trying to import is not valid (file: " + Path.GetFileName(file) + ")", "Invalid file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        br.Close();
+                        return;
+                    }
+                    br.BaseStream.Seek(0xB8, 0);
+                    uint width = br.ReadUInt32();
+                    uint height = br.ReadUInt32();
+                    totalbadges += width * height;
+                    loading.PerformStep();
+                }
+                if (uniqueBadges + totalbadges > 1000)
+                {
+                    MessageBox.Show("Unable to import that many badges...", "Limit reached", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 foreach (string file in ofd.FileNames)
                 {
                     BinaryReader br = new BinaryReader(File.OpenRead(file));
                     uint id, titleid, titlehid, width, height;
                     string name;
-
-                    br.BaseStream.Seek(0, 0);
-                    if (br.ReadUInt32() != 0x53425250)
-                    {
-                        MessageBox.Show("The file you are trying to import is not valid", "Invalid file", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        br.Close();
-                        return;
-                    }
 
                     br.BaseStream.Seek(0x3C, 0);
                     id = br.ReadUInt32();
@@ -1615,71 +1449,57 @@ namespace Advanced_badge_editor
                     br.BaseStream.Seek(0xE0, 0);
                     name = Encoding.Unicode.GetString(br.ReadBytes(0x8A));
 
-                    byte[][] rgb565_64 = new byte[width * height][];
-                    byte[][] a4_64 = new byte[width * height][];
-                    byte[][] rgb565_32 = new byte[width * height][];
-                    byte[][] a4_32 = new byte[width * height][];
+                    byte[][] data_64 = new byte[width * height][];
+                    byte[][] data_32 = new byte[width * height][];
 
-                    if (uniqueBadges + width * height <= 1000)
-                    {
-                        if (uniqueBadges == 0)
-                            badgeOptions(true);
+                    if (uniqueBadges == 0)
+                        badgeOptions(true);
 
-                        if (width * height == 1)
-                            br.BaseStream.Seek(0x1100, 0);
-                        else
-                            br.BaseStream.Seek(0x4300, 0);
-
-                        for (uint w = 0; w < width; w++)
-                        {
-                            for (uint h = 0; h < height; h++)
-                            {
-                                ushort subid = Convert.ToUInt16(Convert.ToString((ushort)((((width - 1) * 4) + ((height - 1) * 8)) + w + (h * 2)), 2), 16);
-
-                                uniqueBadges++;
-                                totalBadges++;
-
-                                if (sets > 0)
-                                    badgeSetIds[uniqueBadges - 1] = setIds[sets - 1];
-                                else
-                                    badgeSetIds[uniqueBadges - 1] = 0;
-
-                                badgeIds[uniqueBadges - 1] = id;
-
-
-                                badgeSids[uniqueBadges - 1] = subid;
-                                badgeQuants[uniqueBadges - 1] = 1;
-                                badgeNames[uniqueBadges - 1] = name;
-                                badgeIndexs[uniqueBadges - 1] = (ushort)(uniqueBadges - 1);
-                                badgeTitleIds[uniqueBadges - 1] = titleid;
-                                badgeHighIds[uniqueBadges - 1] = titlehid;
-
-                                rgb565_64[(h * width) + w] = br.ReadBytes(0x2000);
-                                a4_64[(h * width) + w] = br.ReadBytes(0x800);
-                                rgb565_32[(h * width) + w] = br.ReadBytes(0x800);
-                                a4_32[(h * width) + w] = br.ReadBytes(0x200);
-                            }
-                        }
-
-                        for (int i = 0; i < width * height; i++)
-                        {
-                            badgeImgs64[uniqueBadges - ((width * height) - i)] = rgb565_64[i];
-                            badgeShps64[uniqueBadges - ((width * height) - i)] = a4_64[i];
-                            badgeImgs32[uniqueBadges - ((width * height) - i)] = rgb565_32[i];
-                            badgeShps32[uniqueBadges - ((width * height) - i)] = a4_32[i];
-                        }
-
-                        selectedBadgeNumer.Maximum = uniqueBadges;
-                        selectedBadgeNumer.Value = uniqueBadges;
-                    }
+                    if (width * height == 1)
+                        br.BaseStream.Seek(0x1100, 0);
                     else
+                        br.BaseStream.Seek(0x4300, 0);
+
+                    for (uint w = 0; w < width; w++)
                     {
-                        MessageBox.Show("Too many unique badges to add new one...", "Unable to import badge", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        br.Close();
-                        return;
+                        for (uint h = 0; h < height; h++)
+                        {
+                            ushort subid = Convert.ToUInt16(Convert.ToString((ushort)((((width - 1) * 4) + ((height - 1) * 8)) + w + (h * 2)), 2), 16);
+
+                            uniqueBadges++;
+                            totalBadges++;
+
+                            if (sets > 0)
+                                badgeSetIds[uniqueBadges - 1] = setIds[sets - 1];
+                            else
+                                badgeSetIds[uniqueBadges - 1] = 0;
+
+                            badgeIds[uniqueBadges - 1] = id;
+
+
+                            badgeSids[uniqueBadges - 1] = subid;
+                            badgeQuants[uniqueBadges - 1] = 1;
+                            badgeNames[uniqueBadges - 1] = name;
+                            badgeIndexs[uniqueBadges - 1] = (ushort)(uniqueBadges - 1);
+                            badgeTitleIds[uniqueBadges - 1] = titleid;
+                            badgeHighIds[uniqueBadges - 1] = titlehid;
+
+                            data_64[(h * width) + w] = br.ReadBytes(0x2800);
+                            data_32[(h * width) + w] = br.ReadBytes(0xA00);
+                        }
+                    }
+
+                    for (int i = 0; i < width * height; i++)
+                    {
+                        badgeImgs64[uniqueBadges - ((width * height) - i)] = RT.RGB565andA4toPNG(data_64[i], 64);
+                        badgeImgs32[uniqueBadges - ((width * height) - i)] = RT.RGB565andA4toPNG(data_32[i], 32);
                     }
                     br.Close();
+                    loading.PerformStep();
                 }
+                selectedBadgeNumer.Maximum = uniqueBadges;
+                selectedBadgeNumer.Value = uniqueBadges;
+                selectedBadgeNumer_ValueChanged(null, null);
                 updateAll();
             }
         }
@@ -1738,14 +1558,13 @@ namespace Advanced_badge_editor
                 setUniqueBadges[sets - 1] = 1;
                 setIndexs[sets - 1] = sets - 1;
                 br.BaseStream.Seek(0x2080, 0);
-                setImgs[sets - 1] = br.ReadBytes(0x2000);
+                setImgs[sets - 1] = RT.getSetImage(br.ReadBytes(0x2000));
                 selectSetNumer.Maximum = sets;
                 selectSetNumer.Value = sets;
                 selectSetNumer_ValueChanged(null, null);
                 br.Close();
             }
         }
-
         private void fixBadgeSetIds_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < sets - 1; i++)
@@ -1761,6 +1580,157 @@ namespace Advanced_badge_editor
                 badgeSetIds[badgeIndexs[badge]] = setIds[setIndexs[sets - 1]];
             }
             updateAll();
+        }
+        private void importEntireSetData_Click(object sender, EventArgs e)
+        {
+            if (sets >= 100)
+            {
+                MessageBox.Show("You have too many sets to import a new one...", "Limit reached", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            OpenFileDialog set = new OpenFileDialog()
+            {
+                Filter = "Set File (*.cab)|*.cab",
+                DefaultExt = "*.cab",
+                AddExtension = true,
+                Title = "Select the set file",
+            };
+            if (set.ShowDialog() == DialogResult.OK)
+            {
+                BinaryReader br = new BinaryReader(File.OpenRead(set.FileName));
+                br.BaseStream.Seek(0, 0);
+                if (br.ReadUInt32() != 0x53424143)
+                {
+                    MessageBox.Show("The file you are trying to import is not valid", "Invalid file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    br.Close();
+                    return;
+                }
+                br.Close();
+
+                OpenFileDialog badges = new OpenFileDialog()
+                {
+                    Filter = "Badge File (*.prb)|*.prb",
+                    DefaultExt = "*.prb",
+                    AddExtension = true,
+                    Multiselect = true,
+                    Title = "Select all of the badges to be added to the set"
+                };
+                if (badges.ShowDialog() == DialogResult.OK)
+                {
+                    loading.Maximum = badges.FileNames.Length * 2;
+                    loading.Value = 0;
+                    uint totalbadges = 0;
+                    foreach (string file in badges.FileNames)
+                    {
+                        br = new BinaryReader(File.OpenRead(file));
+                        br.BaseStream.Seek(0, 0);
+                        if (br.ReadUInt32() != 0x53425250)
+                        {
+                            MessageBox.Show("One of the files you were trying to import is not valid (file: " + Path.GetFileName(file) + ")", "Invalid file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            br.Close();
+                            return;
+                        }
+                        br.BaseStream.Seek(0xB8, 0);
+                        uint width = br.ReadUInt32();
+                        uint height = br.ReadUInt32();
+                        totalbadges += width * height;
+                        loading.PerformStep();
+                    }
+                    if (uniqueBadges + totalbadges > 1000)
+                    {
+                        MessageBox.Show("Unable to import that many badges...", "Limit reached", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    br = new BinaryReader(File.OpenRead(set.FileName));
+
+                    if (sets == 0)
+                        setOptions(true);
+
+                    sets++;
+                    br.BaseStream.Seek(0x24, 0);
+                    setIds[sets - 1] = br.ReadUInt32();
+                    br.BaseStream.Seek(0x68, 0);
+                    setNames[sets - 1] = Encoding.Unicode.GetString(br.ReadBytes(0x8A));
+                    setBadgeIndexs[sets - 1] = uniqueBadges;
+                    setTotalBadges[sets - 1] = totalbadges;
+                    setUniqueBadges[sets - 1] = totalbadges;
+                    setIndexs[sets - 1] = sets - 1;
+                    br.BaseStream.Seek(0x2080, 0);
+                    setImgs[sets - 1] = RT.getSetImage(br.ReadBytes(0x2000));
+                    br.Close();
+
+                    foreach (string file in badges.FileNames)
+                    {
+                        br = new BinaryReader(File.OpenRead(file));
+                        uint id, titleid, titlehid, width, height;
+                        string name;
+
+                        br.BaseStream.Seek(0x3C, 0);
+                        id = br.ReadUInt32();
+                        br.BaseStream.Seek(0xA4, 0);
+                        titleid = br.ReadUInt32();
+                        titlehid = br.ReadUInt32();
+                        br.BaseStream.Seek(0xB8, 0);
+                        width = br.ReadUInt32();
+                        height = br.ReadUInt32();
+                        br.BaseStream.Seek(0xE0, 0);
+                        name = Encoding.Unicode.GetString(br.ReadBytes(0x8A));
+
+                        byte[][] data_64 = new byte[width * height][];
+                        byte[][] data_32 = new byte[width * height][];
+
+                        if (uniqueBadges == 0)
+                            badgeOptions(true);
+
+                        if (width * height == 1)
+                            br.BaseStream.Seek(0x1100, 0);
+                        else
+                            br.BaseStream.Seek(0x4300, 0);
+
+                        for (uint w = 0; w < width; w++)
+                        {
+                            for (uint h = 0; h < height; h++)
+                            {
+                                ushort subid = Convert.ToUInt16(Convert.ToString((ushort)((((width - 1) * 4) + ((height - 1) * 8)) + w + (h * 2)), 2), 16);
+
+                                uniqueBadges++;
+                                totalBadges++;
+
+                                badgeSetIds[uniqueBadges - 1] = setIds[sets - 1];
+
+                                badgeIds[uniqueBadges - 1] = id;
+                                badgeSids[uniqueBadges - 1] = subid;
+                                badgeQuants[uniqueBadges - 1] = 1;
+                                badgeNames[uniqueBadges - 1] = name;
+                                badgeIndexs[uniqueBadges - 1] = (ushort)(uniqueBadges - 1);
+                                badgeTitleIds[uniqueBadges - 1] = titleid;
+                                badgeHighIds[uniqueBadges - 1] = titlehid;
+
+                                data_64[(h * width) + w] = br.ReadBytes(0x2800);
+                                data_32[(h * width) + w] = br.ReadBytes(0xA00);
+                            }
+                        }
+
+                        for (int i = 0; i < width * height; i++)
+                        {
+                            badgeImgs64[uniqueBadges - ((width * height) - i)] = RT.RGB565andA4toPNG(data_64[i], 64);
+                            badgeImgs32[uniqueBadges - ((width * height) - i)] = RT.RGB565andA4toPNG(data_32[i], 32);
+                        }
+
+                        br.Close();
+                        loading.PerformStep();
+                    }
+                    selectSetNumer.Maximum = sets;
+                    selectSetNumer.Value = sets;
+                    selectSetNumer_ValueChanged(null, null);
+                    selectedBadgeNumer.Maximum = uniqueBadges;
+                    selectedBadgeNumer.Value = uniqueBadges;
+                    selectedBadgeNumer_ValueChanged(null, null);
+                    updateAll();
+                }
+            }
         }
     }
 }

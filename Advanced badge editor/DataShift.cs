@@ -62,13 +62,14 @@ namespace RTTools
         static internal void ARGB8toRGB565andA4(Color argb, out ushort rgb565, out byte a4)
         {
             rgb565 = (ushort)((((argb.R >> 3) & 0x1F) << 11) + (((argb.G >> 2) & 0x3F) << 5) + ((argb.B >> 3) & 0x1F));
-            a4 = (byte)(argb.A / 17);
+            a4 = (byte)(argb.A >> 4);
         }
 
         static internal Color RGB565andA4toARGB8(byte A4, ushort RGB565)
         {
             int[] ret = new int[4];
             ret[0] = A4 * 17;
+            if (ret[0] > 255) ret[0] = 255;
             ret[1] = (RGB565 & 0xF800) >> 8;
             ret[2] = (RGB565 & 0x7E0) >> 3;
             ret[3] = (RGB565 & 0x1F) << 3;
@@ -167,10 +168,10 @@ namespace RTTools
                 start = 0;
                 for (int x = new_img.Width - 1; x > 0; x--)
                 {
-                    if (new_img.GetPixel(x, y).A == 255)
+                    if (new_img.GetPixel(x, y).A > 0)
                     {
                         start = x;
-                        Pixel = new_img.GetPixel(x, y);
+                        Pixel = Color.FromArgb(255, new_img.GetPixel(x, y).R, new_img.GetPixel(x, y).G, new_img.GetPixel(x, y).B);
                         x = 0;
                     }
                 }
@@ -190,10 +191,10 @@ namespace RTTools
                 start = 0;
                 for (int x = 0; x < new_img.Width - 1; x++)
                 {
-                    if (new_img.GetPixel(x, y).A == 255)
+                    if (new_img.GetPixel(x, y).A > 0)
                     {
                         start = x;
-                        Pixel = new_img.GetPixel(x, y);
+                        Pixel = Color.FromArgb(255, new_img.GetPixel(x, y).R, new_img.GetPixel(x, y).G, new_img.GetPixel(x, y).B);
                         x = new_img.Width - 1;
                     }
                 }
@@ -213,10 +214,10 @@ namespace RTTools
                 start = 0;
                 for (int y = 0; y < new_img.Height - 1; y++)
                 {
-                    if (new_img.GetPixel(x, y).A == 255)
+                    if (new_img.GetPixel(x, y).A > 0)
                     {
                         start = y;
-                        Pixel = new_img.GetPixel(x, y);
+                        Pixel = Color.FromArgb(255, new_img.GetPixel(x, y).R, new_img.GetPixel(x, y).G, new_img.GetPixel(x, y).B);
                         y = new_img.Height - 1;
                     }
                 }
@@ -236,10 +237,10 @@ namespace RTTools
                 start = 0;
                 for (int y = new_img.Height - 1; y > 0; y--)
                 {
-                    if (new_img.GetPixel(x, y).A == 255)
+                    if (new_img.GetPixel(x, y).A > 0)
                     {
                         start = y;
-                        Pixel = new_img.GetPixel(x, y);
+                        Pixel = Color.FromArgb(255, new_img.GetPixel(x, y).R, new_img.GetPixel(x, y).G, new_img.GetPixel(x, y).B);
                         y = 0;
                     }
                 }
@@ -368,10 +369,13 @@ namespace RTTools
                                 break;
                             case 1:
                                 byte val = a4;
-                                c = image.GetPixel(x + 1, y);
+                                pixel++;
+                                DataShift.getXYfromZ(pixel, out x, out y);
+                                x += tX * 8;
+                                y += tY * 8;
+                                c = image.GetPixel(x, y);
                                 DataShift.ARGB8toRGB565andA4(c, out rgb565, out a4);
                                 val |= (byte)(a4 << 4);
-                                pixel++;
                                 bw.Write(val);
                                 break;
                         }
