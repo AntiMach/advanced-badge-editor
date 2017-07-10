@@ -31,11 +31,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveDataToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.badgeFileprbToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setFilecabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importEntireSetData = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.uniqueBadgesLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -106,7 +109,6 @@
             this.delAll = new System.Windows.Forms.Button();
             this.fixBadgeSetIds = new System.Windows.Forms.Button();
             this.loading = new System.Windows.Forms.ProgressBar();
-            this.importEntireSetData = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.badgeIdNumer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.badgeSidNumer)).BeginInit();
@@ -150,11 +152,20 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newDataToolStripMenuItem,
             this.openDataToolStripMenuItem,
-            this.saveDataToolStripMenuItem});
+            this.saveDataToolStripMenuItem,
+            this.saveDataToToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
+            // 
+            // newDataToolStripMenuItem
+            // 
+            this.newDataToolStripMenuItem.Name = "newDataToolStripMenuItem";
+            this.newDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newDataToolStripMenuItem.Text = "New data";
+            this.newDataToolStripMenuItem.Click += new System.EventHandler(this.newDataToolStripMenuItem_Click);
             // 
             // openDataToolStripMenuItem
             // 
@@ -170,6 +181,14 @@
             this.saveDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveDataToolStripMenuItem.Text = "Save data";
             this.saveDataToolStripMenuItem.Click += new System.EventHandler(this.saveDataToolStripMenuItem_Click);
+            // 
+            // saveDataToToolStripMenuItem
+            // 
+            this.saveDataToToolStripMenuItem.Enabled = false;
+            this.saveDataToToolStripMenuItem.Name = "saveDataToToolStripMenuItem";
+            this.saveDataToToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveDataToToolStripMenuItem.Text = "Save data to...";
+            this.saveDataToToolStripMenuItem.Click += new System.EventHandler(this.saveDataToToolStripMenuItem_Click);
             // 
             // importToolStripMenuItem
             // 
@@ -196,6 +215,14 @@
             this.setFilecabToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.setFilecabToolStripMenuItem.Text = "Set file (*.cab)";
             this.setFilecabToolStripMenuItem.Click += new System.EventHandler(this.setFilecabToolStripMenuItem_Click);
+            // 
+            // importEntireSetData
+            // 
+            this.importEntireSetData.Enabled = false;
+            this.importEntireSetData.Name = "importEntireSetData";
+            this.importEntireSetData.Size = new System.Drawing.Size(238, 22);
+            this.importEntireSetData.Text = "Entire set data (*.prb and *.cab)";
+            this.importEntireSetData.Click += new System.EventHandler(this.importEntireSetData_Click);
             // 
             // label1
             // 
@@ -1081,14 +1108,6 @@
             this.loading.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.loading.TabIndex = 82;
             // 
-            // importEntireSetData
-            // 
-            this.importEntireSetData.Enabled = false;
-            this.importEntireSetData.Name = "importEntireSetData";
-            this.importEntireSetData.Size = new System.Drawing.Size(238, 22);
-            this.importEntireSetData.Text = "Entire set data (*.prb and *.cab)";
-            this.importEntireSetData.Click += new System.EventHandler(this.importEntireSetData_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1278,6 +1297,8 @@
         private System.Windows.Forms.Button fixBadgeSetIds;
         private System.Windows.Forms.ProgressBar loading;
         private System.Windows.Forms.ToolStripMenuItem importEntireSetData;
+        private System.Windows.Forms.ToolStripMenuItem newDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveDataToToolStripMenuItem;
     }
 }
 

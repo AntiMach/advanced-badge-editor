@@ -81,7 +81,6 @@ namespace Advanced_badge_editor
         //
         // Folder browser
         //
-        FolderBrowserDialog openData = new FolderBrowserDialog();
         FileInfo badgeData = null;
         FileInfo badgeMng = null;
         //
@@ -279,6 +278,10 @@ namespace Advanced_badge_editor
         //
         private void openDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            FolderBrowserDialog openData = new FolderBrowserDialog
+            {
+                Description = "Select a folder to open the files from",
+            };
             if (openData.ShowDialog() == DialogResult.OK)
             {
                 if (File.Exists(openData.SelectedPath + "/BadgeMngFile.dat") && File.Exists(openData.SelectedPath + "/BadgeData.dat"))
@@ -411,6 +414,7 @@ namespace Advanced_badge_editor
                     regionDropdown.Text = region;
                     setStartingNumer.Maximum = setBadgeIndexs[0] + 1;
                     saveDataToolStripMenuItem.Enabled = true;
+                    saveDataToToolStripMenuItem.Enabled = true;
                     badgeFileprbToolStripMenuItem.Enabled = true;
                     setFilecabToolStripMenuItem.Enabled = true;
                     importEntireSetData.Enabled = true;
@@ -422,6 +426,173 @@ namespace Advanced_badge_editor
                     MessageBox.Show("The folder you selected doesn't contain BadgeMngFile.dat nor BadgeData.dat!", "Error opening files", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+        //
+        // Create new data
+        //
+        private void newDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (badgeData != null && badgeMng != null)
+            {
+                if (MessageBox.Show("Changes made to the last files will be lost if not saved! Are you sure you want to create new data?", "Create new data?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No){
+                    return;
+                }
+            }
+
+            badgeData = null;
+            badgeMng = null;
+            resetInfo();
+
+            createBadgeButton.Enabled = true;
+            createSetButton.Enabled = true;
+            regionDropdown.Enabled = true;
+            NNIDnumer.Enabled = true;
+            delAll.Enabled = true;
+
+            updateAll();
+            regionDropdown.Text = region;
+            setStartingNumer.Maximum = setBadgeIndexs[0] + 1;
+            saveDataToolStripMenuItem.Enabled = true;
+            saveDataToToolStripMenuItem.Enabled = true;
+            badgeFileprbToolStripMenuItem.Enabled = true;
+            setFilecabToolStripMenuItem.Enabled = true;
+            importEntireSetData.Enabled = true;
+        }
+        
+        public void resetData(FileInfo badgeDataFile, FileInfo badgeMngFile)
+        {
+            BinaryWriter bw = new BinaryWriter(badgeMngFile.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None));
+
+            writeBytes(bw, 0x00, 0x10);
+            writeBytes(bw, 0xFF, 0x4);
+            writeBytes(bw, 0x00, 0x3D4);
+            for (int i = 0; i < 1000; i++)
+            {
+                writeBytes(bw, 0x00, 0x4);
+                writeBytes(bw, 0xFF, 0xA);
+                writeBytes(bw, 0x00, 0xA);
+                writeBytes(bw, 0xFF, 0x8);
+                writeBytes(bw, 0x00, 0x8);
+            }
+            for (int i = 0; i < 100; i++)
+            {
+                writeBytes(bw, 0xFF, 0x8);
+                writeBytes(bw, 0x00, 0x4);
+                bw.Write((ushort)0x2710);
+                writeBytes(bw, 0x00, 0x2);
+                writeBytes(bw, 0xFF, 0xC);
+                writeBytes(bw, 0x00, 0x8);
+                writeBytes(bw, 0xFF, 0x4);
+                writeBytes(bw, 0x00, 0x8);
+            }
+            for (int i = 0; i < 360; i++)
+            {
+                writeBytes(bw, 0x00, 0x4);
+                writeBytes(bw, 0xFF, 0xA);
+                writeBytes(bw, 0x00, 0x2);
+                writeBytes(bw, 0xFF, 0x8);
+            }
+
+            bw.Close();
+            bw = new BinaryWriter(badgeDataFile.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None));
+
+            writeBytes(bw, 0x00, 0xF4DF80);
+
+            bw.Close();
+        }
+        public void writeBytes(BinaryWriter bwf, byte val, int len)
+        {
+            for (int loop = 0; loop < len; loop++)
+            {
+                bwf.Write(val);
+            }
+        }
+        //
+        // Save data to files
+        //
+        public void saveData(FileInfo badgeDataFile, FileInfo badgeMngFile)
+        {
+            resetData(badgeDataFile, badgeMngFile);
+            BinaryWriter bw = new BinaryWriter(badgeMngFile.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None));
+
+            bw.BaseStream.Position = 0x04;
+            bw.Write(sets);
+            bw.Write(uniqueBadges);
+            bw.BaseStream.Position = 0x18;
+            bw.Write(totalBadges);
+            bw.Write(NNID);
+
+            loading.Maximum = (int)(sets * 2 + uniqueBadges * 2);
+            loading.Value = 0;
+
+            for (int i = 0; i < uniqueBadges; i++)
+            {
+                bw.BaseStream.Position = 0x3EC + i * 0x28;
+                bw.Write(badgeIds[i]);
+                bw.Write(badgeSetIds[i]);
+                bw.Write(badgeIndexs[i]);
+                bw.Write(badgeSids[i]);
+                bw.BaseStream.Position += 0x2;
+                bw.Write(badgeQuants[i]);
+                bw.BaseStream.Position += 0x4;
+                bw.Write(badgeTitleIds[i]);
+                bw.Write(badgeHighIds[i]);
+                bw.Write(badgeTitleIds[i]);
+                bw.Write(badgeHighIds[i]);
+                loading.PerformStep();
+            }
+            for (int i = 0; i < sets; i++)
+            {
+                bw.BaseStream.Position = 0xA038 + i * 0x30;
+                bw.Write(setIds[i]);
+                bw.Write(setIndexs[i]);
+                bw.BaseStream.Position += 0x4;
+                bw.Write(setUniqueBadges[i]);
+                bw.Write(setTotalBadges[i]);
+                bw.Write(setBadgeIndexs[i]);
+                loading.PerformStep();
+            }
+
+            bw.Close();
+
+            bw = new BinaryWriter(badgeDataFile.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None));
+
+            bw.BaseStream.Position = 0x35E80;
+            for (int i = 0; i < uniqueBadges; i++)
+            {
+                for (int ii = 0; ii < 16; ii++)
+                {
+                    bw.BaseStream.Position = (badgeIndexs[i] * 0x8A0) + (ii * 0x8A) + 0x35E80;
+                    bw.Write(Encoding.Unicode.GetBytes(badgeNames[badgeIndexs[i]]));
+                }
+                bw.BaseStream.Position = badgeIndexs[i] * 0x2800 + 0x318F80;
+                byte[] rgb565_64, a4_64, rgb565_32, a4_32;
+                RT.PNGtoRGB565andA4(badgeImgs64[badgeIndexs[i]], out rgb565_64, out a4_64);
+                RT.PNGtoRGB565andA4(badgeImgs32[badgeIndexs[i]], out rgb565_32, out a4_32);
+                bw.Write(rgb565_64);
+                bw.Write(a4_64);
+                bw.BaseStream.Position = badgeIndexs[i] * 0xA00 + 0xCDCF80;
+                bw.Write(rgb565_32);
+                bw.Write(a4_32);
+                loading.PerformStep();
+            }
+
+            bw.BaseStream.Position = 0;
+            for (int i = 0; i < sets; i++)
+            {
+                for (int ii = 0; ii < 16; ii++)
+                {
+                    bw.BaseStream.Position = (setIndexs[i] * 0x8A0) + (ii * 0x8A);
+                    bw.Write(Encoding.Unicode.GetBytes(setNames[setIndexs[i]]));
+                }
+                bw.BaseStream.Position = setIndexs[i] * 0x2000 + 0x250F80;
+                bw.Write(RT.adjustForSet(setImgs[setIndexs[i]]));
+                loading.PerformStep();
+            }
+
+            bw.Close();
+
+            SystemSounds.Asterisk.Play();
         }
         //
         // Update main info about the badge data
@@ -854,97 +1025,52 @@ namespace Advanced_badge_editor
         //
         private void saveDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
-            if (MessageBox.Show("Are you sure you want to overwrite the old data?", "Overwrite?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (badgeData == null && badgeMng == null)
             {
-                BinaryWriter data = new BinaryWriter(badgeMng.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None));
-
-                data.BaseStream.Position = 0x04;
-                data.Write(sets);
-                data.Write(uniqueBadges);
-                data.BaseStream.Position = 0x18;
-                data.Write(totalBadges);
-                data.Write(NNID);
-
-                loading.Maximum = (int)(sets * 2 + uniqueBadges * 2);
-                loading.Value = 0;
-
-                for (int i = 0; i < uniqueBadges; i++)
+                FolderBrowserDialog fbd = new FolderBrowserDialog
                 {
-                    data.BaseStream.Position = 0x3E8 + i * 0x28 + 0x4;
-                    data.Write(badgeIds[i]);
-                    data.Write(badgeSetIds[i]);
-                    data.Write(badgeIndexs[i]);
-                    data.Write(badgeSids[i]);
-                    data.BaseStream.Position += 0x2;
-                    data.Write(badgeQuants[i]);
-                    data.BaseStream.Position += 0x4;
-                    data.Write(badgeTitleIds[i]);
-                    data.Write(badgeHighIds[i]);
-                    data.Write(badgeTitleIds[i]);
-                    data.Write(badgeHighIds[i]);
-                    loading.PerformStep();
-                }
-                for (int i = 0; i < sets; i++)
+                    Description = "Select a folder to save the files to",
+                };
+                if (fbd.ShowDialog() == DialogResult.OK)
                 {
-                    data.BaseStream.Position = 0xA028 + i * 0x30 + 0x10;
-                    data.Write(setIds[i]);
-                    data.Write(setIndexs[i]);
-                    data.BaseStream.Position += 0x4;
-                    data.Write(setUniqueBadges[i]);
-                    data.Write(setTotalBadges[i]);
-                    data.Write(setBadgeIndexs[i]);
-                    loading.PerformStep();
-                }
-
-                data.Close();
-
-                data = new BinaryWriter(badgeData.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None));
-
-                data.BaseStream.Position = 0x35E80;
-                for (int i = 0; i < 0x8A0 * uniqueBadges; i++)
-                {
-                    data.Write(0x00);
-                }
-                for (int i = 0; i < uniqueBadges; i++)
-                {
-                    for (int ii = 0; ii < 16; ii++)
+                    if (File.Exists(fbd.SelectedPath + "/BadgeMngFile.dat") && File.Exists(fbd.SelectedPath + "/BadgeData.dat"))
                     {
-                        data.BaseStream.Position = (badgeIndexs[i] * 0x8A0) + (ii * 0x8A) + 0x35E80;
-                        data.Write(Encoding.Unicode.GetBytes(badgeNames[badgeIndexs[i]]));
+                        if (MessageBox.Show("There already exists data in that folder. Do you want to overwrite it?", "Overwrite?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No){
+                            return;
+                        }
                     }
-                    data.BaseStream.Position = badgeIndexs[i] * 0x2800 + 0x318F80;
-                    byte[] rgb565_64, a4_64, rgb565_32, a4_32;
-                    RT.PNGtoRGB565andA4(badgeImgs64[badgeIndexs[i]], out rgb565_64, out a4_64);
-                    RT.PNGtoRGB565andA4(badgeImgs32[badgeIndexs[i]], out rgb565_32, out a4_32);
-                    data.Write(rgb565_64);
-                    data.Write(a4_64);
-                    data.BaseStream.Position = badgeIndexs[i] * 0xA00 + 0xCDCF80;
-                    data.Write(rgb565_32);
-                    data.Write(a4_32);
-                    loading.PerformStep();
+                    badgeData = new FileInfo(fbd.SelectedPath + "/BadgeData.dat");
+                    badgeMng = new FileInfo(fbd.SelectedPath + "/BadgeMngFile.dat");
+                    saveData(badgeData, badgeMng);
                 }
+            }
+            else
+            {
+                if (MessageBox.Show("Are you sure you want to overwrite the old data?", "Overwrite?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    saveData(badgeData, badgeMng);
+                }
+            }
+        }
 
-                data.BaseStream.Position = 0;
-                for (int i = 0; i < 0x8A0 * sets; i++)
+        private void saveDataToToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog
+            {
+                Description = "Select a folder to save the files to",
+            };
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                if (File.Exists(fbd.SelectedPath + "/BadgeMngFile.dat") && File.Exists(fbd.SelectedPath + "/BadgeData.dat"))
                 {
-                    data.Write(0x00);
-                }
-                for (int i = 0; i < sets; i++)
-                {
-                    for (int ii = 0; ii < 16; ii++)
+                    if (MessageBox.Show("There already exists data in that folder. Do you want to overwrite it?", "Overwrite?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                     {
-                        data.BaseStream.Position = (setIndexs[i] * 0x8A0) + (ii * 0x8A);
-                        data.Write(Encoding.Unicode.GetBytes(setNames[setIndexs[i]]));
+                        return;
                     }
-                    data.BaseStream.Position = setIndexs[i] * 0x2000 + 0x250F80;
-                    data.Write(RT.adjustForSet(setImgs[setIndexs[i]]));
-                    loading.PerformStep();
                 }
-
-                data.Close();
-
-                SystemSounds.Asterisk.Play();
+                badgeData = new FileInfo(fbd.SelectedPath + "/BadgeData.dat");
+                badgeMng = new FileInfo(fbd.SelectedPath + "/BadgeMngFile.dat");
+                saveData(badgeData, badgeMng);
             }
         }
         //
@@ -1732,5 +1858,7 @@ namespace Advanced_badge_editor
                 }
             }
         }
+
+        
     }
 }
