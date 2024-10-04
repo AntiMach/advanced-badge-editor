@@ -1804,7 +1804,5 @@ namespace AdvancedBadgeEditor
                 }
             }
         }
-
-
     }
 }
