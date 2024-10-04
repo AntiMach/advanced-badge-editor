@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Advanced badge editor")]
-[assembly: AssemblyDescription("Lets you edit and make badges or sets")]
+[assembly: AssemblyTitle("Advanced Badge Editor")]
+[assembly: AssemblyDescription("Allows you to create and edit 3DS badge data")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Advanced badge editor")]
-[assembly: AssemblyCopyright("Copyright © TheMachinumps 2016")]
+[assembly: AssemblyProduct("Advanced Badge Editor")]
+[assembly: AssemblyCopyright("Copyright © AntiMach 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

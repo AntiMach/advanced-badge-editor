@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Advanced_badge_editor
+namespace AdvancedBadgeEditor
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace Advanced_badge_editor
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new EditorForm());
         }
     }
 }

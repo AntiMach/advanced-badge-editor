@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using System.Runtime.InteropServices;
-using RTTools;
 using System.Media;
 
-namespace Advanced_badge_editor
+using RTTools;
+
+namespace AdvancedBadgeEditor
 {
-    public partial class Form1 : Form
+    public partial class EditorForm : Form
     {
-        public Form1()
+        public EditorForm()
         {
             InitializeComponent();
             titleIDdropdown.Text = "None / Unknown";
@@ -130,7 +127,7 @@ namespace Advanced_badge_editor
             "00028E00",
             };
         #endregion
-        
+
         //
         //
         //
@@ -239,7 +236,7 @@ namespace Advanced_badge_editor
                     // Using BinaryReader to read the Hex data of each file
                     BinaryReader data = new BinaryReader(badgeMng.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None));
 
-                    
+
 
                     data.BaseStream.Position = 0x4;
                     sets = BitConverter.ToUInt32(data.ReadBytes(0x4), 0);
@@ -379,7 +376,8 @@ namespace Advanced_badge_editor
         {
             if (badgeData != null && badgeMng != null)
             {
-                if (MessageBox.Show("Changes made to the last files will be lost if not saved! Are you sure you want to create new data?", "Create new data?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No){
+                if (MessageBox.Show("Changes made to the last files will be lost if not saved! Are you sure you want to create new data?", "Create new data?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
                     return;
                 }
             }
@@ -403,7 +401,7 @@ namespace Advanced_badge_editor
             setFilecabToolStripMenuItem.Enabled = true;
             importEntireSetData.Enabled = true;
         }
-        
+
         public void ResetData(FileInfo badgeDataFile, FileInfo badgeMngFile)
         {
             BinaryWriter bw = new BinaryWriter(badgeMngFile.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None));
@@ -512,7 +510,7 @@ namespace Advanced_badge_editor
                 }
                 bw.BaseStream.Position = badgeIndexs[i] * 0x2800 + 0x318F80;
                 RT.PNGtoRGB565andA4(badgeImgs64[badgeIndexs[i]], out byte[] rgb565_64, out byte[] a4_64);
-                RT.PNGtoRGB565andA4(badgeImgs32[badgeIndexs[i]], out byte[] rgb565_32, out byte[]  a4_32);
+                RT.PNGtoRGB565andA4(badgeImgs32[badgeIndexs[i]], out byte[] rgb565_32, out byte[] a4_32);
                 bw.Write(rgb565_64);
                 bw.Write(a4_64);
                 bw.BaseStream.Position = badgeIndexs[i] * 0xA00 + 0xCDCF80;
@@ -592,7 +590,7 @@ namespace Advanced_badge_editor
             titleIDnumer.Enabled = enable;
             titleHighNumer.Enabled = enable;
             delBadge.Enabled = enable;
-            
+
         }
         public void SetOptions(bool enable)
         {
@@ -647,7 +645,8 @@ namespace Advanced_badge_editor
             prevSetImg.Image = setImgs[setIndexs[(int)selectSetNumer.Value - 1]];
         }
 
-        public void DeleteBadge() {
+        public void DeleteBadge()
+        {
             int badgeSet = (int)sets - 1;
             if (badgeSet < 0) { badgeSet = 0; }
             for (int i = 0; i < sets; i++)
@@ -670,14 +669,15 @@ namespace Advanced_badge_editor
             badgeImgs64 = RemoveIndex(badgeImgs64, badgeIndexs[(int)selectedBadgeNumer.Value - 1]);
             badgeIndexs = RemoveIndex(badgeIndexs, (int)selectedBadgeNumer.Value - 1);
             uniqueBadges--;
-            for (int i = 0; i < uniqueBadges; i++) {
+            for (int i = 0; i < uniqueBadges; i++)
+            {
                 if (badgeIndexs[i] > badgeIndex) badgeIndexs[i]--;
             }
             for (int i = badgeSet + 1; i < sets; i++)
             {
                 setBadgeIndexs[i]--;
             }
-            
+
             if ((setBadgeIndexs[badgeSet] > (int)uniqueBadges - 1 && sets > 0) || (setBadgeIndexs[badgeSet] - setBadgeIndexs[badgeSet + 1] == 0 && sets > 1))
             {
                 DeleteSetFromBadges(badgeSet);
@@ -717,7 +717,7 @@ namespace Advanced_badge_editor
                 if (selectedBadgeNumer.Value == uniqueBadges)
                     selectedBadgeNumer.Value -= uniqueBadgesSet - subtract;
             }
-            
+
 
             int deleteBadgesFrom = (int)setBadgeIndexs[(int)selectSetNumer.Value - 1];
             for (int i = 0; i < uniqueBadgesSet; i++)
@@ -765,7 +765,7 @@ namespace Advanced_badge_editor
             uniqueBadges--;
             for (int i = 0; i < uniqueBadges; i++)
             {
-                if (badgeIndexs[i] > badgeIndex)badgeIndexs[i]--;
+                if (badgeIndexs[i] > badgeIndex) badgeIndexs[i]--;
             }
         }
 
@@ -783,7 +783,8 @@ namespace Advanced_badge_editor
             list.Add(0);
             return list.ToArray();
         }
-        public uint[] RemoveIndex(uint[] tochange, int index){
+        public uint[] RemoveIndex(uint[] tochange, int index)
+        {
             List<uint> list = new List<uint>(tochange);
             list.RemoveAt(index);
             list.Add(0);
@@ -979,7 +980,8 @@ namespace Advanced_badge_editor
                 {
                     if (File.Exists(fbd.SelectedPath + "/BadgeMngFile.dat") && File.Exists(fbd.SelectedPath + "/BadgeData.dat"))
                     {
-                        if (MessageBox.Show("There already exists data in that folder. Do you want to overwrite it?", "Overwrite?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No){
+                        if (MessageBox.Show("There already exists data in that folder. Do you want to overwrite it?", "Overwrite?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                        {
                             return;
                         }
                     }
@@ -1141,7 +1143,7 @@ namespace Advanced_badge_editor
                 DefaultExt = "*.png",
                 AddExtension = true,
             };
-            if(ofd.ShowDialog() == DialogResult.OK)
+            if (ofd.ShowDialog() == DialogResult.OK)
             {
                 Bitmap normal = new Bitmap(ofd.FileName);
                 Bitmap downscaled = IMG.DownscaleImage(normal, 2, !pixelBadgeMode.Checked);
@@ -1151,7 +1153,7 @@ namespace Advanced_badge_editor
 
                     badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = normal;
                     badgeImgs32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = downscaled;
-                    
+
                     if (uniqueBadges > 0)
                         UpdateBadgeInfo();
                 }
@@ -1170,7 +1172,7 @@ namespace Advanced_badge_editor
                 AddExtension = true,
             };
 
-            if(sfd.ShowDialog() == DialogResult.OK)
+            if (sfd.ShowDialog() == DialogResult.OK)
             {
                 badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]].Save(sfd.FileName);
             }
@@ -1229,7 +1231,7 @@ namespace Advanced_badge_editor
                 else
                     badgeHighIds[(int)selectedBadgeNumer.Value - 1] = 0xFFFFFFFF;
             }
-                
+
             UpdateAll();
         }
         private void RegionDropdown_SelectedIndexChanged(object sender, EventArgs e)
@@ -1803,6 +1805,6 @@ namespace Advanced_badge_editor
             }
         }
 
-        
+
     }
 }
