@@ -12,7 +12,7 @@ namespace RTTools
 {
     class DataShift
     {
-        static internal int bits(int num)
+        static internal int Bits(int num)
         {
             int ret = num;
             int loops = 0;
@@ -24,38 +24,37 @@ namespace RTTools
             return loops;
         }
 
-        static internal int getZfromXY(int X, int Y)
+        static internal int GetZfromXY(int X, int Y)
         {
             int Z = 0;
-            for (int bX = 0; bX <= bits(X); bX++)
+            for (int bX = 0; bX <= Bits(X); bX++)
             {
                 Z += ((X & (int)Math.Pow(2, bX)) << bX);
             }
-            for (int bY = 0; bY <= bits(Y); bY++)
+            for (int bY = 0; bY <= Bits(Y); bY++)
             {
                 Z += ((Y & (int)Math.Pow(2, bY)) << (bY + 1));
             }
             return Z;
         }
 
-        static internal void getXYfromZ(int Z, out int X, out int Y)
+        static internal void GetXYfromZ(int Z, out int X, out int Y)
         {
             X = 0;
-            for (int bZ = 0; bZ <= (bits(Z) / 2); bZ++)
+            for (int bZ = 0; bZ <= (Bits(Z) / 2); bZ++)
             {
                 X += ((Z & (int)Math.Pow(2, (bZ * 2))) >> bZ);
             }
             Y = 0;
-            for (int bZ = 0; bZ <= (bits(Z) / 2); bZ++)
+            for (int bZ = 0; bZ <= (Bits(Z) / 2); bZ++)
             {
                 Y += ((Z & (int)Math.Pow(2, (bZ * 2) + 1)) >> bZ + 1);
             }
         }
 
-        static internal ulong getDataOffset(int tileX, int tileY, int pixel, int width)
+        static internal ulong GetDataOffset(int tileX, int tileY, int pixel, int width)
         {
-            int X, Y;
-            getXYfromZ(pixel, out X, out Y);
+            GetXYfromZ(pixel, out int X, out int Y);
             return (ulong)((tileX * 8) + X + ((tileY * 8 + Y) * width));
         }
 
@@ -76,7 +75,7 @@ namespace RTTools
             return Color.FromArgb(ret[0], ret[1], ret[2], ret[3]);
         }
 
-        static internal ushort[] getRGB565array(byte[] data, int size)
+        static internal ushort[] GetRGB565array(byte[] data, int size)
         {
             MemoryStream ms = new MemoryStream(data);
             BinaryReader br = new BinaryReader(ms);
@@ -90,7 +89,7 @@ namespace RTTools
             return rgb565;
         }
 
-        static internal byte[] getA4array(byte[] data, int size)
+        static internal byte[] GetA4array(byte[] data, int size)
         {
             byte[] a4 = new byte[size * size];
             for (int i = 0; i < (size * size) / 2; i++)
@@ -101,7 +100,7 @@ namespace RTTools
             return a4;
         }
 
-        static internal byte[] combine2Arrays(byte[] data1, byte[] data2)
+        static internal byte[] CombineTwoArrays(byte[] data1, byte[] data2)
         {
             MemoryStream ms = new MemoryStream();
             BinaryWriter bw = new BinaryWriter(ms);
@@ -116,7 +115,7 @@ namespace RTTools
 
     class IMG
     {
-        static internal Bitmap downscaleImg(Bitmap img, int dscale, bool hq)
+        static internal Bitmap DownscaleImage(Bitmap img, int dscale, bool hq)
         {
             float width = img.Width / dscale;
             float height = img.Height / dscale;
@@ -143,7 +142,7 @@ namespace RTTools
             return bmp;
         }
 
-        static internal Bitmap cropImage(Bitmap img, Rectangle area)
+        static internal Bitmap CropImage(Bitmap img, Rectangle area)
         {
             Bitmap Output = new Bitmap(area.Width, area.Height);
             Graphics Adjust = Graphics.FromImage(Output);
@@ -153,7 +152,7 @@ namespace RTTools
             return Output;
         }
 
-        static internal Bitmap stretchImage(Bitmap img)
+        static internal Bitmap StretchImage(Bitmap img)
         {
             Bitmap new_img = new Bitmap(img);
 
@@ -258,15 +257,15 @@ namespace RTTools
 
     class RT
     {
-        static internal void createBadgeFromImage(Bitmap img, out byte[] RGB565_64, out byte[] A4_64, out byte[] RGB565_32, out byte[] A4_32)
+        static internal void CreateBadgeFromImage(Bitmap img, out byte[] RGB565_64, out byte[] A4_64, out byte[] RGB565_32, out byte[] A4_32)
         {
-            Bitmap downscaled = IMG.downscaleImg(img, 2, true);
+            Bitmap downscaled = IMG.DownscaleImage(img, 2, true);
 
             PNGtoRGB565andA4(img, out RGB565_64, out A4_64);
             PNGtoRGB565andA4(downscaled, out RGB565_32, out A4_32);
         }
 
-        static internal void getImagesFromBadge(byte[] data, out Bitmap img64, out Bitmap img32)
+        static internal void GetImagesFromBadge(byte[] data, out Bitmap img64, out Bitmap img32)
         {
             MemoryStream ms = new MemoryStream(data);
             BinaryReader br = new BinaryReader(ms);
@@ -277,7 +276,7 @@ namespace RTTools
             br.Close();
         }
 
-        static internal void retriveDataFromBadge(string filepath, out byte[][] data, out uint width, out uint height)
+        static internal void RetriveDataFromBadge(string filepath, out byte[][] data, out uint width, out uint height)
         {
             BinaryReader br = new BinaryReader(new FileStream(filepath, FileMode.Open));
             br.BaseStream.Seek(0xB8, 0);
@@ -303,21 +302,20 @@ namespace RTTools
 
         static internal Bitmap RGB565andA4toPNG(byte[] data, int size)
         {
-            return getPNG(DataShift.getRGB565array(data, size), DataShift.getA4array(data, size), size, size);
+            return GetPNG(DataShift.GetRGB565array(data, size), DataShift.GetA4array(data, size), size, size);
         }
 
         static internal void PNGtoRGB565andA4(Bitmap image, out byte[] rgb565, out byte[] a4)
         {
-            Bitmap stretched = IMG.stretchImage(image);
+            Bitmap stretched = IMG.StretchImage(image);
 
-            rgb565 = getBCLIM(stretched, 0);
-            a4 = getBCLIM(image, 1);
+            rgb565 = GetBCLIM(stretched, 0);
+            a4 = GetBCLIM(image, 1);
         }
 
-        static internal Bitmap getPNG(ushort[] rgb565, byte[] a4, int width, int height)
+        static internal Bitmap GetPNG(ushort[] rgb565, byte[] a4, int width, int height)
         {
             Bitmap bmp = new Bitmap(width, height);
-            Color[] colors = new Color[width * height];
 
             for (int tY = 0; tY < height / 8; tY++)
             {
@@ -327,7 +325,7 @@ namespace RTTools
                     {
                         for (int X = 0; X < 8; X++)
                         {
-                            int z = DataShift.getZfromXY(X, Y);
+                            int z = DataShift.GetZfromXY(X, Y);
 
                             bmp.SetPixel(X + tX * 8, Y + tY * 8, DataShift.RGB565andA4toARGB8(a4[z + (tY * 8 * width) + (tX * 64)], rgb565[z + (tY * 8 * width) + (tX * 64)]));
                         }
@@ -338,7 +336,7 @@ namespace RTTools
             return bmp;
         }
         
-        static internal byte[] getBCLIM(Bitmap image, int fmt)
+        static internal byte[] GetBCLIM(Bitmap image, int fmt)
         {
             MemoryStream ms = new MemoryStream();
             BinaryWriter bw = new BinaryWriter(ms);
@@ -349,18 +347,15 @@ namespace RTTools
                 {
                     for (int pixel = 0; pixel < 64; pixel++)
                     {
-                        int x, y;
-                        DataShift.getXYfromZ(pixel, out x, out y);
+                        DataShift.GetXYfromZ(pixel, out int x, out int y);
 
                         x += tX * 8;
                         y += tY * 8;
 
                         Color c = image.GetPixel(x, y);
 
-                        ushort rgb565;
-                        byte a4;
 
-                        DataShift.ARGB8toRGB565andA4(c, out rgb565, out a4);
+                        DataShift.ARGB8toRGB565andA4(c, out ushort rgb565, out byte a4);
 
                         switch (fmt)
                         {
@@ -370,11 +365,11 @@ namespace RTTools
                             case 1:
                                 byte val = a4;
                                 pixel++;
-                                DataShift.getXYfromZ(pixel, out x, out y);
+                                DataShift.GetXYfromZ(pixel, out x, out y);
                                 x += tX * 8;
                                 y += tY * 8;
                                 c = image.GetPixel(x, y);
-                                DataShift.ARGB8toRGB565andA4(c, out rgb565, out a4);
+                                DataShift.ARGB8toRGB565andA4(c, out ushort _, out a4);
                                 val |= (byte)(a4 << 4);
                                 bw.Write(val);
                                 break;
@@ -387,28 +382,26 @@ namespace RTTools
             return ms.ToArray();
         }
 
-        static internal byte[] adjustForSet(Bitmap img)
+        static internal byte[] AdjustForSet(Bitmap img)
         {
             Bitmap Output = new Bitmap(64, 64);
             Graphics Adjust = Graphics.FromImage(Output);
 
             Adjust.DrawImage(img, new Rectangle(0, 0, 48, 48));
-            Output = IMG.stretchImage(Output);
+            Output = IMG.StretchImage(Output);
 
-            byte[] rgb565, a4;
-
-            PNGtoRGB565andA4(Output, out rgb565, out a4);
+            PNGtoRGB565andA4(Output, out byte[] rgb565, out byte[] _);
 
             return rgb565;
         }
 
-        static internal Bitmap getSetImage(byte[] data)
+        static internal Bitmap GetSetImage(byte[] data)
         {
             byte[] nul = new byte[0x800];
             for (int i = 0; i < nul.Length; i++)
                 nul[i] = 0xFF;
 
-            return IMG.cropImage(RGB565andA4toPNG(DataShift.combine2Arrays(data, nul), 64), new Rectangle(0, 0, 48, 48));
+            return IMG.CropImage(RGB565andA4toPNG(DataShift.CombineTwoArrays(data, nul), 64), new Rectangle(0, 0, 48, 48));
         }
     }
 }

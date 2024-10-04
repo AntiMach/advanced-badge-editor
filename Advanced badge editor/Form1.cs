@@ -19,64 +19,9 @@ namespace Advanced_badge_editor
         public Form1()
         {
             InitializeComponent();
-            appName.Text = "Advanced badge editor";
-            appIcon.Image = Properties.Resources.Advanced_badge_editor_icon;
             titleIDdropdown.Text = "None / Unknown";
             regionDropdown.Text = "???";
         }
-        #region GUI Interaction
-
-        #region Import necessary DLL's
-        public const int WM_NCLBUTTONDOWN = 0xA1;
-        public const int HT_CAPTION = 0x2;
-        [DllImport("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-        [DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();
-        #endregion
-
-        #region Minimize Button
-        private void minimize_MouseEnter(object sender, EventArgs e)
-        {
-            appMinimize.Image = Properties.Resources.app_minimize_hover;
-        }
-        private void minimize_MouseLeave(object sender, EventArgs e)
-        {
-            appMinimize.Image = Properties.Resources.app_minimize;
-        }
-        private void minimize_Click(object sender, EventArgs e)
-        {
-            WindowState = FormWindowState.Minimized;
-        }
-        #endregion
-
-        #region Close Button
-        private void close_MouseEnter(object sender, EventArgs e)
-        {
-            appClose.Image = Properties.Resources.app_close_hover;
-        }
-        private void close_MouseLeave(object sender, EventArgs e)
-        {
-            appClose.Image = Properties.Resources.app_close;
-        }
-        private void close_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-        #endregion
-
-        #region Grabbable window
-        private void windowTop_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                ReleaseCapture();
-                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
-            }
-        }
-        #endregion
-
-        #endregion
 
         //
         // Folder browser
@@ -95,7 +40,7 @@ namespace Advanced_badge_editor
         bool dropdownUpdate = true;
 
         #region systemApps
-        string[] systemApps = new string[] {
+        readonly string[] systemApps = new string[] {
             //JPN
             "00020000",
             "00020100",
@@ -212,7 +157,7 @@ namespace Advanced_badge_editor
         //
         //
         //
-        public void resetInfo()
+        public void ResetInfo()
         {
             uniqueBadges = 0;
             totalBadges = 0;
@@ -268,7 +213,7 @@ namespace Advanced_badge_editor
             regionDropdown.Text = "???";
             regionDropdown.Items.Remove("???");
         }
-        private void regionDropdown_DropDown(object sender, EventArgs e)
+        private void RegionDropdown_DropDown(object sender, EventArgs e)
         {
             if (regionDropdown.Items.Contains("???"))
                 regionDropdown.Items.Remove("???");
@@ -276,7 +221,7 @@ namespace Advanced_badge_editor
         //
         // Open data prompt:
         //
-        private void openDataToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog openData = new FolderBrowserDialog
             {
@@ -286,7 +231,7 @@ namespace Advanced_badge_editor
             {
                 if (File.Exists(openData.SelectedPath + "/BadgeMngFile.dat") && File.Exists(openData.SelectedPath + "/BadgeData.dat"))
                 {
-                    resetInfo();
+                    ResetInfo();
 
                     badgeData = new FileInfo(openData.SelectedPath + "/BadgeData.dat");
                     badgeMng = new FileInfo(openData.SelectedPath + "/BadgeMngFile.dat");
@@ -383,7 +328,7 @@ namespace Advanced_badge_editor
                         data.BaseStream.Position = i * 0x8A0;
                         setNames[i] = Encoding.Unicode.GetString(data.ReadBytes(0x8A));
                         data.BaseStream.Position = i * 0x2000 + 0x250F80;
-                        setImgs[i] = RT.getSetImage(data.ReadBytes(0x2000));
+                        setImgs[i] = RT.GetSetImage(data.ReadBytes(0x2000));
                         loading.PerformStep();
                     }
 
@@ -399,8 +344,8 @@ namespace Advanced_badge_editor
                     if (sets > 0)
                         selectSetNumer.Maximum = sets;
 
-                    badgeOptions(uniqueBadges > 0);
-                    setOptions(sets > 0);
+                    BadgeOptions(uniqueBadges > 0);
+                    SetOptions(sets > 0);
 
                     createBadgeButton.Enabled = true;
                     createSetButton.Enabled = true;
@@ -410,7 +355,7 @@ namespace Advanced_badge_editor
 
                     NNIDnumer.Value = NNID;
 
-                    updateAll();
+                    UpdateAll();
                     regionDropdown.Text = region;
                     setStartingNumer.Maximum = setBadgeIndexs[0] + 1;
                     saveDataToolStripMenuItem.Enabled = true;
@@ -430,7 +375,7 @@ namespace Advanced_badge_editor
         //
         // Create new data
         //
-        private void newDataToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NewDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (badgeData != null && badgeMng != null)
             {
@@ -441,7 +386,7 @@ namespace Advanced_badge_editor
 
             badgeData = null;
             badgeMng = null;
-            resetInfo();
+            ResetInfo();
 
             createBadgeButton.Enabled = true;
             createSetButton.Enabled = true;
@@ -449,7 +394,7 @@ namespace Advanced_badge_editor
             NNIDnumer.Enabled = true;
             delAll.Enabled = true;
 
-            updateAll();
+            UpdateAll();
             regionDropdown.Text = region;
             setStartingNumer.Maximum = setBadgeIndexs[0] + 1;
             saveDataToolStripMenuItem.Enabled = true;
@@ -459,48 +404,48 @@ namespace Advanced_badge_editor
             importEntireSetData.Enabled = true;
         }
         
-        public void resetData(FileInfo badgeDataFile, FileInfo badgeMngFile)
+        public void ResetData(FileInfo badgeDataFile, FileInfo badgeMngFile)
         {
             BinaryWriter bw = new BinaryWriter(badgeMngFile.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None));
 
-            writeBytes(bw, 0x00, 0x10);
-            writeBytes(bw, 0xFF, 0x4);
-            writeBytes(bw, 0x00, 0x3D4);
+            WriteBytes(bw, 0x00, 0x10);
+            WriteBytes(bw, 0xFF, 0x4);
+            WriteBytes(bw, 0x00, 0x3D4);
             for (int i = 0; i < 1000; i++)
             {
-                writeBytes(bw, 0x00, 0x4);
-                writeBytes(bw, 0xFF, 0xA);
-                writeBytes(bw, 0x00, 0xA);
-                writeBytes(bw, 0xFF, 0x8);
-                writeBytes(bw, 0x00, 0x8);
+                WriteBytes(bw, 0x00, 0x4);
+                WriteBytes(bw, 0xFF, 0xA);
+                WriteBytes(bw, 0x00, 0xA);
+                WriteBytes(bw, 0xFF, 0x8);
+                WriteBytes(bw, 0x00, 0x8);
             }
             for (int i = 0; i < 100; i++)
             {
-                writeBytes(bw, 0xFF, 0x8);
-                writeBytes(bw, 0x00, 0x4);
+                WriteBytes(bw, 0xFF, 0x8);
+                WriteBytes(bw, 0x00, 0x4);
                 bw.Write((ushort)0x2710);
-                writeBytes(bw, 0x00, 0x2);
-                writeBytes(bw, 0xFF, 0xC);
-                writeBytes(bw, 0x00, 0x8);
-                writeBytes(bw, 0xFF, 0x4);
-                writeBytes(bw, 0x00, 0x8);
+                WriteBytes(bw, 0x00, 0x2);
+                WriteBytes(bw, 0xFF, 0xC);
+                WriteBytes(bw, 0x00, 0x8);
+                WriteBytes(bw, 0xFF, 0x4);
+                WriteBytes(bw, 0x00, 0x8);
             }
             for (int i = 0; i < 360; i++)
             {
-                writeBytes(bw, 0x00, 0x4);
-                writeBytes(bw, 0xFF, 0xA);
-                writeBytes(bw, 0x00, 0x2);
-                writeBytes(bw, 0xFF, 0x8);
+                WriteBytes(bw, 0x00, 0x4);
+                WriteBytes(bw, 0xFF, 0xA);
+                WriteBytes(bw, 0x00, 0x2);
+                WriteBytes(bw, 0xFF, 0x8);
             }
 
             bw.Close();
             bw = new BinaryWriter(badgeDataFile.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None));
 
-            writeBytes(bw, 0x00, 0xF4DF80);
+            WriteBytes(bw, 0x00, 0xF4DF80);
 
             bw.Close();
         }
-        public void writeBytes(BinaryWriter bwf, byte val, int len)
+        public void WriteBytes(BinaryWriter bwf, byte val, int len)
         {
             for (int loop = 0; loop < len; loop++)
             {
@@ -510,9 +455,9 @@ namespace Advanced_badge_editor
         //
         // Save data to files
         //
-        public void saveData(FileInfo badgeDataFile, FileInfo badgeMngFile)
+        public void SaveData(FileInfo badgeDataFile, FileInfo badgeMngFile)
         {
-            resetData(badgeDataFile, badgeMngFile);
+            ResetData(badgeDataFile, badgeMngFile);
             BinaryWriter bw = new BinaryWriter(badgeMngFile.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.None));
 
             bw.BaseStream.Position = 0x04;
@@ -566,9 +511,8 @@ namespace Advanced_badge_editor
                     bw.Write(Encoding.Unicode.GetBytes(badgeNames[badgeIndexs[i]]));
                 }
                 bw.BaseStream.Position = badgeIndexs[i] * 0x2800 + 0x318F80;
-                byte[] rgb565_64, a4_64, rgb565_32, a4_32;
-                RT.PNGtoRGB565andA4(badgeImgs64[badgeIndexs[i]], out rgb565_64, out a4_64);
-                RT.PNGtoRGB565andA4(badgeImgs32[badgeIndexs[i]], out rgb565_32, out a4_32);
+                RT.PNGtoRGB565andA4(badgeImgs64[badgeIndexs[i]], out byte[] rgb565_64, out byte[] a4_64);
+                RT.PNGtoRGB565andA4(badgeImgs32[badgeIndexs[i]], out byte[] rgb565_32, out byte[]  a4_32);
                 bw.Write(rgb565_64);
                 bw.Write(a4_64);
                 bw.BaseStream.Position = badgeIndexs[i] * 0xA00 + 0xCDCF80;
@@ -586,7 +530,7 @@ namespace Advanced_badge_editor
                     bw.Write(Encoding.Unicode.GetBytes(setNames[setIndexs[i]]));
                 }
                 bw.BaseStream.Position = setIndexs[i] * 0x2000 + 0x250F80;
-                bw.Write(RT.adjustForSet(setImgs[setIndexs[i]]));
+                bw.Write(RT.AdjustForSet(setImgs[setIndexs[i]]));
                 loading.PerformStep();
             }
 
@@ -597,7 +541,7 @@ namespace Advanced_badge_editor
         //
         // Update main info about the badge data
         //
-        public void updateAll()
+        public void UpdateAll()
         {
             totalBadges = 0;
             foreach (ushort i in badgeQuants)
@@ -612,28 +556,28 @@ namespace Advanced_badge_editor
 
             if (uniqueBadges > 0)
             {
-                badgeOptions(true);
-                updateBadgeInfo();
+                BadgeOptions(true);
+                UpdateBadgeInfo();
             }
             else
             {
-                badgeOptions(false);
+                BadgeOptions(false);
             }
 
             if (sets > 0)
             {
-                setOptions(true);
-                updateSetInfo();
+                SetOptions(true);
+                UpdateSetInfo();
             }
             else
             {
-                setOptions(false);
+                SetOptions(false);
             }
         }
         //
         // Enable/disable badge editing options
         //
-        public void badgeOptions(bool enable)
+        public void BadgeOptions(bool enable)
         {
             selectedBadgeNumer.Enabled = enable;
             badgeNameInput.Enabled = enable;
@@ -650,7 +594,7 @@ namespace Advanced_badge_editor
             delBadge.Enabled = enable;
             
         }
-        public void setOptions(bool enable)
+        public void SetOptions(bool enable)
         {
             selectSetNumer.Enabled = enable;
             setNameInput.Enabled = enable;
@@ -664,7 +608,7 @@ namespace Advanced_badge_editor
         //
         // Update the information about the currently selected badge or the currently selected set
         //
-        public void updateBadgeInfo()
+        public void UpdateBadgeInfo()
         {
             badgeNameInput.Text = badgeNames[badgeIndexs[(int)selectedBadgeNumer.Value - 1]];
             badgeIdNumer.Value = badgeIds[(int)selectedBadgeNumer.Value - 1];
@@ -674,12 +618,12 @@ namespace Advanced_badge_editor
             titleIDnumer.Value = badgeTitleIds[(int)selectedBadgeNumer.Value - 1];
             titleHighNumer.Value = badgeHighIds[(int)selectedBadgeNumer.Value - 1];
 
-            updateTitleID();
+            UpdateTitleID();
 
             prevBadgeImg64.Image = badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]];
             prevBadgeImg32.Image = badgeImgs32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]];
         }
-        public void updateSetInfo()
+        public void UpdateSetInfo()
         {
             setTotalBadges = new uint[100];
             setUniqueBadges = new uint[100];
@@ -703,7 +647,7 @@ namespace Advanced_badge_editor
             prevSetImg.Image = setImgs[setIndexs[(int)selectSetNumer.Value - 1]];
         }
 
-        public void deleteBadge() {
+        public void DeleteBadge() {
             int badgeSet = (int)sets - 1;
             if (badgeSet < 0) { badgeSet = 0; }
             for (int i = 0; i < sets; i++)
@@ -715,16 +659,16 @@ namespace Advanced_badge_editor
             }
             int badgeIndex = badgeIndexs[(int)selectedBadgeNumer.Value - 1];
 
-            badgeIds = removeIndex(badgeIds, (int)selectedBadgeNumer.Value - 1);
-            badgeSetIds = removeIndex(badgeSetIds, (int)selectedBadgeNumer.Value - 1);
-            badgeSids = removeIndex(badgeSids, (int)selectedBadgeNumer.Value - 1);
-            badgeQuants = removeIndex(badgeQuants, (int)selectedBadgeNumer.Value - 1);
-            badgeNames = removeIndex(badgeNames, badgeIndexs[(int)selectedBadgeNumer.Value - 1]);
-            badgeTitleIds = removeIndex(badgeTitleIds, (int)selectedBadgeNumer.Value - 1);
-            badgeHighIds = removeIndex(badgeHighIds, (int)selectedBadgeNumer.Value - 1);
-            badgeImgs32 = removeIndex(badgeImgs32, badgeIndexs[(int)selectedBadgeNumer.Value - 1]);
-            badgeImgs64 = removeIndex(badgeImgs64, badgeIndexs[(int)selectedBadgeNumer.Value - 1]);
-            badgeIndexs = removeIndex(badgeIndexs, (int)selectedBadgeNumer.Value - 1);
+            badgeIds = RemoveIndex(badgeIds, (int)selectedBadgeNumer.Value - 1);
+            badgeSetIds = RemoveIndex(badgeSetIds, (int)selectedBadgeNumer.Value - 1);
+            badgeSids = RemoveIndex(badgeSids, (int)selectedBadgeNumer.Value - 1);
+            badgeQuants = RemoveIndex(badgeQuants, (int)selectedBadgeNumer.Value - 1);
+            badgeNames = RemoveIndex(badgeNames, badgeIndexs[(int)selectedBadgeNumer.Value - 1]);
+            badgeTitleIds = RemoveIndex(badgeTitleIds, (int)selectedBadgeNumer.Value - 1);
+            badgeHighIds = RemoveIndex(badgeHighIds, (int)selectedBadgeNumer.Value - 1);
+            badgeImgs32 = RemoveIndex(badgeImgs32, badgeIndexs[(int)selectedBadgeNumer.Value - 1]);
+            badgeImgs64 = RemoveIndex(badgeImgs64, badgeIndexs[(int)selectedBadgeNumer.Value - 1]);
+            badgeIndexs = RemoveIndex(badgeIndexs, (int)selectedBadgeNumer.Value - 1);
             uniqueBadges--;
             for (int i = 0; i < uniqueBadges; i++) {
                 if (badgeIndexs[i] > badgeIndex) badgeIndexs[i]--;
@@ -736,22 +680,22 @@ namespace Advanced_badge_editor
             
             if ((setBadgeIndexs[badgeSet] > (int)uniqueBadges - 1 && sets > 0) || (setBadgeIndexs[badgeSet] - setBadgeIndexs[badgeSet + 1] == 0 && sets > 1))
             {
-                deleteSetFromBadges(badgeSet);
+                DeleteSetFromBadges(badgeSet);
             }
             if (selectedBadgeNumer.Value == uniqueBadges + 1 && uniqueBadges > 0) selectedBadgeNumer.Value--;
-            updateAll();
+            UpdateAll();
         }
-        public void deleteSetFromBadges(int index)
+        public void DeleteSetFromBadges(int index)
         {
             int setIndex = (int)setIndexs[index];
 
-            setIds = removeIndex(setIds, index);
-            setUniqueBadges = removeIndex(setUniqueBadges, index);
-            setTotalBadges = removeIndex(setTotalBadges, index);
-            setBadgeIndexs = removeIndex(setBadgeIndexs, index);
-            setNames = removeIndex(setNames, (int)setIndexs[index]);
-            setImgs = removeIndex(setImgs, (int)setIndexs[index]);
-            setIndexs = removeIndex(setIndexs, index);
+            setIds = RemoveIndex(setIds, index);
+            setUniqueBadges = RemoveIndex(setUniqueBadges, index);
+            setTotalBadges = RemoveIndex(setTotalBadges, index);
+            setBadgeIndexs = RemoveIndex(setBadgeIndexs, index);
+            setNames = RemoveIndex(setNames, (int)setIndexs[index]);
+            setImgs = RemoveIndex(setImgs, (int)setIndexs[index]);
+            setIndexs = RemoveIndex(setIndexs, index);
             sets--;
 
             for (int i = 0; i < sets; i++)
@@ -760,7 +704,7 @@ namespace Advanced_badge_editor
             }
             if (selectSetNumer.Value == sets + 1 && sets > 0) selectSetNumer.Value--;
         }
-        public void deleteSet()
+        public void DeleteSet()
         {
             int uniqueBadgesSet = (int)setBadgeIndexs[(int)selectSetNumer.Value] - (int)setBadgeIndexs[(int)selectSetNumer.Value - 1];
             if ((int)selectSetNumer.Value == sets) uniqueBadgesSet = (int)uniqueBadges - (int)setBadgeIndexs[(int)selectSetNumer.Value - 1];
@@ -778,17 +722,17 @@ namespace Advanced_badge_editor
             int deleteBadgesFrom = (int)setBadgeIndexs[(int)selectSetNumer.Value - 1];
             for (int i = 0; i < uniqueBadgesSet; i++)
             {
-                deleteBadgeFromSet(deleteBadgesFrom);
+                DeleteBadgeFromSet(deleteBadgesFrom);
             }
             int setIndex = (int)setIndexs[(int)selectSetNumer.Value - 1];
 
-            setIds = removeIndex(setIds, (int)selectSetNumer.Value - 1);
-            setUniqueBadges = removeIndex(setUniqueBadges, (int)selectSetNumer.Value - 1);
-            setTotalBadges = removeIndex(setTotalBadges, (int)selectSetNumer.Value - 1);
-            setBadgeIndexs = removeIndex(setBadgeIndexs, (int)selectSetNumer.Value - 1);
-            setNames = removeIndex(setNames, (int)setIndexs[(int)selectSetNumer.Value - 1]);
-            setImgs = removeIndex(setImgs, (int)setIndexs[(int)selectSetNumer.Value - 1]);
-            setIndexs = removeIndex(setIndexs, (int)selectSetNumer.Value - 1);
+            setIds = RemoveIndex(setIds, (int)selectSetNumer.Value - 1);
+            setUniqueBadges = RemoveIndex(setUniqueBadges, (int)selectSetNumer.Value - 1);
+            setTotalBadges = RemoveIndex(setTotalBadges, (int)selectSetNumer.Value - 1);
+            setBadgeIndexs = RemoveIndex(setBadgeIndexs, (int)selectSetNumer.Value - 1);
+            setNames = RemoveIndex(setNames, (int)setIndexs[(int)selectSetNumer.Value - 1]);
+            setImgs = RemoveIndex(setImgs, (int)setIndexs[(int)selectSetNumer.Value - 1]);
+            setIndexs = RemoveIndex(setIndexs, (int)selectSetNumer.Value - 1);
             sets--;
 
             for (int i = (int)selectSetNumer.Value - 1; i < sets; i++)
@@ -802,22 +746,22 @@ namespace Advanced_badge_editor
             }
 
             if (selectSetNumer.Value == sets + 1 && sets > 0) selectSetNumer.Value--;
-            updateAll();
+            UpdateAll();
         }
-        public void deleteBadgeFromSet(int index)
+        public void DeleteBadgeFromSet(int index)
         {
             int badgeIndex = badgeIndexs[index];
 
-            badgeIds = removeIndex(badgeIds, index);
-            badgeSetIds = removeIndex(badgeSetIds, index);
-            badgeSids = removeIndex(badgeSids, index);
-            badgeQuants = removeIndex(badgeQuants, index);
-            badgeNames = removeIndex(badgeNames, badgeIndexs[index]);
-            badgeTitleIds = removeIndex(badgeTitleIds, index);
-            badgeHighIds = removeIndex(badgeHighIds, index);
-            badgeImgs32 = removeIndex(badgeImgs32, badgeIndexs[index]);
-            badgeImgs64 = removeIndex(badgeImgs64, badgeIndexs[index]);
-            badgeIndexs = removeIndex(badgeIndexs, index);
+            badgeIds = RemoveIndex(badgeIds, index);
+            badgeSetIds = RemoveIndex(badgeSetIds, index);
+            badgeSids = RemoveIndex(badgeSids, index);
+            badgeQuants = RemoveIndex(badgeQuants, index);
+            badgeNames = RemoveIndex(badgeNames, badgeIndexs[index]);
+            badgeTitleIds = RemoveIndex(badgeTitleIds, index);
+            badgeHighIds = RemoveIndex(badgeHighIds, index);
+            badgeImgs32 = RemoveIndex(badgeImgs32, badgeIndexs[index]);
+            badgeImgs64 = RemoveIndex(badgeImgs64, badgeIndexs[index]);
+            badgeIndexs = RemoveIndex(badgeIndexs, index);
             uniqueBadges--;
             for (int i = 0; i < uniqueBadges; i++)
             {
@@ -825,41 +769,41 @@ namespace Advanced_badge_editor
             }
         }
 
-        public Bitmap[] removeIndex(Bitmap[] tochange, int index)
+        public Bitmap[] RemoveIndex(Bitmap[] tochange, int index)
         {
             List<Bitmap> list = new List<Bitmap>(tochange);
             list.RemoveAt(index);
             list.Add(null);
             return list.ToArray();
         }
-        public ulong[] removeIndex(ulong[] tochange, int index)
+        public ulong[] RemoveIndex(ulong[] tochange, int index)
         {
             List<ulong> list = new List<ulong>(tochange);
             list.RemoveAt(index);
             list.Add(0);
             return list.ToArray();
         }
-        public uint[] removeIndex(uint[] tochange, int index){
+        public uint[] RemoveIndex(uint[] tochange, int index){
             List<uint> list = new List<uint>(tochange);
             list.RemoveAt(index);
             list.Add(0);
             return list.ToArray();
         }
-        public ushort[] removeIndex(ushort[] tochange, int index)
+        public ushort[] RemoveIndex(ushort[] tochange, int index)
         {
             List<ushort> list = new List<ushort>(tochange);
             list.RemoveAt(index);
             list.Add(0);
             return list.ToArray();
         }
-        public string[] removeIndex(string[] tochange, int index)
+        public string[] RemoveIndex(string[] tochange, int index)
         {
             List<string> list = new List<string>(tochange);
             list.RemoveAt(index);
             list.Add("");
             return list.ToArray();
         }
-        public byte[][] removeIndex(byte[][] tochange, int index)
+        public byte[][] RemoveIndex(byte[][] tochange, int index)
         {
             int newArrayLenght = tochange[index].Length;
             List<byte[]> list = new List<byte[]>(tochange);
@@ -868,7 +812,7 @@ namespace Advanced_badge_editor
             return list.ToArray();
         }
 
-        public void updateTitleID()
+        public void UpdateTitleID()
         {
             string tidstrmain = badgeTitleIds[(int)selectedBadgeNumer.Value - 1].ToString("X8");
             string tidstr = "None / Unknown";
@@ -970,7 +914,7 @@ namespace Advanced_badge_editor
             titleIDdropdown.Text = tidstr;
             dropdownUpdate = true;
         }
-        public byte[] addFooter(byte[] bclim, byte[] footer)
+        public byte[] AddFooter(byte[] bclim, byte[] footer)
         {
             byte[] output = new byte[bclim.Length + footer.Length];
             bclim.CopyTo(output, 0);
@@ -980,17 +924,17 @@ namespace Advanced_badge_editor
         //
         // Every time the badge number is changed, it updates the form with the newly selected badge's data;
         //
-        private void selectedBadgeNumer_ValueChanged(object sender, EventArgs e)
+        private void SelectedBadgeNumer_ValueChanged(object sender, EventArgs e)
         {
             if (uniqueBadges > 0)
-                updateBadgeInfo();
+                UpdateBadgeInfo();
         }
-        private void selectSetNumer_ValueChanged(object sender, EventArgs e)
+        private void SelectSetNumer_ValueChanged(object sender, EventArgs e)
         {
             setStartingNumer.Minimum = 1;
             setStartingNumer.Maximum = 4294967296;
 
-            updateAll();
+            UpdateAll();
 
             if (selectSetNumer.Value > 1)
             {
@@ -1012,18 +956,18 @@ namespace Advanced_badge_editor
         //
         // Give 255 of each badge
         //
-        private void badge255each_Click(object sender, EventArgs e)
+        private void Badge255Each_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < uniqueBadges; i++)
             {
                 badgeQuants[i] = 255;
             }
-            updateAll();
+            UpdateAll();
         }
         //
         // Save the data
         //
-        private void saveDataToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (badgeData == null && badgeMng == null)
             {
@@ -1041,19 +985,19 @@ namespace Advanced_badge_editor
                     }
                     badgeData = new FileInfo(fbd.SelectedPath + "/BadgeData.dat");
                     badgeMng = new FileInfo(fbd.SelectedPath + "/BadgeMngFile.dat");
-                    saveData(badgeData, badgeMng);
+                    SaveData(badgeData, badgeMng);
                 }
             }
             else
             {
                 if (MessageBox.Show("Are you sure you want to overwrite the old data?", "Overwrite?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    saveData(badgeData, badgeMng);
+                    SaveData(badgeData, badgeMng);
                 }
             }
         }
 
-        private void saveDataToToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveDataToToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog
             {
@@ -1070,18 +1014,18 @@ namespace Advanced_badge_editor
                 }
                 badgeData = new FileInfo(fbd.SelectedPath + "/BadgeData.dat");
                 badgeMng = new FileInfo(fbd.SelectedPath + "/BadgeMngFile.dat");
-                saveData(badgeData, badgeMng);
+                SaveData(badgeData, badgeMng);
             }
         }
         //
         // Allows the user to create a new badge
         //
-        private void createBadgeButton_Click(object sender, EventArgs e)
+        private void CreateBadgeButton_Click(object sender, EventArgs e)
         {
             if (uniqueBadges < 1000)
             {
                 if (uniqueBadges == 0)
-                    badgeOptions(true);
+                    BadgeOptions(true);
 
                 uniqueBadges++;
                 totalBadges++;
@@ -1103,14 +1047,14 @@ namespace Advanced_badge_editor
                 selectedBadgeNumer.Maximum = uniqueBadges;
                 selectedBadgeNumer.Value = uniqueBadges;
 
-                updateAll();
+                UpdateAll();
             }
             else
             {
                 MessageBox.Show("You have too many badges to make a new one...", "Limit reached", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
-        private void createSetButton_Click(object sender, EventArgs e)
+        private void CreateSetButton_Click(object sender, EventArgs e)
         {
             if (uniqueBadges == 0)
             {
@@ -1134,7 +1078,7 @@ namespace Advanced_badge_editor
             }
 
             if (sets == 0)
-                setOptions(true);
+                SetOptions(true);
 
             sets++;
             setIds[sets - 1] = sets;
@@ -1146,50 +1090,50 @@ namespace Advanced_badge_editor
             setImgs[sets - 1] = new Bitmap(48, 48, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             selectSetNumer.Maximum = sets;
             selectSetNumer.Value = sets;
-            selectSetNumer_ValueChanged(null, null);
+            SelectSetNumer_ValueChanged(null, null);
         }
         //
         // Save values to arrays
         //
-        private void badgeNameInput_TextChanged(object sender, EventArgs e)
+        private void BadgeNameInput_TextChanged(object sender, EventArgs e)
         {
             badgeNames[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = badgeNameInput.Text;
         }
-        private void badgeIdNumer_ValueChanged(object sender, EventArgs e)
+        private void BadgeIdNumer_ValueChanged(object sender, EventArgs e)
         {
             badgeIds[(int)selectedBadgeNumer.Value - 1] = (uint)badgeIdNumer.Value;
         }
-        private void badgeSidNumer_ValueChanged(object sender, EventArgs e)
+        private void BadgeSubIDNumer_ValueChanged(object sender, EventArgs e)
         {
             badgeSids[(int)selectedBadgeNumer.Value - 1] = (ushort)badgeSidNumer.Value;
         }
-        private void badgeQuantityNumer_ValueChanged(object sender, EventArgs e)
+        private void BadgeQuantityNumer_ValueChanged(object sender, EventArgs e)
         {
             badgeQuants[(int)selectedBadgeNumer.Value - 1] = (ushort)badgeQuantityNumer.Value;
-            updateAll();
+            UpdateAll();
         }
-        private void badgeSetIdNumer_ValueChanged(object sender, EventArgs e)
+        private void BadgeSetIdNumer_ValueChanged(object sender, EventArgs e)
         {
             badgeSetIds[(int)selectedBadgeNumer.Value - 1] = (uint)badgeSetIdNumer.Value;
         }
 
-        private void setNameInput_TextChanged(object sender, EventArgs e)
+        private void SetNameInput_TextChanged(object sender, EventArgs e)
         {
             setNames[setIndexs[(int)selectSetNumer.Value - 1]] = setNameInput.Text;
         }
-        private void setIdNumer_ValueChanged(object sender, EventArgs e)
+        private void SetIDNumer_ValueChanged(object sender, EventArgs e)
         {
             setIds[(int)selectSetNumer.Value - 1] = (uint)setIdNumer.Value;
         }
-        private void setStartingNumer_ValueChanged(object sender, EventArgs e)
+        private void SetStartingNumer_ValueChanged(object sender, EventArgs e)
         {
             setBadgeIndexs[(int)selectSetNumer.Value - 1] = (uint)setStartingNumer.Value - 1;
-            updateAll();
+            UpdateAll();
         }
         //
         // Other stuff
         //
-        private void importBadgeImage_Click(object sender, EventArgs e)
+        private void ImportBadgeImage_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog
             {
@@ -1200,7 +1144,7 @@ namespace Advanced_badge_editor
             if(ofd.ShowDialog() == DialogResult.OK)
             {
                 Bitmap normal = new Bitmap(ofd.FileName);
-                Bitmap downscaled = IMG.downscaleImg(normal, 2, !pixelBadgeMode.Checked);
+                Bitmap downscaled = IMG.DownscaleImage(normal, 2, !pixelBadgeMode.Checked);
 
                 if (normal.Width == 64 && normal.Height == 64)
                 {
@@ -1209,7 +1153,7 @@ namespace Advanced_badge_editor
                     badgeImgs32[badgeIndexs[(int)selectedBadgeNumer.Value - 1]] = downscaled;
                     
                     if (uniqueBadges > 0)
-                        updateBadgeInfo();
+                        UpdateBadgeInfo();
                 }
                 else
                 {
@@ -1217,7 +1161,7 @@ namespace Advanced_badge_editor
                 }
             }
         }
-        private void exportBadgeImage_Click(object sender, EventArgs e)
+        private void ExportBadgeImage_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog
             {
@@ -1231,7 +1175,7 @@ namespace Advanced_badge_editor
                 badgeImgs64[badgeIndexs[(int)selectedBadgeNumer.Value - 1]].Save(sfd.FileName);
             }
         }
-        private void importSetImage_Click(object sender, EventArgs e)
+        private void ImportSetImage_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog
             {
@@ -1247,7 +1191,7 @@ namespace Advanced_badge_editor
                     setImgs[setIndexs[(int)selectSetNumer.Value - 1]] = img;
 
                     if (sets > 0)
-                        updateSetInfo();
+                        UpdateSetInfo();
                 }
                 else
                 {
@@ -1255,7 +1199,7 @@ namespace Advanced_badge_editor
                 }
             }
         }
-        private void exportSetImage_Click(object sender, EventArgs e)
+        private void ExportSetImage_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog
             {
@@ -1275,43 +1219,43 @@ namespace Advanced_badge_editor
             NNID = (uint)NNIDnumer.Value;
         }
 
-        private void titleIDdropdown_SelectedIndexChanged(object sender, EventArgs e)
+        private void TitleIDdropdown_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (dropdownUpdate)
             {
-                badgeTitleIds[(int)selectedBadgeNumer.Value - 1] = getTitleID(titleIDdropdown.SelectedIndex);
+                badgeTitleIds[(int)selectedBadgeNumer.Value - 1] = GetTitleID(titleIDdropdown.SelectedIndex);
                 if (titleIDdropdown.SelectedIndex != 0)
                     badgeHighIds[(int)selectedBadgeNumer.Value - 1] = 0x00040010;
                 else
                     badgeHighIds[(int)selectedBadgeNumer.Value - 1] = 0xFFFFFFFF;
             }
                 
-            updateAll();
+            UpdateAll();
         }
-        private void regionDropdown_SelectedIndexChanged(object sender, EventArgs e)
+        private void RegionDropdown_SelectedIndexChanged(object sender, EventArgs e)
         {
             region = regionDropdown.Text;
             for (int i = 0; i < uniqueBadges; i++)
             {
                 if (systemApps.Contains(badgeTitleIds[i].ToString("X8")))
-                    badgeTitleIds[i] = getTitleID(getTitleIndex(badgeTitleIds[i].ToString("X8")));
+                    badgeTitleIds[i] = GetTitleID(GetTitleIndex(badgeTitleIds[i].ToString("X8")));
             }
 
-            updateAll();
+            UpdateAll();
         }
 
-        private void titleIDnumer_ValueChanged(object sender, EventArgs e)
+        private void TitleIDnumer_ValueChanged(object sender, EventArgs e)
         {
             badgeTitleIds[(int)selectedBadgeNumer.Value - 1] = (uint)titleIDnumer.Value;
-            updateTitleID();
+            UpdateTitleID();
         }
-        private void titleHighNumer_ValueChanged(object sender, EventArgs e)
+        private void TitleHighNumer_ValueChanged(object sender, EventArgs e)
         {
             badgeHighIds[(int)selectedBadgeNumer.Value - 1] = (uint)titleHighNumer.Value;
-            updateTitleID();
+            UpdateTitleID();
         }
 
-        public uint getTitleID(int index)
+        public uint GetTitleID(int index)
         {
             string rgn = "F";
             string titleIDstr = "FFFFFFFF";
@@ -1390,7 +1334,7 @@ namespace Advanced_badge_editor
             }
             return Convert.ToUInt32(titleIDstr, 16);
         }
-        public int getTitleIndex(string title)
+        public int GetTitleIndex(string title)
         {
             string tidstrmain = title;
             int tidstr = 0;
@@ -1488,15 +1432,15 @@ namespace Advanced_badge_editor
             return tidstr;
         }
 
-        private void delBadge_Click(object sender, EventArgs e)
+        private void DelBadge_Click(object sender, EventArgs e)
         {
-            deleteBadge();
+            DeleteBadge();
         }
-        private void delSet_Click(object sender, EventArgs e)
+        private void DelSet_Click(object sender, EventArgs e)
         {
-            deleteSet();
+            DeleteSet();
         }
-        private void delAll_Click(object sender, EventArgs e)
+        private void DelAll_Click(object sender, EventArgs e)
         {
             uniqueBadges = 0;
             sets = 0;
@@ -1518,10 +1462,10 @@ namespace Advanced_badge_editor
             setIndexs = new uint[100];
             setNames = new string[100];
             setImgs = new Bitmap[100];
-            updateAll();
+            UpdateAll();
         }
 
-        private void badgeFileprbToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BadgeFilePrbToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog()
             {
@@ -1579,7 +1523,7 @@ namespace Advanced_badge_editor
                     byte[][] data_32 = new byte[width * height][];
 
                     if (uniqueBadges == 0)
-                        badgeOptions(true);
+                        BadgeOptions(true);
 
                     if (width * height == 1)
                         br.BaseStream.Seek(0x1100, 0);
@@ -1625,11 +1569,11 @@ namespace Advanced_badge_editor
                 }
                 selectedBadgeNumer.Maximum = uniqueBadges;
                 selectedBadgeNumer.Value = uniqueBadges;
-                selectedBadgeNumer_ValueChanged(null, null);
-                updateAll();
+                SelectedBadgeNumer_ValueChanged(null, null);
+                UpdateAll();
             }
         }
-        private void setFilecabToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SetFileCabToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog()
             {
@@ -1672,7 +1616,7 @@ namespace Advanced_badge_editor
                 }
 
                 if (sets == 0)
-                    setOptions(true);
+                    SetOptions(true);
 
                 sets++;
                 br.BaseStream.Seek(0x24, 0);
@@ -1684,14 +1628,14 @@ namespace Advanced_badge_editor
                 setUniqueBadges[sets - 1] = 1;
                 setIndexs[sets - 1] = sets - 1;
                 br.BaseStream.Seek(0x2080, 0);
-                setImgs[sets - 1] = RT.getSetImage(br.ReadBytes(0x2000));
+                setImgs[sets - 1] = RT.GetSetImage(br.ReadBytes(0x2000));
                 selectSetNumer.Maximum = sets;
                 selectSetNumer.Value = sets;
-                selectSetNumer_ValueChanged(null, null);
+                SelectSetNumer_ValueChanged(null, null);
                 br.Close();
             }
         }
-        private void fixBadgeSetIds_Click(object sender, EventArgs e)
+        private void FixBadgeSetIds_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < sets - 1; i++)
             {
@@ -1705,9 +1649,9 @@ namespace Advanced_badge_editor
             {
                 badgeSetIds[badgeIndexs[badge]] = setIds[setIndexs[sets - 1]];
             }
-            updateAll();
+            UpdateAll();
         }
-        private void importEntireSetData_Click(object sender, EventArgs e)
+        private void ImportEntireSetData_Click(object sender, EventArgs e)
         {
             if (sets >= 100)
             {
@@ -1772,7 +1716,7 @@ namespace Advanced_badge_editor
                     br = new BinaryReader(File.OpenRead(set.FileName));
 
                     if (sets == 0)
-                        setOptions(true);
+                        SetOptions(true);
 
                     sets++;
                     br.BaseStream.Seek(0x24, 0);
@@ -1784,7 +1728,7 @@ namespace Advanced_badge_editor
                     setUniqueBadges[sets - 1] = totalbadges;
                     setIndexs[sets - 1] = sets - 1;
                     br.BaseStream.Seek(0x2080, 0);
-                    setImgs[sets - 1] = RT.getSetImage(br.ReadBytes(0x2000));
+                    setImgs[sets - 1] = RT.GetSetImage(br.ReadBytes(0x2000));
                     br.Close();
 
                     foreach (string file in badges.FileNames)
@@ -1808,7 +1752,7 @@ namespace Advanced_badge_editor
                         byte[][] data_32 = new byte[width * height][];
 
                         if (uniqueBadges == 0)
-                            badgeOptions(true);
+                            BadgeOptions(true);
 
                         if (width * height == 1)
                             br.BaseStream.Seek(0x1100, 0);
@@ -1850,11 +1794,11 @@ namespace Advanced_badge_editor
                     }
                     selectSetNumer.Maximum = sets;
                     selectSetNumer.Value = sets;
-                    selectSetNumer_ValueChanged(null, null);
+                    SelectSetNumer_ValueChanged(null, null);
                     selectedBadgeNumer.Maximum = uniqueBadges;
                     selectedBadgeNumer.Value = uniqueBadges;
-                    selectedBadgeNumer_ValueChanged(null, null);
-                    updateAll();
+                    SelectedBadgeNumer_ValueChanged(null, null);
+                    UpdateAll();
                 }
             }
         }
