@@ -360,6 +360,8 @@ namespace AdvancedBadgeEditor
                     badgeFileprbToolStripMenuItem.Enabled = true;
                     setFilecabToolStripMenuItem.Enabled = true;
                     importEntireSetData.Enabled = true;
+                    importBadgeButton.Enabled = true;
+                    importSetButton.Enabled = true;
 
                     SystemSounds.Asterisk.Play();
                 }
@@ -400,6 +402,8 @@ namespace AdvancedBadgeEditor
             badgeFileprbToolStripMenuItem.Enabled = true;
             setFilecabToolStripMenuItem.Enabled = true;
             importEntireSetData.Enabled = true;
+            importBadgeButton.Enabled = true;
+            importSetButton.Enabled = true;
         }
 
         public void ResetData(FileInfo badgeDataFile, FileInfo badgeMngFile)
@@ -590,7 +594,6 @@ namespace AdvancedBadgeEditor
             titleIDnumer.Enabled = enable;
             titleHighNumer.Enabled = enable;
             delBadge.Enabled = enable;
-
         }
         public void SetOptions(bool enable)
         {

@@ -1,4 +1,8 @@
-﻿namespace AdvancedBadgeEditor
+﻿using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace AdvancedBadgeEditor
 {
     partial class EditorForm
     {
@@ -84,7 +88,6 @@
             this.label22 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.prevSetImg = new System.Windows.Forms.PictureBox();
-            this.label20 = new System.Windows.Forms.Label();
             this.exportSetImage = new System.Windows.Forms.Button();
             this.importSetImage = new System.Windows.Forms.Button();
             this.pixelBadgeMode = new System.Windows.Forms.CheckBox();
@@ -102,6 +105,12 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.importBadgeButton = new System.Windows.Forms.Button();
+            this.importSetButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.badgeIdNumer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.badgeSidNumer)).BeginInit();
@@ -130,7 +139,7 @@
             this.menuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(734, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(714, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -223,11 +232,16 @@
             // 
             // uniqueBadgesLabel
             // 
-            this.uniqueBadgesLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.uniqueBadgesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.uniqueBadgesLabel.AutoSize = true;
-            this.uniqueBadgesLabel.Location = new System.Drawing.Point(93, 6);
+            this.uniqueBadgesLabel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.uniqueBadgesLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.uniqueBadgesLabel.Location = new System.Drawing.Point(93, 3);
+            this.uniqueBadgesLabel.Margin = new System.Windows.Forms.Padding(3);
             this.uniqueBadgesLabel.Name = "uniqueBadgesLabel";
-            this.uniqueBadgesLabel.Size = new System.Drawing.Size(13, 13);
+            this.uniqueBadgesLabel.Size = new System.Drawing.Size(54, 19);
             this.uniqueBadgesLabel.TabIndex = 100;
             this.uniqueBadgesLabel.Text = "0";
             this.uniqueBadgesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -246,11 +260,16 @@
             // 
             // totalBadgesLabel
             // 
-            this.totalBadgesLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.totalBadgesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.totalBadgesLabel.AutoSize = true;
-            this.totalBadgesLabel.Location = new System.Drawing.Point(93, 31);
+            this.totalBadgesLabel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.totalBadgesLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.totalBadgesLabel.Location = new System.Drawing.Point(93, 28);
+            this.totalBadgesLabel.Margin = new System.Windows.Forms.Padding(3);
             this.totalBadgesLabel.Name = "totalBadgesLabel";
-            this.totalBadgesLabel.Size = new System.Drawing.Size(13, 13);
+            this.totalBadgesLabel.Size = new System.Drawing.Size(54, 19);
             this.totalBadgesLabel.TabIndex = 100;
             this.totalBadgesLabel.Text = "0";
             this.totalBadgesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -269,11 +288,16 @@
             // 
             // setsLabel
             // 
-            this.setsLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.setsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.setsLabel.AutoSize = true;
-            this.setsLabel.Location = new System.Drawing.Point(93, 56);
+            this.setsLabel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.setsLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.setsLabel.Location = new System.Drawing.Point(93, 53);
+            this.setsLabel.Margin = new System.Windows.Forms.Padding(3);
             this.setsLabel.Name = "setsLabel";
-            this.setsLabel.Size = new System.Drawing.Size(13, 13);
+            this.setsLabel.Size = new System.Drawing.Size(54, 19);
             this.setsLabel.TabIndex = 100;
             this.setsLabel.Text = "0";
             this.setsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -292,54 +316,57 @@
             // createBadgeButton
             // 
             this.createBadgeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.createBadgeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.createBadgeButton.BackColor = System.Drawing.Color.White;
             this.tableLayoutPanel2.SetColumnSpan(this.createBadgeButton, 2);
             this.createBadgeButton.Enabled = false;
             this.createBadgeButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.createBadgeButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
-            this.createBadgeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.createBadgeButton.Location = new System.Drawing.Point(195, 38);
+            this.createBadgeButton.Location = new System.Drawing.Point(175, 38);
             this.createBadgeButton.Name = "createBadgeButton";
             this.createBadgeButton.Size = new System.Drawing.Size(124, 24);
             this.createBadgeButton.TabIndex = 5;
             this.createBadgeButton.Text = "Create new";
-            this.createBadgeButton.UseVisualStyleBackColor = false;
+            this.createBadgeButton.UseVisualStyleBackColor = true;
             this.createBadgeButton.Click += new System.EventHandler(this.CreateBadgeButton_Click);
             // 
             // createSetButton
             // 
             this.createSetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.createSetButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.createSetButton.BackColor = System.Drawing.Color.White;
             this.tableLayoutPanel2.SetColumnSpan(this.createSetButton, 2);
             this.createSetButton.Enabled = false;
             this.createSetButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.createSetButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
-            this.createSetButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.createSetButton.Location = new System.Drawing.Point(465, 38);
+            this.createSetButton.Location = new System.Drawing.Point(445, 38);
             this.createSetButton.Name = "createSetButton";
             this.createSetButton.Size = new System.Drawing.Size(124, 24);
             this.createSetButton.TabIndex = 20;
             this.createSetButton.Text = "Create new";
-            this.createSetButton.UseVisualStyleBackColor = false;
+            this.createSetButton.UseVisualStyleBackColor = true;
             this.createSetButton.Click += new System.EventHandler(this.CreateSetButton_Click);
             // 
             // label5
             // 
-            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tableLayoutPanel2.SetColumnSpan(this.label5, 3);
-            this.label5.Location = new System.Drawing.Point(300, 16);
-            this.label5.Margin = new System.Windows.Forms.Padding(0);
+            this.label5.Location = new System.Drawing.Point(175, 13);
+            this.label5.Margin = new System.Windows.Forms.Padding(3);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(43, 13);
+            this.label5.Size = new System.Drawing.Size(254, 19);
             this.label5.TabIndex = 100;
             this.label5.Text = "Badges";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label6
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(195, 95);
+            this.label6.Location = new System.Drawing.Point(175, 126);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(38, 13);
             this.label6.TabIndex = 100;
@@ -350,7 +377,7 @@
             this.badgeNameInput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.SetColumnSpan(this.badgeNameInput, 2);
             this.badgeNameInput.Enabled = false;
-            this.badgeNameInput.Location = new System.Drawing.Point(285, 92);
+            this.badgeNameInput.Location = new System.Drawing.Point(265, 122);
             this.badgeNameInput.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.badgeNameInput.MaxLength = 69;
             this.badgeNameInput.Name = "badgeNameInput";
@@ -363,7 +390,7 @@
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(195, 120);
+            this.label7.Location = new System.Drawing.Point(175, 151);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(21, 13);
             this.label7.TabIndex = 100;
@@ -380,7 +407,7 @@
             0,
             0,
             0});
-            this.badgeIdNumer.Location = new System.Drawing.Point(285, 117);
+            this.badgeIdNumer.Location = new System.Drawing.Point(265, 147);
             this.badgeIdNumer.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.badgeIdNumer.Maximum = new decimal(new int[] {
             -1,
@@ -396,7 +423,7 @@
             // 
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(195, 146);
+            this.label8.Location = new System.Drawing.Point(175, 176);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(43, 13);
             this.label8.TabIndex = 100;
@@ -413,7 +440,7 @@
             0,
             0,
             0});
-            this.badgeSidNumer.Location = new System.Drawing.Point(285, 142);
+            this.badgeSidNumer.Location = new System.Drawing.Point(265, 172);
             this.badgeSidNumer.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.badgeSidNumer.Maximum = new decimal(new int[] {
             65535,
@@ -429,7 +456,7 @@
             // 
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(195, 196);
+            this.label9.Location = new System.Drawing.Point(175, 226);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(49, 13);
             this.label9.TabIndex = 100;
@@ -445,7 +472,7 @@
             0,
             0,
             0});
-            this.badgeQuantityNumer.Location = new System.Drawing.Point(285, 192);
+            this.badgeQuantityNumer.Location = new System.Drawing.Point(265, 222);
             this.badgeQuantityNumer.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.badgeQuantityNumer.Maximum = new decimal(new int[] {
             65535,
@@ -462,7 +489,7 @@
             this.selectedBadgeNumer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.SetColumnSpan(this.selectedBadgeNumer, 2);
             this.selectedBadgeNumer.Enabled = false;
-            this.selectedBadgeNumer.Location = new System.Drawing.Point(285, 67);
+            this.selectedBadgeNumer.Location = new System.Drawing.Point(265, 97);
             this.selectedBadgeNumer.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.selectedBadgeNumer.Maximum = new decimal(new int[] {
             1000,
@@ -488,18 +515,17 @@
             // 
             this.badge255each.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.badge255each.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.badge255each.BackColor = System.Drawing.Color.White;
             this.tableLayoutPanel1.SetColumnSpan(this.badge255each, 3);
             this.badge255each.Enabled = false;
             this.badge255each.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.badge255each.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
-            this.badge255each.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.badge255each.Location = new System.Drawing.Point(3, 153);
             this.badge255each.Name = "badge255each";
             this.badge255each.Size = new System.Drawing.Size(144, 24);
             this.badge255each.TabIndex = 3;
             this.badge255each.Text = "255 of each badge";
-            this.badge255each.UseVisualStyleBackColor = false;
+            this.badge255each.UseVisualStyleBackColor = true;
             this.badge255each.Click += new System.EventHandler(this.Badge255Each_Click);
             // 
             // selectSetNumer
@@ -507,7 +533,7 @@
             this.selectSetNumer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.SetColumnSpan(this.selectSetNumer, 2);
             this.selectSetNumer.Enabled = false;
-            this.selectSetNumer.Location = new System.Drawing.Point(555, 68);
+            this.selectSetNumer.Location = new System.Drawing.Point(535, 98);
             this.selectSetNumer.Minimum = new decimal(new int[] {
             1,
             0,
@@ -525,20 +551,26 @@
             // 
             // label11
             // 
-            this.label11.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tableLayoutPanel2.SetColumnSpan(this.label11, 3);
-            this.label11.Location = new System.Drawing.Point(563, 16);
+            this.label11.Location = new System.Drawing.Point(445, 13);
+            this.label11.Margin = new System.Windows.Forms.Padding(3);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(58, 13);
+            this.label11.Size = new System.Drawing.Size(254, 19);
             this.label11.TabIndex = 100;
             this.label11.Text = "Collections";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label12
             // 
             this.label12.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(465, 95);
+            this.label12.Location = new System.Drawing.Point(445, 126);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(38, 13);
             this.label12.TabIndex = 100;
@@ -549,7 +581,7 @@
             this.setNameInput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.SetColumnSpan(this.setNameInput, 2);
             this.setNameInput.Enabled = false;
-            this.setNameInput.Location = new System.Drawing.Point(555, 93);
+            this.setNameInput.Location = new System.Drawing.Point(535, 123);
             this.setNameInput.Name = "setNameInput";
             this.setNameInput.Size = new System.Drawing.Size(164, 20);
             this.setNameInput.TabIndex = 23;
@@ -560,7 +592,7 @@
             // 
             this.label13.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(465, 120);
+            this.label13.Location = new System.Drawing.Point(445, 151);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(21, 13);
             this.label13.TabIndex = 100;
@@ -577,7 +609,7 @@
             0,
             0,
             0});
-            this.setIdNumer.Location = new System.Drawing.Point(555, 117);
+            this.setIdNumer.Location = new System.Drawing.Point(535, 148);
             this.setIdNumer.Maximum = new decimal(new int[] {
             -1,
             0,
@@ -592,7 +624,7 @@
             // 
             this.label14.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(465, 146);
+            this.label14.Location = new System.Drawing.Point(445, 176);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(79, 13);
             this.label14.TabIndex = 100;
@@ -603,7 +635,7 @@
             this.setStartingNumer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.SetColumnSpan(this.setStartingNumer, 2);
             this.setStartingNumer.Enabled = false;
-            this.setStartingNumer.Location = new System.Drawing.Point(555, 143);
+            this.setStartingNumer.Location = new System.Drawing.Point(535, 173);
             this.setStartingNumer.Maximum = new decimal(new int[] {
             0,
             1,
@@ -628,7 +660,7 @@
             // 
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(465, 171);
+            this.label10.Location = new System.Drawing.Point(445, 201);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(82, 13);
             this.label10.TabIndex = 100;
@@ -636,19 +668,26 @@
             // 
             // setUniqueBadgesLabel
             // 
-            this.setUniqueBadgesLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.setUniqueBadgesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.setUniqueBadgesLabel.AutoSize = true;
-            this.setUniqueBadgesLabel.Location = new System.Drawing.Point(555, 171);
+            this.setUniqueBadgesLabel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.setUniqueBadgesLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tableLayoutPanel2.SetColumnSpan(this.setUniqueBadgesLabel, 2);
+            this.setUniqueBadgesLabel.Location = new System.Drawing.Point(535, 198);
+            this.setUniqueBadgesLabel.Margin = new System.Windows.Forms.Padding(3);
             this.setUniqueBadgesLabel.Name = "setUniqueBadgesLabel";
-            this.setUniqueBadgesLabel.Size = new System.Drawing.Size(13, 13);
+            this.setUniqueBadgesLabel.Size = new System.Drawing.Size(164, 19);
             this.setUniqueBadgesLabel.TabIndex = 100;
             this.setUniqueBadgesLabel.Text = "0";
+            this.setUniqueBadgesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label15
             // 
             this.label15.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(465, 196);
+            this.label15.Location = new System.Drawing.Point(445, 226);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(72, 13);
             this.label15.TabIndex = 100;
@@ -656,19 +695,26 @@
             // 
             // setTotalBadgesLabel
             // 
-            this.setTotalBadgesLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.setTotalBadgesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.setTotalBadgesLabel.AutoSize = true;
-            this.setTotalBadgesLabel.Location = new System.Drawing.Point(555, 196);
+            this.setTotalBadgesLabel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.setTotalBadgesLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tableLayoutPanel2.SetColumnSpan(this.setTotalBadgesLabel, 2);
+            this.setTotalBadgesLabel.Location = new System.Drawing.Point(535, 223);
+            this.setTotalBadgesLabel.Margin = new System.Windows.Forms.Padding(3);
             this.setTotalBadgesLabel.Name = "setTotalBadgesLabel";
-            this.setTotalBadgesLabel.Size = new System.Drawing.Size(13, 13);
+            this.setTotalBadgesLabel.Size = new System.Drawing.Size(164, 19);
             this.setTotalBadgesLabel.TabIndex = 100;
             this.setTotalBadgesLabel.Text = "0";
+            this.setTotalBadgesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label18
             // 
             this.label18.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(195, 171);
+            this.label18.Location = new System.Drawing.Point(175, 201);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(70, 13);
             this.label18.TabIndex = 100;
@@ -685,7 +731,7 @@
             0,
             0,
             0});
-            this.badgeSetIdNumer.Location = new System.Drawing.Point(285, 167);
+            this.badgeSetIdNumer.Location = new System.Drawing.Point(265, 197);
             this.badgeSetIdNumer.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.badgeSetIdNumer.Maximum = new decimal(new int[] {
             -1,
@@ -702,8 +748,9 @@
             this.prevBadgeImg64.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.prevBadgeImg64.BackColor = System.Drawing.Color.Gainsboro;
             this.prevBadgeImg64.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.prevBadgeImg64.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tableLayoutPanel2.SetColumnSpan(this.prevBadgeImg64, 2);
-            this.prevBadgeImg64.Location = new System.Drawing.Point(223, 316);
+            this.prevBadgeImg64.Location = new System.Drawing.Point(203, 336);
             this.prevBadgeImg64.Margin = new System.Windows.Forms.Padding(0);
             this.prevBadgeImg64.Name = "prevBadgeImg64";
             this.prevBadgeImg64.Size = new System.Drawing.Size(68, 68);
@@ -713,25 +760,31 @@
             // 
             // prevBadgeLabel
             // 
-            this.prevBadgeLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.prevBadgeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.prevBadgeLabel.AutoSize = true;
-            this.tableLayoutPanel2.SetColumnSpan(this.prevBadgeLabel, 2);
-            this.prevBadgeLabel.Location = new System.Drawing.Point(236, 291);
+            this.prevBadgeLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.prevBadgeLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tableLayoutPanel2.SetColumnSpan(this.prevBadgeLabel, 7);
+            this.prevBadgeLabel.Location = new System.Drawing.Point(175, 308);
+            this.prevBadgeLabel.Margin = new System.Windows.Forms.Padding(3);
             this.prevBadgeLabel.Name = "prevBadgeLabel";
-            this.prevBadgeLabel.Size = new System.Drawing.Size(41, 13);
+            this.prevBadgeLabel.Size = new System.Drawing.Size(524, 19);
             this.prevBadgeLabel.TabIndex = 100;
             this.prevBadgeLabel.Text = "Images";
+            this.prevBadgeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // importBadgeImage
             // 
             this.importBadgeImage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.importBadgeImage.BackColor = System.Drawing.Color.White;
             this.tableLayoutPanel2.SetColumnSpan(this.importBadgeImage, 2);
             this.importBadgeImage.Enabled = false;
             this.importBadgeImage.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.importBadgeImage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
-            this.importBadgeImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.importBadgeImage.Location = new System.Drawing.Point(195, 393);
+            this.importBadgeImage.Location = new System.Drawing.Point(175, 413);
             this.importBadgeImage.Name = "importBadgeImage";
             this.importBadgeImage.Size = new System.Drawing.Size(124, 23);
             this.importBadgeImage.TabIndex = 16;
@@ -744,7 +797,8 @@
             this.prevBadgeImg32.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.prevBadgeImg32.BackColor = System.Drawing.Color.Gainsboro;
             this.prevBadgeImg32.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.prevBadgeImg32.Location = new System.Drawing.Point(353, 316);
+            this.prevBadgeImg32.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.prevBadgeImg32.Location = new System.Drawing.Point(333, 336);
             this.prevBadgeImg32.Margin = new System.Windows.Forms.Padding(0);
             this.prevBadgeImg32.Name = "prevBadgeImg32";
             this.prevBadgeImg32.Size = new System.Drawing.Size(68, 68);
@@ -756,11 +810,12 @@
             // 
             this.exportBadgeImage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.exportBadgeImage.BackColor = System.Drawing.Color.White;
+            this.tableLayoutPanel2.SetColumnSpan(this.exportBadgeImage, 2);
             this.exportBadgeImage.Enabled = false;
             this.exportBadgeImage.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.exportBadgeImage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
-            this.exportBadgeImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.exportBadgeImage.Location = new System.Drawing.Point(325, 393);
+            this.exportBadgeImage.Location = new System.Drawing.Point(175, 443);
             this.exportBadgeImage.Name = "exportBadgeImage";
             this.exportBadgeImage.Size = new System.Drawing.Size(124, 23);
             this.exportBadgeImage.TabIndex = 17;
@@ -778,7 +833,7 @@
             0,
             0,
             0});
-            this.titleHighNumer.Location = new System.Drawing.Point(325, 448);
+            this.titleHighNumer.Location = new System.Drawing.Point(305, 533);
             this.titleHighNumer.Maximum = new decimal(new int[] {
             -1,
             0,
@@ -794,7 +849,7 @@
             this.label24.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label24.AutoSize = true;
             this.tableLayoutPanel2.SetColumnSpan(this.label24, 2);
-            this.label24.Location = new System.Drawing.Point(195, 451);
+            this.label24.Location = new System.Drawing.Point(175, 536);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(118, 13);
             this.label24.TabIndex = 100;
@@ -810,7 +865,7 @@
             0,
             0,
             0});
-            this.titleIDnumer.Location = new System.Drawing.Point(325, 473);
+            this.titleIDnumer.Location = new System.Drawing.Point(305, 558);
             this.titleIDnumer.Maximum = new decimal(new int[] {
             -1,
             0,
@@ -826,7 +881,7 @@
             this.label22.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label22.AutoSize = true;
             this.tableLayoutPanel2.SetColumnSpan(this.label22, 2);
-            this.label22.Location = new System.Drawing.Point(195, 476);
+            this.label22.Location = new System.Drawing.Point(175, 561);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(116, 13);
             this.label22.TabIndex = 100;
@@ -834,23 +889,28 @@
             // 
             // label19
             // 
-            this.label19.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label19.AutoSize = true;
-            this.label19.BackColor = System.Drawing.Color.White;
+            this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label19.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.label19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tableLayoutPanel2.SetColumnSpan(this.label19, 7);
-            this.label19.Location = new System.Drawing.Point(410, 426);
+            this.label19.Location = new System.Drawing.Point(175, 508);
+            this.label19.Margin = new System.Windows.Forms.Padding(3);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(93, 13);
+            this.label19.Size = new System.Drawing.Size(524, 19);
             this.label19.TabIndex = 100;
             this.label19.Text = "Advanced options";
+            this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // prevSetImg
             // 
             this.prevSetImg.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.prevSetImg.BackColor = System.Drawing.Color.Gainsboro;
             this.prevSetImg.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.prevSetImg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tableLayoutPanel2.SetColumnSpan(this.prevSetImg, 3);
-            this.prevSetImg.Location = new System.Drawing.Point(558, 316);
+            this.prevSetImg.Location = new System.Drawing.Point(538, 336);
             this.prevSetImg.Margin = new System.Windows.Forms.Padding(0);
             this.prevSetImg.Name = "prevSetImg";
             this.prevSetImg.Size = new System.Drawing.Size(68, 68);
@@ -858,26 +918,15 @@
             this.prevSetImg.TabIndex = 100;
             this.prevSetImg.TabStop = false;
             // 
-            // label20
-            // 
-            this.label20.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label20.AutoSize = true;
-            this.tableLayoutPanel2.SetColumnSpan(this.label20, 3);
-            this.label20.Location = new System.Drawing.Point(574, 291);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(36, 13);
-            this.label20.TabIndex = 100;
-            this.label20.Text = "Image";
-            // 
             // exportSetImage
             // 
             this.exportSetImage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.exportSetImage.BackColor = System.Drawing.Color.White;
             this.exportSetImage.Enabled = false;
             this.exportSetImage.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.exportSetImage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
-            this.exportSetImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.exportSetImage.Location = new System.Drawing.Point(595, 393);
+            this.exportSetImage.Location = new System.Drawing.Point(575, 413);
             this.exportSetImage.Name = "exportSetImage";
             this.exportSetImage.Size = new System.Drawing.Size(124, 23);
             this.exportSetImage.TabIndex = 27;
@@ -889,12 +938,12 @@
             // 
             this.importSetImage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.importSetImage.BackColor = System.Drawing.Color.White;
             this.tableLayoutPanel2.SetColumnSpan(this.importSetImage, 2);
             this.importSetImage.Enabled = false;
             this.importSetImage.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.importSetImage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
-            this.importSetImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.importSetImage.Location = new System.Drawing.Point(465, 393);
+            this.importSetImage.Location = new System.Drawing.Point(445, 413);
             this.importSetImage.Name = "importSetImage";
             this.importSetImage.Size = new System.Drawing.Size(124, 23);
             this.importSetImage.TabIndex = 26;
@@ -906,7 +955,7 @@
             // 
             this.pixelBadgeMode.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pixelBadgeMode.AutoSize = true;
-            this.pixelBadgeMode.Location = new System.Drawing.Point(348, 289);
+            this.pixelBadgeMode.Location = new System.Drawing.Point(328, 474);
             this.pixelBadgeMode.Name = "pixelBadgeMode";
             this.pixelBadgeMode.Size = new System.Drawing.Size(78, 17);
             this.pixelBadgeMode.TabIndex = 15;
@@ -917,7 +966,7 @@
             // 
             this.label21.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(195, 246);
+            this.label21.Location = new System.Drawing.Point(175, 276);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(73, 13);
             this.label21.TabIndex = 100;
@@ -947,7 +996,7 @@
             "Face Raiders",
             "Face Raiders [NEW 3DS]",
             "AR Games"});
-            this.titleIDdropdown.Location = new System.Drawing.Point(285, 242);
+            this.titleIDdropdown.Location = new System.Drawing.Point(265, 272);
             this.titleIDdropdown.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.titleIDdropdown.Name = "titleIDdropdown";
             this.titleIDdropdown.Size = new System.Drawing.Size(434, 21);
@@ -969,7 +1018,7 @@
             "CHN",
             "KOR",
             "TWN"});
-            this.regionDropdown.Location = new System.Drawing.Point(285, 217);
+            this.regionDropdown.Location = new System.Drawing.Point(265, 247);
             this.regionDropdown.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.regionDropdown.Name = "regionDropdown";
             this.regionDropdown.Size = new System.Drawing.Size(164, 21);
@@ -981,7 +1030,7 @@
             // 
             this.label23.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(195, 221);
+            this.label23.Location = new System.Drawing.Point(175, 251);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(44, 13);
             this.label23.TabIndex = 100;
@@ -1015,70 +1064,66 @@
             // 
             this.delBadge.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.delBadge.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.delBadge.BackColor = System.Drawing.Color.White;
             this.delBadge.Enabled = false;
             this.delBadge.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.delBadge.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
-            this.delBadge.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.delBadge.Location = new System.Drawing.Point(325, 38);
+            this.delBadge.Location = new System.Drawing.Point(305, 38);
             this.delBadge.Name = "delBadge";
             this.delBadge.Size = new System.Drawing.Size(124, 24);
             this.delBadge.TabIndex = 6;
             this.delBadge.Text = "Delete selected";
-            this.delBadge.UseVisualStyleBackColor = false;
+            this.delBadge.UseVisualStyleBackColor = true;
             this.delBadge.Click += new System.EventHandler(this.DelBadge_Click);
             // 
             // delSet
             // 
             this.delSet.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.delSet.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.delSet.BackColor = System.Drawing.Color.White;
             this.delSet.Enabled = false;
             this.delSet.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.delSet.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
-            this.delSet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.delSet.Location = new System.Drawing.Point(595, 38);
+            this.delSet.Location = new System.Drawing.Point(575, 38);
             this.delSet.Name = "delSet";
             this.delSet.Size = new System.Drawing.Size(124, 24);
             this.delSet.TabIndex = 21;
             this.delSet.Text = "Delete selected";
-            this.delSet.UseVisualStyleBackColor = false;
+            this.delSet.UseVisualStyleBackColor = true;
             this.delSet.Click += new System.EventHandler(this.DelSet_Click);
             // 
             // delAll
             // 
             this.delAll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.delAll.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.delAll.BackColor = System.Drawing.Color.White;
             this.tableLayoutPanel1.SetColumnSpan(this.delAll, 3);
             this.delAll.Enabled = false;
             this.delAll.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.delAll.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
-            this.delAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.delAll.Location = new System.Drawing.Point(3, 203);
             this.delAll.Name = "delAll";
             this.delAll.Size = new System.Drawing.Size(144, 24);
             this.delAll.TabIndex = 4;
             this.delAll.Text = "Delete everything";
-            this.delAll.UseVisualStyleBackColor = false;
+            this.delAll.UseVisualStyleBackColor = true;
             this.delAll.Click += new System.EventHandler(this.DelAll_Click);
             // 
             // fixBadgeSetIds
             // 
             this.fixBadgeSetIds.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.fixBadgeSetIds.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.fixBadgeSetIds.BackColor = System.Drawing.Color.White;
             this.tableLayoutPanel1.SetColumnSpan(this.fixBadgeSetIds, 3);
             this.fixBadgeSetIds.Enabled = false;
             this.fixBadgeSetIds.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.fixBadgeSetIds.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
-            this.fixBadgeSetIds.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.fixBadgeSetIds.Location = new System.Drawing.Point(3, 123);
             this.fixBadgeSetIds.Name = "fixBadgeSetIds";
             this.fixBadgeSetIds.Size = new System.Drawing.Size(144, 24);
             this.fixBadgeSetIds.TabIndex = 2;
             this.fixBadgeSetIds.Text = "Fix Badge Set IDs";
-            this.fixBadgeSetIds.UseVisualStyleBackColor = false;
+            this.fixBadgeSetIds.UseVisualStyleBackColor = true;
             this.fixBadgeSetIds.Click += new System.EventHandler(this.FixBadgeSetIds_Click);
             // 
             // loading
@@ -1087,10 +1132,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.SetColumnSpan(this.loading, 9);
-            this.loading.Location = new System.Drawing.Point(15, 518);
+            this.loading.Location = new System.Drawing.Point(15, 593);
             this.loading.Maximum = 1000;
             this.loading.Name = "loading";
-            this.loading.Size = new System.Drawing.Size(704, 24);
+            this.loading.Size = new System.Drawing.Size(684, 24);
             this.loading.Step = 1;
             this.loading.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.loading.TabIndex = 100;
@@ -1119,7 +1164,7 @@
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 9;
-            this.tableLayoutPanel2.SetRowSpan(this.tableLayoutPanel1, 12);
+            this.tableLayoutPanel2.SetRowSpan(this.tableLayoutPanel1, 13);
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
@@ -1140,7 +1185,7 @@
             this.tableLayoutPanel2.ColumnCount = 11;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
@@ -1149,91 +1194,100 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.loading, 1, 19);
+            this.tableLayoutPanel2.Controls.Add(this.loading, 1, 23);
             this.tableLayoutPanel2.Controls.Add(this.label11, 7, 1);
             this.tableLayoutPanel2.Controls.Add(this.label5, 3, 1);
-            this.tableLayoutPanel2.Controls.Add(this.selectSetNumer, 8, 3);
-            this.tableLayoutPanel2.Controls.Add(this.badgeQuantityNumer, 4, 8);
-            this.tableLayoutPanel2.Controls.Add(this.badgeSetIdNumer, 4, 7);
-            this.tableLayoutPanel2.Controls.Add(this.setNameInput, 8, 4);
-            this.tableLayoutPanel2.Controls.Add(this.pixelBadgeMode, 5, 12);
-            this.tableLayoutPanel2.Controls.Add(this.badgeSidNumer, 4, 6);
+            this.tableLayoutPanel2.Controls.Add(this.selectSetNumer, 8, 4);
+            this.tableLayoutPanel2.Controls.Add(this.badgeQuantityNumer, 4, 9);
+            this.tableLayoutPanel2.Controls.Add(this.badgeSetIdNumer, 4, 8);
+            this.tableLayoutPanel2.Controls.Add(this.setNameInput, 8, 5);
+            this.tableLayoutPanel2.Controls.Add(this.badgeSidNumer, 4, 7);
             this.tableLayoutPanel2.Controls.Add(this.delSet, 9, 2);
             this.tableLayoutPanel2.Controls.Add(this.createSetButton, 7, 2);
-            this.tableLayoutPanel2.Controls.Add(this.badgeIdNumer, 4, 5);
-            this.tableLayoutPanel2.Controls.Add(this.badgeNameInput, 4, 4);
-            this.tableLayoutPanel2.Controls.Add(this.label15, 7, 8);
-            this.tableLayoutPanel2.Controls.Add(this.label10, 7, 7);
-            this.tableLayoutPanel2.Controls.Add(this.selectedBadgeNumer, 4, 3);
-            this.tableLayoutPanel2.Controls.Add(this.label14, 7, 6);
-            this.tableLayoutPanel2.Controls.Add(this.label9, 3, 8);
-            this.tableLayoutPanel2.Controls.Add(this.label13, 7, 5);
-            this.tableLayoutPanel2.Controls.Add(this.prevSetImg, 7, 13);
-            this.tableLayoutPanel2.Controls.Add(this.label12, 7, 4);
+            this.tableLayoutPanel2.Controls.Add(this.badgeIdNumer, 4, 6);
+            this.tableLayoutPanel2.Controls.Add(this.badgeNameInput, 4, 5);
+            this.tableLayoutPanel2.Controls.Add(this.label15, 7, 9);
+            this.tableLayoutPanel2.Controls.Add(this.label10, 7, 8);
+            this.tableLayoutPanel2.Controls.Add(this.selectedBadgeNumer, 4, 4);
+            this.tableLayoutPanel2.Controls.Add(this.label14, 7, 7);
+            this.tableLayoutPanel2.Controls.Add(this.label9, 3, 9);
+            this.tableLayoutPanel2.Controls.Add(this.label13, 7, 6);
+            this.tableLayoutPanel2.Controls.Add(this.prevSetImg, 7, 14);
+            this.tableLayoutPanel2.Controls.Add(this.label12, 7, 5);
             this.tableLayoutPanel2.Controls.Add(this.createBadgeButton, 3, 2);
-            this.tableLayoutPanel2.Controls.Add(this.prevBadgeImg32, 5, 13);
-            this.tableLayoutPanel2.Controls.Add(this.prevBadgeLabel, 3, 12);
+            this.tableLayoutPanel2.Controls.Add(this.prevBadgeImg32, 5, 14);
+            this.tableLayoutPanel2.Controls.Add(this.prevBadgeLabel, 3, 13);
             this.tableLayoutPanel2.Controls.Add(this.delBadge, 5, 2);
-            this.tableLayoutPanel2.Controls.Add(this.label18, 3, 7);
-            this.tableLayoutPanel2.Controls.Add(this.label8, 3, 6);
-            this.tableLayoutPanel2.Controls.Add(this.prevBadgeImg64, 3, 13);
-            this.tableLayoutPanel2.Controls.Add(this.label7, 3, 5);
-            this.tableLayoutPanel2.Controls.Add(this.label6, 3, 4);
-            this.tableLayoutPanel2.Controls.Add(this.label16, 3, 3);
-            this.tableLayoutPanel2.Controls.Add(this.label20, 7, 12);
-            this.tableLayoutPanel2.Controls.Add(this.setIdNumer, 8, 5);
-            this.tableLayoutPanel2.Controls.Add(this.setStartingNumer, 8, 6);
-            this.tableLayoutPanel2.Controls.Add(this.setUniqueBadgesLabel, 8, 7);
-            this.tableLayoutPanel2.Controls.Add(this.setTotalBadgesLabel, 8, 8);
-            this.tableLayoutPanel2.Controls.Add(this.label17, 7, 3);
-            this.tableLayoutPanel2.Controls.Add(this.label19, 3, 15);
-            this.tableLayoutPanel2.Controls.Add(this.label23, 3, 9);
-            this.tableLayoutPanel2.Controls.Add(this.titleIDdropdown, 4, 10);
-            this.tableLayoutPanel2.Controls.Add(this.regionDropdown, 4, 9);
-            this.tableLayoutPanel2.Controls.Add(this.label21, 3, 10);
+            this.tableLayoutPanel2.Controls.Add(this.label18, 3, 8);
+            this.tableLayoutPanel2.Controls.Add(this.label8, 3, 7);
+            this.tableLayoutPanel2.Controls.Add(this.prevBadgeImg64, 3, 14);
+            this.tableLayoutPanel2.Controls.Add(this.label7, 3, 6);
+            this.tableLayoutPanel2.Controls.Add(this.label6, 3, 5);
+            this.tableLayoutPanel2.Controls.Add(this.label16, 3, 4);
+            this.tableLayoutPanel2.Controls.Add(this.setIdNumer, 8, 6);
+            this.tableLayoutPanel2.Controls.Add(this.setStartingNumer, 8, 7);
+            this.tableLayoutPanel2.Controls.Add(this.setUniqueBadgesLabel, 8, 8);
+            this.tableLayoutPanel2.Controls.Add(this.setTotalBadgesLabel, 8, 9);
+            this.tableLayoutPanel2.Controls.Add(this.label17, 7, 4);
+            this.tableLayoutPanel2.Controls.Add(this.label19, 3, 19);
+            this.tableLayoutPanel2.Controls.Add(this.label23, 3, 10);
+            this.tableLayoutPanel2.Controls.Add(this.titleIDdropdown, 4, 11);
+            this.tableLayoutPanel2.Controls.Add(this.regionDropdown, 4, 10);
+            this.tableLayoutPanel2.Controls.Add(this.label21, 3, 11);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel1, 1, 2);
-            this.tableLayoutPanel2.Controls.Add(this.importBadgeImage, 3, 14);
-            this.tableLayoutPanel2.Controls.Add(this.exportBadgeImage, 5, 14);
-            this.tableLayoutPanel2.Controls.Add(this.importSetImage, 7, 14);
-            this.tableLayoutPanel2.Controls.Add(this.exportSetImage, 9, 14);
-            this.tableLayoutPanel2.Controls.Add(this.label22, 3, 17);
-            this.tableLayoutPanel2.Controls.Add(this.titleIDnumer, 5, 17);
-            this.tableLayoutPanel2.Controls.Add(this.titleHighNumer, 5, 16);
-            this.tableLayoutPanel2.Controls.Add(this.label24, 3, 16);
+            this.tableLayoutPanel2.Controls.Add(this.importBadgeImage, 3, 15);
+            this.tableLayoutPanel2.Controls.Add(this.importSetImage, 7, 15);
+            this.tableLayoutPanel2.Controls.Add(this.exportSetImage, 9, 15);
+            this.tableLayoutPanel2.Controls.Add(this.label22, 3, 21);
+            this.tableLayoutPanel2.Controls.Add(this.titleIDnumer, 5, 21);
+            this.tableLayoutPanel2.Controls.Add(this.titleHighNumer, 5, 20);
+            this.tableLayoutPanel2.Controls.Add(this.label24, 3, 20);
+            this.tableLayoutPanel2.Controls.Add(this.label20, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.exportBadgeImage, 3, 16);
+            this.tableLayoutPanel2.Controls.Add(this.pixelBadgeMode, 5, 17);
+            this.tableLayoutPanel2.Controls.Add(this.checkBox1, 3, 17);
+            this.tableLayoutPanel2.Controls.Add(this.button1, 5, 15);
+            this.tableLayoutPanel2.Controls.Add(this.button2, 5, 16);
+            this.tableLayoutPanel2.Controls.Add(this.importBadgeButton, 3, 3);
+            this.tableLayoutPanel2.Controls.Add(this.importSetButton, 7, 3);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 24);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 21;
+            this.tableLayoutPanel2.RowCount = 25;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(734, 557);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(714, 632);
             this.tableLayoutPanel2.TabIndex = 100;
             // 
             // label16
             // 
             this.label16.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(195, 71);
+            this.label16.Location = new System.Drawing.Point(175, 101);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(52, 13);
             this.label16.TabIndex = 100;
@@ -1243,22 +1297,114 @@
             // 
             this.label17.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(465, 71);
+            this.label17.Location = new System.Drawing.Point(445, 101);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(52, 13);
             this.label17.TabIndex = 100;
             this.label17.Text = "Selected:";
+            // 
+            // label20
+            // 
+            this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label20.AutoSize = true;
+            this.label20.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.label20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label20.Location = new System.Drawing.Point(15, 13);
+            this.label20.Margin = new System.Windows.Forms.Padding(3);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(144, 19);
+            this.label20.TabIndex = 101;
+            this.label20.Text = "General";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tableLayoutPanel2.SetColumnSpan(this.checkBox1, 2);
+            this.checkBox1.Enabled = false;
+            this.checkBox1.Location = new System.Drawing.Point(198, 474);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(78, 17);
+            this.checkBox1.TabIndex = 102;
+            this.checkBox1.Text = "Auto Scale";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.BackColor = System.Drawing.Color.White;
+            this.button1.Enabled = false;
+            this.button1.Location = new System.Drawing.Point(305, 413);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(124, 24);
+            this.button1.TabIndex = 103;
+            this.button1.Text = "Import (Small)";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.BackColor = System.Drawing.Color.White;
+            this.button2.Enabled = false;
+            this.button2.Location = new System.Drawing.Point(305, 443);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(124, 24);
+            this.button2.TabIndex = 103;
+            this.button2.Text = "Export (Small)";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // importBadgeButton
+            // 
+            this.importBadgeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.importBadgeButton.BackColor = System.Drawing.Color.White;
+            this.tableLayoutPanel2.SetColumnSpan(this.importBadgeButton, 3);
+            this.importBadgeButton.Enabled = false;
+            this.importBadgeButton.Location = new System.Drawing.Point(175, 68);
+            this.importBadgeButton.Name = "importBadgeButton";
+            this.importBadgeButton.Size = new System.Drawing.Size(254, 24);
+            this.importBadgeButton.TabIndex = 103;
+            this.importBadgeButton.Text = "Import (*.prb)";
+            this.importBadgeButton.UseVisualStyleBackColor = true;
+            this.importBadgeButton.Click += new System.EventHandler(this.BadgeFilePrbToolStripMenuItem_Click);
+            // 
+            // importSetButton
+            // 
+            this.importSetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.importSetButton.BackColor = System.Drawing.Color.White;
+            this.tableLayoutPanel2.SetColumnSpan(this.importSetButton, 3);
+            this.importSetButton.Enabled = false;
+            this.importSetButton.Location = new System.Drawing.Point(445, 68);
+            this.importSetButton.Name = "importSetButton";
+            this.importSetButton.Size = new System.Drawing.Size(254, 24);
+            this.importSetButton.TabIndex = 103;
+            this.importSetButton.Text = "Import (*.cab)";
+            this.importSetButton.UseVisualStyleBackColor = true;
+            this.importSetButton.Click += new System.EventHandler(this.SetFileCabToolStripMenuItem_Click);
             // 
             // EditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(734, 581);
+            this.ClientSize = new System.Drawing.Size(714, 656);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(750, 620);
+            this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(730, 695);
             this.Name = "EditorForm";
             this.Text = "Advanced Badge Editor";
             this.menuStrip1.ResumeLayout(false);
@@ -1288,79 +1434,84 @@
 
         #endregion
 
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openDataToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveDataToolStripMenuItem;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label uniqueBadgesLabel;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label totalBadgesLabel;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label setsLabel;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button badge255each;
         private System.Windows.Forms.Button createBadgeButton;
         private System.Windows.Forms.Button createSetButton;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox badgeNameInput;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.NumericUpDown badgeIdNumer;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.NumericUpDown badgeSidNumer;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.NumericUpDown badgeQuantityNumer;
-        private System.Windows.Forms.NumericUpDown selectedBadgeNumer;
-        private System.Windows.Forms.Button badge255each;
-        private System.Windows.Forms.NumericUpDown selectSetNumer;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox setNameInput;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.NumericUpDown setIdNumer;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.NumericUpDown setStartingNumer;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label setUniqueBadgesLabel;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label setTotalBadgesLabel;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.NumericUpDown badgeSetIdNumer;
-        private System.Windows.Forms.PictureBox prevBadgeImg64;
-        private System.Windows.Forms.Label prevBadgeLabel;
-        private System.Windows.Forms.Button importBadgeImage;
-        private System.Windows.Forms.PictureBox prevBadgeImg32;
-        private System.Windows.Forms.Button exportBadgeImage;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.PictureBox prevSetImg;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Button exportSetImage;
-        private System.Windows.Forms.Button importSetImage;
-        private System.Windows.Forms.CheckBox pixelBadgeMode;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.NumericUpDown titleIDnumer;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.ComboBox titleIDdropdown;
-        private System.Windows.Forms.ComboBox regionDropdown;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.NumericUpDown NNIDnumer;
-        private System.Windows.Forms.NumericUpDown titleHighNumer;
-        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Button delAll;
         private System.Windows.Forms.Button delBadge;
         private System.Windows.Forms.Button delSet;
-        private System.Windows.Forms.Button delAll;
-        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem badgeFileprbToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem setFilecabToolStripMenuItem;
+        private System.Windows.Forms.Button exportBadgeImage;
+        private System.Windows.Forms.Button exportSetImage;
         private System.Windows.Forms.Button fixBadgeSetIds;
-        private System.Windows.Forms.ProgressBar loading;
-        private System.Windows.Forms.ToolStripMenuItem importEntireSetData;
-        private System.Windows.Forms.ToolStripMenuItem newDataToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveDataToToolStripMenuItem;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Button importBadgeImage;
+        private System.Windows.Forms.Button importSetImage;
+        private System.Windows.Forms.CheckBox pixelBadgeMode;
+        private System.Windows.Forms.ComboBox regionDropdown;
+        private System.Windows.Forms.ComboBox titleIDdropdown;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label prevBadgeLabel;
+        private System.Windows.Forms.Label setsLabel;
+        private System.Windows.Forms.Label setTotalBadgesLabel;
+        private System.Windows.Forms.Label setUniqueBadgesLabel;
+        private System.Windows.Forms.Label totalBadgesLabel;
+        private System.Windows.Forms.Label uniqueBadgesLabel;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.NumericUpDown badgeIdNumer;
+        private System.Windows.Forms.NumericUpDown badgeQuantityNumer;
+        private System.Windows.Forms.NumericUpDown badgeSetIdNumer;
+        private System.Windows.Forms.NumericUpDown badgeSidNumer;
+        private System.Windows.Forms.NumericUpDown NNIDnumer;
+        private System.Windows.Forms.NumericUpDown selectedBadgeNumer;
+        private System.Windows.Forms.NumericUpDown selectSetNumer;
+        private System.Windows.Forms.NumericUpDown setIdNumer;
+        private System.Windows.Forms.NumericUpDown setStartingNumer;
+        private System.Windows.Forms.NumericUpDown titleHighNumer;
+        private System.Windows.Forms.NumericUpDown titleIDnumer;
+        private System.Windows.Forms.PictureBox prevBadgeImg32;
+        private System.Windows.Forms.PictureBox prevBadgeImg64;
+        private System.Windows.Forms.PictureBox prevSetImg;
+        private System.Windows.Forms.ProgressBar loading;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TextBox badgeNameInput;
+        private System.Windows.Forms.TextBox setNameInput;
+        private System.Windows.Forms.ToolStripMenuItem badgeFileprbToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importEntireSetData;
+        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveDataToToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setFilecabToolStripMenuItem;
+        private CheckBox checkBox1;
+        private Button button1;
+        private Button button2;
+        private Button importBadgeButton;
+        private Button importSetButton;
     }
 }
 
